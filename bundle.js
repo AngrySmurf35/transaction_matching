@@ -14472,8 +14472,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
       Papa.parse(event.target.files[0], {
         header: true,
         complete: function(results, file) {
-          that.data = results.data;
-          that.file = file;
+         that.data = results.data;
+         that.file = file;
         }
       });
     },

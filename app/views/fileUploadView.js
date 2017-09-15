@@ -34,8 +34,8 @@ define([
       Papa.parse(event.target.files[0], {
         header: true,
         complete: function(results, file) {
-          that.data = results.data;
-          that.file = file;
+         that.data = results.data;
+         that.file = file;
         }
       });
     },
