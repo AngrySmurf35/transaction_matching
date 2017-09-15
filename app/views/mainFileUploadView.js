@@ -24,6 +24,7 @@ return Backbone.View.extend({
 
       this.$("#loadFileViews").append(this.fileUploadView1.render().$el);
       this.$("#loadFileViews").append(this.fileUploadView2.render().$el);
+      
       return this;
     },
 

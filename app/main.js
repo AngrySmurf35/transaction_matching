@@ -14,17 +14,28 @@ var MainView = Backbone.View.extend({
 
     initialize: function() {
       this.mainFileUploadView = new MainFileUploadView();
-      this.mainFileCompareView = new MainFileCompareView();
+
+      Backbone.on("triggerCompare", this.triggerCompare);
     },
 
     render: function() {
       this.$el.html(this.template({}));
 
       this.$("#fileUploadView").append(this.mainFileUploadView.render().$el);
-      this.$("#fileCompareView").append(this.mainFileCompareView.render().$el);
 
       return this;
     },
+
+    triggerCompare: function(fileObj) {
+      var Model = new Backbone.Model();
+      this.mainFileCompareView = new MainFileCompareView({model: Model});
+      
+      this.$("#fileCompareView").empty();
+      this.mainFileCompareView.destroy();
+      
+      this.$("#fileCompareView").append(this.mainFileCompareView.render().$el);
+      Backbone.trigger('triggerCompareView', fileObj);
+    }
 
   });
 

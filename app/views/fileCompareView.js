@@ -9,10 +9,7 @@ define([
     className: "col-md-6",
     template: _.template(fileCompareTemplate),
 
-    initialize: function() {
-      Backbone.on("triggerCompare", this.triggerCompare, this);
-      this.listenTo(this.model, "all", this.render);
-    },
+    initialize: function() {},
 
     render: function() {
       this.$el.html(this.template({
@@ -20,10 +17,6 @@ define([
       }));
 
       return this;
-    },
-    
-    triggerCompare: function(fileObj) {
-      this.model.set('name', fileObj.fileUploadView1.file.name);
     }
 
   });
