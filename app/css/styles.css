@@ -41,15 +41,9 @@ h3 {
 }
 
 h4 {
-	display: block;
 	margin: 0;
 	padding: 10px 0px;
-	width: 280px;
-	height: 21px;
 	font-size: 18px;
-	font-weight: normal;
-	text-align: center;
-	letter-spacing: 2px;
 }
 
 .flexBlock {
@@ -67,4 +61,8 @@ h4 {
 .blockCenter {
 	display: block;
 	margin: 0 auto;
+}
+
+.twp_columns {
+	width: 50%;
 }

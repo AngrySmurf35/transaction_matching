@@ -4,9 +4,10 @@ define([
     './mainTemplate.html',
     './views/mainFileUploadView.js',
     './views/mainFileCompareView.js',
+    './views/unmatchedReportView.js',
     './lib/bootstrap.css',
     './css/styles.css'
-], function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView) {
+], function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, UnmatchedReportView) {
 
 var MainView = Backbone.View.extend({
     el: '<div>',
@@ -15,7 +16,8 @@ var MainView = Backbone.View.extend({
     initialize: function() {
       this.mainFileUploadView = new MainFileUploadView();
 
-      Backbone.on("triggerCompare", this.triggerCompare);
+      Backbone.on("triggerCompareFile", this.triggerCompare);
+      Backbone.on("triggerUnmatched", this.triggerUnmatched);
     },
 
     render: function() {
@@ -28,13 +30,19 @@ var MainView = Backbone.View.extend({
 
     triggerCompare: function(fileObj) {
       var Model = new Backbone.Model();
-      this.mainFileCompareView = new MainFileCompareView({model: Model});
-      
-      this.$("#fileCompareView").empty();
-      this.mainFileCompareView.destroy();
-      
+      if (!this.mainFileCompareView)
+        this.mainFileCompareView = new MainFileCompareView({model: Model});
+
       this.$("#fileCompareView").append(this.mainFileCompareView.render().$el);
       Backbone.trigger('triggerCompareView', fileObj);
+    },
+
+    triggerUnmatched: function(data) {
+      if (!this.unmatchedReportView)
+        this.unmatchedReportView = new UnmatchedReportView();
+      
+      this.$("#fileUnmatchedView").append(this.unmatchedReportView.render().$el);
+      Backbone.trigger('triggerUnmatchedView', data);
     }
 
   });

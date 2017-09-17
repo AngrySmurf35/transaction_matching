@@ -29,7 +29,7 @@ return Backbone.View.extend({
     },
 
     compareResults: function() {
-      Backbone.trigger('triggerCompare', this);
+      Backbone.trigger('triggerCompareFile', this);
     }
 
   });

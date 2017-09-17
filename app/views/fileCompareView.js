@@ -6,14 +6,18 @@ define([
 ], function (_, Backbone, fileCompareTemplate, Papa) {
 
   return Backbone.View.extend({
-    className: "col-md-6",
+    className: "twp_columns",
     template: _.template(fileCompareTemplate),
 
     initialize: function() {},
 
     render: function() {
+
       this.$el.html(this.template({
-        'name': this.model.get("name") ? this.model.get("name") : ''
+        'name': this.model.get("name") ? this.model.get("name") : '',
+        'totalDataCount': this.model.get("totalDataCount"),
+        'commonDataCount': this.model.get("commonDataCount"),
+        'unmatchedDataCount': this.model.get("unmachedDataCount"),
       }));
 
       return this;
