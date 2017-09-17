@@ -14,47 +14,39 @@ define([
         template: _.template(UnmatchedReportTemplate),
 
         initialize: function(info) {
-            Backbone.on("triggerUnmatchedView", this.triggerCompare, this);
+          
         },
 
         render: function(data) {
-            this.$el.html(this.template());
 
-            console.log(data);
+            if (data.unmachedData.length) {
+                this.$el.html(this.template());
+                var column = [];
+                _.each(Object.values(data), function(item) {
+                    column.push(Object.keys(item[0]));
+                });
 
-            var dataSet =  [{ 
-                    "name": "1",
-                    "position": "2" ,
-                    "office": "3" ,
-                    "extn": "4." ,
-                    "start_date": "5 date" ,
-                    "salary": "5" 
-                },
-             { 
-                "name": "1",
-                "position": "2" ,
-                "office": "3" ,
-                "extn": "4." ,
-                "start_date": "5 date" ,
-                "salary": "5" 
-            },];
+                column[0] = _.filter(column[0], function(item) {
+                    return item !== "__parsed_extra";
+                });
 
-            this.$('#unmachedReportTable').DataTable({
-                "data":dataSet,
-                "columns": [
-                    { "data": "name" },
-                    { "data": "position" },
-                    { "data": "office" },
-                    { "data": "extn" },
-                    { "data": "start_date" },
-                    { "data": "salary" }
-                ]
-            });
+                var columns = [];
+                _.each(column[0], function(col, index) {
+                    columns.push({'data': col, 'title': col});
+                });
+
+                var dataColumns = [];
+                _.each(data.unmachedData, function(item) {
+                    dataColumns.push(item);
+                    delete item.__parsed_extra;
+                });
+
+                this.$('.unmachedReportTable').DataTable({
+                    "data": dataColumns,
+                    "columns": columns
+                });
+            }
             return this;
-        },
-
-        triggerCompare: function(data) {
-            this.render(data);
         }
     });
 });

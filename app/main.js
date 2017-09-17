@@ -4,10 +4,10 @@ define([
     './mainTemplate.html',
     './views/mainFileUploadView.js',
     './views/mainFileCompareView.js',
-    './views/unmatchedReportView.js',
+    './views/mainUnmatchedReportView.js',
     './lib/bootstrap.css',
     './css/styles.css'
-], function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, UnmatchedReportView) {
+], function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, MainUnmatchedReportView) {
 
 var MainView = Backbone.View.extend({
     el: '<div>',
@@ -38,10 +38,10 @@ var MainView = Backbone.View.extend({
     },
 
     triggerUnmatched: function(data) {
-      if (!this.unmatchedReportView)
-        this.unmatchedReportView = new UnmatchedReportView();
+      if (!this.mainUnmatchedReportView)
+        this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
-      this.$("#fileUnmatchedView").append(this.unmatchedReportView.render().$el);
+      this.$("#fileUnmatchedView").append(this.mainUnmatchedReportView.render().$el);
       Backbone.trigger('triggerUnmatchedView', data);
     }
 
