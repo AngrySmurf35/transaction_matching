@@ -47,7 +47,8 @@ h4 {
 }
 
 .flexBlock {
-    display: flex;
+	display: flex;
+	overflow: visible;
 }
 
 .flexAlignEnd {

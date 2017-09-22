@@ -24,7 +24,6 @@ var MainView = Backbone.View.extend({
       this.$el.html(this.template({}));
 
       this.$("#fileUploadView").append(this.mainFileUploadView.render().$el);
-
       return this;
     },
 
@@ -43,7 +42,8 @@ var MainView = Backbone.View.extend({
       
       this.$("#fileUnmatchedView").append(this.mainUnmatchedReportView.render().$el);
       Backbone.trigger('triggerUnmatchedView', data);
-    }
+    },
+
 
   });
 

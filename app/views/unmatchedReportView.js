@@ -13,9 +13,7 @@ define([
         className: "bs-callout bs-callout-primary flexBlock flexWrap",
         template: _.template(UnmatchedReportTemplate),
 
-        initialize: function(info) {
-          
-        },
+        initialize: function() {},
 
         render: function(data) {
 

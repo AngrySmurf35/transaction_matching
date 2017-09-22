@@ -13,7 +13,7 @@ define([
         el: "<div>",
         className: "bs-callout bs-callout-primary flexBlock flexWrap",
         template: _.template(MainUnmatchedReportTemplate),
-        initialize: function(info) {
+        initialize: function() {
             if (!this.unmatchedReportView1)
             this.unmatchedReportView1 = new UnmatchedReportView();
             

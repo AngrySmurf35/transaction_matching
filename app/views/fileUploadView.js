@@ -31,7 +31,8 @@ define([
 
     parseData: function() {
       var that = this;
-      Papa.parse(event.target.files[0], {
+      if(!e){ var e = window.event; }
+      Papa.parse(e.target.files[0], {
         header: true,
         complete: function(results, file) {
          that.data = results.data;
