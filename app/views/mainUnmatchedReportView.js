@@ -11,14 +11,17 @@ define([
 
     return Backbone.View.extend({
         el: "<div>",
-        className: "bs-callout bs-callout-primary flexBlock flexWrap",
+        className: "mainViews",
         template: _.template(MainUnmatchedReportTemplate),
         initialize: function() {
-            if (!this.unmatchedReportView1)
-            this.unmatchedReportView1 = new UnmatchedReportView();
+            if (!this.unmatchedReportView1) {
+                this.unmatchedReportView1 = new UnmatchedReportView();
+            }
             
-            if (!this.unmatchedReportView2)
-            this.unmatchedReportView2 = new UnmatchedReportView();
+            if (!this.unmatchedReportView2) {
+                this.unmatchedReportView2 = new UnmatchedReportView();
+            }
+            
             this.data = [];
             Backbone.on("triggerUnmatchedView", this.triggerCompare, this);
         },
@@ -28,8 +31,8 @@ define([
         },
         triggerCompare: function(data) {
             this.$el.html(this.template());
-                this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
-                this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
+            this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
+            this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
         }
     });
 });

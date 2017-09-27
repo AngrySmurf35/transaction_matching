@@ -5,12 +5,13 @@ define([
     './fileCompareView.js',
     '../lib/bootstrap.css',
     '../lib/datatables/datatables.js',
-    '../lib/datatables/datatables.css'
+    '../lib/datatables/datatables.css',
+    '../lib/datatables/datatables.boostrap.min.css'
 ], function (_, Backbone, UnmatchedReportTemplate, FileCompareView) {
 
     return Backbone.View.extend({
         el: "<div>",
-        className: "bs-callout bs-callout-primary flexBlock flexWrap",
+        className: "bs-callout bs-callout-primary flexBlock flexWrap mainViews",
         template: _.template(UnmatchedReportTemplate),
 
         initialize: function() {},

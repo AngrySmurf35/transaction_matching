@@ -4148,9 +4148,6 @@ a.label:focus {
 .bs-callout code {
   border-radius: 3px;
 }
-.bs-callout+.bs-callout {
-  margin-top: -5px;
-}
 .bs-callout-default {
   border-left-color: #777;
 }

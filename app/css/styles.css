@@ -49,6 +49,7 @@ h4 {
 .flexBlock {
 	display: flex;
 	overflow: visible;
+	justify-content: space-between;
 }
 
 .flexAlignEnd {
@@ -66,4 +67,18 @@ h4 {
 
 .twp_columns {
 	width: 50%;
+}
+
+.mainViews {
+	background-color: #e6e6e6;
+	box-shadow: 3px 3px 5px #CCC;
+}
+
+.insideView {
+	background-color: #fff;
+	box-shadow: 3px 3px 5px #CCC;
+}
+
+.unmachedReportTable {
+	//padding-top: 10px;
 }

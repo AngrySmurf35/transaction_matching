@@ -11,14 +11,14 @@ define([
     events: {
       'change .file': function() {
         this.parseData();
-        this.displayFileName();
+        this.displayFileName();      
       }
 
     },
     initialize: function(id) {
         this.id = id;
         this.data = [];
-        this.file = [];   
+        this.file = [];
     },
 
     render: function() {
@@ -37,8 +37,16 @@ define([
         complete: function(results, file) {
          that.data = results.data;
          that.file = file;
+         that.triggerFieldMatching(e);  
         }
       });
+    },
+
+    triggerFieldMatching: function(e) {
+      var items = _.filter(Object.keys(this.data[0]), function(item) {
+        return item !== "__parsed_extra";
+      });
+      Backbone.trigger("thisTriggerSelect", items, e.target);
     },
 
     displayFileName: function() {

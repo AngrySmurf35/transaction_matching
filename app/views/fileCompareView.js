@@ -6,7 +6,7 @@ define([
 ], function (_, Backbone, fileCompareTemplate, Papa) {
 
   return Backbone.View.extend({
-    className: "twp_columns",
+    className: "bs-callout bs-callout-info col-md-5 insideView",
     template: _.template(fileCompareTemplate),
 
     initialize: function() {},

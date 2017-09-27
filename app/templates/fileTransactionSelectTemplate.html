@@ -1,6 +1,7 @@
-<select class="btn btn-default selectpicker">
-  <option>Mustard</option>
-  <option>Ketchup</option>
-  <option>Relish</option>
+<select class="btn btn-default selectpicker" id="<%= id %>">
+  <option> - select picker - </option>
+  <% _.each(transactionHeader, function(header) { %>
+    <option><%= header %></option>
+  <% }) %>
 </select>
  
