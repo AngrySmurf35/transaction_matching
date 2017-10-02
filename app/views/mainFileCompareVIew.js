@@ -107,7 +107,7 @@ return Backbone.View.extend({
     },
 
     unmachedReport: function() {
-        Backbone.trigger("triggerUnmatched", this.data);
+        Backbone.trigger("triggerUnmatched", this.data, this.matchingOn);
     }
 
   });

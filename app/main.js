@@ -60,12 +60,12 @@ var MainView = Backbone.View.extend({
       Backbone.trigger('triggerCompareView', fileObj, this.matchingOn, this.fieldData);
     },
 
-    triggerUnmatched: function(data) {
+    triggerUnmatched: function(data, matchingOn) {
       if (!this.mainUnmatchedReportView)
         this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
       this.$("#fileUnmatchedView").append(this.mainUnmatchedReportView.render().$el);
-      Backbone.trigger('triggerUnmatchedView', data);
+      Backbone.trigger('triggerUnmatchedView', data, matchingOn, this.fieldData);
     },
 
 

@@ -17,7 +17,7 @@ define([
         initialize: function() {},
 
         render: function(data) {
-
+                
             if (data.unmachedData.length) {
                 this.$el.html(this.template());
                 var column = [];
@@ -30,7 +30,7 @@ define([
                 });
 
                 var columns = [];
-                _.each(column[0], function(col, index) {
+                _.each(column[0], function(col) {
                     columns.push({'data': col, 'title': col});
                 });
 
@@ -40,6 +40,7 @@ define([
                     delete item.__parsed_extra;
                 });
 
+                console.log(dataColumns);
                 this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
                     "columns": columns
