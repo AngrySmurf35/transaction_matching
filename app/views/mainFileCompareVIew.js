@@ -37,14 +37,14 @@ return Backbone.View.extend({
     },
     
     triggerCompare: function(fileObj, matchingOn, fieldData) {
-        var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data);
-        var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data);
-
         this.matchingOn = matchingOn;
         this.fieldData = fieldData ? fieldData : {};
 
         var pickerValue1 = this.fieldData.pickerFile1 ? this.fieldData.pickerFile1.value : {};
         var pickerValue2 = this.fieldData.pickerFile2 ? this.fieldData.pickerFile2.value : {};
+
+        var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data, pickerValue1);
+        var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data, pickerValue2);
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
@@ -91,16 +91,25 @@ return Backbone.View.extend({
         }
     },
 
-    getUniqMatchingRecords: function(object) {
+    getUniqMatchingRecords: function(object, pickerFile) {
         var data = _.uniq(object, function(item, index, object) {
             var returnedValue = '';
-            _.each(Object.keys(item), function(val) {
-                if (index < Object.keys(item).length)
-                    returnedValue += item[val] + ' && ';
-                else 
-                    returnedValue += item[val];
-            });
+            if (Object.values(item).length > 1) {
+                _.each(Object.keys(item), function(val) {
+                    if (index < Object.keys(item).length)
+                        returnedValue += item[val] + ' && ';
+                    else 
+                        returnedValue += item[val];
+                });
+            }
+
             return returnedValue;
+        
+        });
+
+        var that = this;
+        data = _.filter(data, function(item) {
+            return item[pickerFile];
         });
 
         return data;

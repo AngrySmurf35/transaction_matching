@@ -22,20 +22,26 @@ define([
             var fileColumns1 = [];
             var fileColumns2 = [];
 
+            var currentMatchingField1 = fieldData.pickerFile1.value;
+            var currentMatchingField2 = fieldData.pickerFile2.value;
+
             _.each(Object.values(data.file1.unmachedData), function(item) {
                 delete item.__parsed_extra;
+                delete item[currentMatchingField1];
                 fileColumns1.push(Object.values(item));
             });
 
             _.each(Object.values(data.file2.unmachedData), function(item) {
                 delete item.__parsed_extra;
+                delete item[currentMatchingField2];
                 fileColumns2.push(Object.values(item));
             });
 
-        
-
-           /* var fileColumns = fileColumns1.concat([fieldData.pickerFile1.value + '/' + fieldData.pickerFile2.value]);
-            fileColumns = fileColumns.concat(fileColumns2);*/
+            var dataColumns = [];
+            _.each(fileColumns1, function(item, index) {
+                dataColumns[index] = fileColumns1[index].concat([currentMatchingField1]/[currentMatchingField2]);
+                dataColumns[index] = dataColumns[index].concat(fileColumns2[index]);
+            });
 
             this.$('.unmachedReportTable').DataTable({
                 "data": dataColumns,
