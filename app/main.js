@@ -56,7 +56,7 @@ var MainView = Backbone.View.extend({
         this.matchingOn = false;
       }
 
-      this.$("#fileCompareView").append(this.mainFileCompareView.render().$el);
+      this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
       Backbone.trigger('triggerCompareView', fileObj, this.matchingOn, this.fieldData);
     },
 
@@ -64,7 +64,7 @@ var MainView = Backbone.View.extend({
       if (!this.mainUnmatchedReportView)
         this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
-      this.$("#fileUnmatchedView").append(this.mainUnmatchedReportView.render().$el);
+      this.$("#fileUnmatchedView").html(this.mainUnmatchedReportView.render().$el);
       Backbone.trigger('triggerUnmatchedView', data, matchingOn, this.fieldData);
     },
 

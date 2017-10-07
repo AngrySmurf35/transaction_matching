@@ -15,10 +15,11 @@ define([
         template: _.template(UnmatchedReportTemplate),
 
         initialize: function() {},
+
         render: function(data, fileColumns, fieldData) {
             
         if (data.file1.unmachedData.length && data.file2.unmachedData.length) {
-
+            this.$el.html(this.template());
             var fileColumns1 = [];
             var fileColumns2 = [];
 
@@ -39,13 +40,21 @@ define([
 
             var dataColumns = [];
             _.each(fileColumns1, function(item, index) {
-                dataColumns[index] = fileColumns1[index].concat([currentMatchingField1]/[currentMatchingField2]);
+                dataColumns[index] = fileColumns1[index].concat([currentMatchingField1 + '/' + currentMatchingField2]);
                 dataColumns[index] = dataColumns[index].concat(fileColumns2[index]);
             });
 
+            console.log(fileColumns);
+            console.log(dataColumns);
+            this.$('.unmachedReportTable').empty();
             this.$('.unmachedReportTable').DataTable({
                 "data": dataColumns,
-                "columns": fileColumns
+                "columns": fileColumns,
+                "rowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                    if(aData[iDisplayIndex] == currentMatchingField1 + '/' + currentMatchingField2){
+                        $('th:contains(' + aData[iDisplayIndex]  + ')').addClass("redBackground");
+                    }
+                }
             });
         }
         return this;

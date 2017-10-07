@@ -43,8 +43,11 @@ return Backbone.View.extend({
         var pickerValue1 = this.fieldData.pickerFile1 ? this.fieldData.pickerFile1.value : {};
         var pickerValue2 = this.fieldData.pickerFile2 ? this.fieldData.pickerFile2.value : {};
 
-        var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data, pickerValue1);
-        var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data, pickerValue2);
+        //var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data, pickerValue1);
+        //var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data, pickerValue2);
+
+        var fileData1 = fileObj.fileUploadView1.data, pickerValue1;
+        var fileData2 = fileObj.fileUploadView2.data, pickerValue2;
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
@@ -73,6 +76,7 @@ return Backbone.View.extend({
                 _.find(fileData2, function(value2) {
                     if(_.isEqual(value1, value2)) {
                          commonData.push(value1);
+                         return _.isEqual(value1, value2);
                     }
                 });
             });

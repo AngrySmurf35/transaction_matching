@@ -40,6 +40,8 @@ define([
                     delete item.__parsed_extra;
                 });
 
+                console.log(columns);
+                console.log(dataColumns);
                 this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
                     "columns": columns

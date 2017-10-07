@@ -23,9 +23,6 @@ define([
             return this;
         },
         filterMatchingFields: function(data, fieldData) {
-            console.log(data);
-            console.log(fieldData);
-
             var fileColumns1 = Object.keys(data.file1.unmachedData[0]);
             var fileColumns2 = Object.keys(data.file2.unmachedData[0]);
 
@@ -40,7 +37,12 @@ define([
             var fileColumns = fileColumns1.concat([fieldData.pickerFile1.value + '/' + fieldData.pickerFile2.value]);
             fileColumns = fileColumns.concat(fileColumns2);
 
-            return fileColumns; // title columns
+            var columns = [];
+            _.each(fileColumns, function(col) {
+                columns.push({'title': col});
+            });
+
+            return columns; // title columns
         },
         triggerCompare: function(data, matchingOn, fieldData) {
             this.$el.html(this.template());
