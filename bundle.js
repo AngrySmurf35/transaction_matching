@@ -50236,7 +50236,7 @@ return Scroller;
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(33);
+var content = __webpack_require__(34);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -50287,7 +50287,7 @@ module.exports = "<table class=\"unmachedReportTable table table-striped table-b
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(39);
+var content = __webpack_require__(40);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -50321,9 +50321,9 @@ if(false) {
     __webpack_require__(15),
     __webpack_require__(16),
     __webpack_require__(27),
-    __webpack_require__(30),
+    __webpack_require__(31),
     __webpack_require__(3),
-    __webpack_require__(41)
+    __webpack_require__(42)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, MainUnmatchedReportView) {
 
 var MainView = Backbone.View.extend({
@@ -50373,7 +50373,7 @@ var MainView = Backbone.View.extend({
         this.matchingOn = false;
       }
 
-      this.$("#fileCompareView").append(this.mainFileCompareView.render().$el);
+      this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
       Backbone.trigger('triggerCompareView', fileObj, this.matchingOn, this.fieldData);
     },
 
@@ -50381,7 +50381,7 @@ var MainView = Backbone.View.extend({
       if (!this.mainUnmatchedReportView)
         this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
-      this.$("#fileUnmatchedView").append(this.mainUnmatchedReportView.render().$el);
+      this.$("#fileUnmatchedView").html(this.mainUnmatchedReportView.render().$el);
       Backbone.trigger('triggerUnmatchedView', data, matchingOn, this.fieldData);
     },
 
@@ -50945,6 +50945,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     __webpack_require__(2),
     __webpack_require__(28),
     __webpack_require__(6),
+    __webpack_require__(30),
     __webpack_require__(3)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, FileCompareView) {
 
@@ -50978,83 +50979,58 @@ return Backbone.View.extend({
         this.fileCompareView2 = new FileCompareView({model: this.model2});
     },
     
-    triggerCompare: function(fileObj, matchingOn, fieldData) {
+    triggerCompare: function(fileObj, matchingOn) {
         this.matchingOn = matchingOn;
-        this.fieldData = fieldData ? fieldData : {};
 
-        var pickerValue1 = this.fieldData.pickerFile1 ? this.fieldData.pickerFile1.value : {};
-        var pickerValue2 = this.fieldData.pickerFile2 ? this.fieldData.pickerFile2.value : {};
+        this.commonData1 = [];
+        this.commonData2 = [];
 
-        var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data, pickerValue1);
-        var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data, pickerValue2);
+        this.differentData1 = [];
+        this.differentData2 = [];
+
+        var fileData1 = fileObj.fileUploadView1.data;
+        var fileData2 = fileObj.fileUploadView2.data;
+
+        var matchingCount1 = this.matchingRecords(fileData1, fileData2);
+        var matchingCount2 = this.matchingRecords(fileData1, fileData2);
+
+        // perfect match data
+        commonData1 = _.filter(matchingCount1, function(val, index) {
+            return val[(val.length-1)/2] == 1;
+        });
+
+        commonData2 = _.filter(matchingCount2, function(val, index) {
+            return val[(val.length-1)/2] == 1;
+        });
+
+        // completley different data
+        differentData1 = _.filter(matchingCount1, function(val, index) {
+            return val[(val.length-1)/2] !== 1;
+        });
+
+        differentData2 = _.filter(matchingCount2, function(val, index) {
+            return val[(val.length-1)/2] !== 1;
+        });
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
-            'commonDataCount': this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2).length,
-            'unmachedDataCount': _.difference(fileObj.fileUploadView1.data, this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2)).length
+            'commonDataCount': commonData1.length,
+            'unmachedDataCount': differentData1.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
         this.model2.set({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
-            'commonDataCount': this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1).length,
-            'unmachedDataCount': _.difference(fileObj.fileUploadView2.data, this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1)).length
+            'commonDataCount': commonData2.length,
+            'unmachedDataCount': differentData2.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
-
-        this.data.file1 = { "unmachedData": _.difference(fileObj.fileUploadView1.data, this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2)) };
-        this.data.file2 = { "unmachedData": _.difference(fileObj.fileUploadView2.data, this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1)) };
     },
 
-    matchingRecords: function(fileData1, fileData2, pickerValue1, pickerValue2) {
-        var commonData = [];
-        if (!this.matchingOn) {
-            _.find(fileData1, function(value1) {
-                _.find(fileData2, function(value2) {
-                    if(_.isEqual(value1, value2)) {
-                         commonData.push(value1);
-                    }
-                });
-            });
-        
-            return commonData;
-        } else {
-            // code for field matching goes here
-            _.some(fileData1, function(value1) {
-                _.some(fileData2, function(value2) {
-                    if(value1[pickerValue1] && value2[pickerValue2] && _.isEqual(value1[pickerValue1], value2[pickerValue2]) && _.isEqual(value2[pickerValue2], value1[pickerValue1])) {
-                         commonData.push(value1);
-                    }
-                });
-            });
-            return _.uniq(commonData, pickerValue1);
-        }
-    },
-
-    getUniqMatchingRecords: function(object, pickerFile) {
-        var data = _.uniq(object, function(item, index, object) {
-            var returnedValue = '';
-            if (Object.values(item).length > 1) {
-                _.each(Object.keys(item), function(val) {
-                    if (index < Object.keys(item).length)
-                        returnedValue += item[val] + ' && ';
-                    else 
-                        returnedValue += item[val];
-                });
-            }
-
-            return returnedValue;
-        
-        });
-
-        var that = this;
-        data = _.filter(data, function(item) {
-            return item[pickerFile];
-        });
-
-        return data;
+    matchingRecords: function(fileData1, fileData2) {
+        var fileMatch = new FileMatch(fileData1, fileData2);
     },
 
     unmachedReport: function() {
@@ -51084,10 +51060,115 @@ module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
+    __webpack_require__(2)
+], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, moment) {
+    return FileMatch = function(fileData1, fileData2) {
+        var fileData1 = fileData1;
+        var fileData2 = fileData2;
+        var matchTypeValue = 'unknown';
+
+        var a = _.map(fileData1, function(value, index) {
+            delete value["__parsed_extra"];
+            return Object.values(value);
+        });
+
+        var b = _.map(fileData2, function(value, index) {
+            delete value["__parsed_extra"];
+            return Object.values(value);
+        });
+
+        _.each(a, function(item1, index1) {
+            _.each(b, function(item2, index2) {
+                if (_.isEqual(item1, item2)) {
+                    a.splice(index1, 1);
+                    b.splice(index2, 1);
+                }
+            });
+        });
+
+        var different = []; // completly different - this is used to test for other things, show in table
+        var differentSort = []; // completly different with sort - 
+        var diff = []; // completly different but somewhat the same - ???
+
+        // only select differences with no perfect match
+
+        var s = function(a, b) {
+          return _.filter(a, function(vala, indexa) {
+              return _.find(b, function(valb, indexb) {
+                if (_.isEqual(vala, valb)) {
+                    return true;
+                }
+                if (!_.isEqual(vala, valb)) {
+                    different.push(vala.concat(valb));
+                }
+              });
+          });
+        };
+        
+        s(a, b);
+        console.log("difference: ", different);
+        // need to filter the list to only show items that are a bit different
+        var cd = function() {
+            _.filter(different, function(item, index) {
+                var i = item.slice(0);
+                var ii = i.slice(0);
+                var iii = i.slice(0);
+                var sliceLengthFirst = i.length%2==0 ? i.length/2 : (i.length-1)/2;
+                var sliceLengthLast = i.length%2==0 ? i.length/2 : i.length+1/2;
+                var arr1 = ii.splice(0, sliceLengthFirst);
+                var arr2 = iii.splice(sliceLengthLast, item.length);
+                i = arr1.concat(arr2);
+           
+           var positionMatch = _.every(_.intersection(arr1, arr2), function(item, index) {
+                return arr1.indexOf(index) == arr2.indexOf(index);
+           });
+        
+           var acceptedLengthDifference = 2;
+        
+           if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
+                
+                // find a way to add the non matching fields somehow
+                diff.push(i);
+
+            }
+          });
+        };
+        
+        cd();
+
+        // remove duplicates
+        var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
+        console.log("diff: ", diff);
+        // items are sorted different
+       /* var c = function(difa, difb) {
+          return _.filter(difa, function(vala, indexa) {
+              return _.find(difb, function(valb, indexb) {
+                var va = vala.slice(0);
+                var vb = valb.slice(0);
+                   if (!_.isEqual(va.sort(), vb.sort())) {
+                    differentSort.push(vala.concat(valb));
+                  return _.isEqual(va.sort(), vb.sort());
+                }
+              });
+          });
+        };*/
+        
+        //c(a, b);
+        //c(b, a);
+    }
+}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+    __webpack_require__(0),
     __webpack_require__(2),
-    __webpack_require__(31),
     __webpack_require__(32),
-    __webpack_require__(40),
+    __webpack_require__(33),
+    __webpack_require__(41),
     __webpack_require__(6),
     __webpack_require__(3),
     __webpack_require__(8),
@@ -51107,9 +51188,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return this;
         },
         filterMatchingFields: function(data, fieldData) {
-            console.log(data);
-            console.log(fieldData);
-
             var fileColumns1 = Object.keys(data.file1.unmachedData[0]);
             var fileColumns2 = Object.keys(data.file2.unmachedData[0]);
 
@@ -51124,7 +51202,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             var fileColumns = fileColumns1.concat([fieldData.pickerFile1.value + '/' + fieldData.pickerFile2.value]);
             fileColumns = fileColumns.concat(fileColumns2);
 
-            return fileColumns; // title columns
+            var columns = [];
+            _.each(fileColumns, function(col) {
+                columns.push({'title': col});
+            });
+
+            return columns; // title columns
         },
         triggerCompare: function(data, matchingOn, fieldData) {
             this.$el.html(this.template());
@@ -51152,13 +51235,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=table1 style=overflow:auto></div>\r\n<div id=table2 style=overflow:auto></div>";
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -51215,7 +51298,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
@@ -51223,43 +51306,43 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(34) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(35) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(36) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(37) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(38) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n/*\n * Control feature layout\n */\n.dataTables_wrapper {\n  position: relative;\n  clear: both;\n  *zoom: 1;\n  zoom: 1;\n}\n.dataTables_wrapper .dataTables_length {\n  float: left;\n}\n.dataTables_wrapper .dataTables_filter {\n  float: right;\n  text-align: right;\n}\n.dataTables_wrapper .dataTables_filter input {\n  margin-left: 0.5em;\n}\n.dataTables_wrapper .dataTables_info {\n  clear: both;\n  float: left;\n  padding-top: 0.755em;\n}\n.dataTables_wrapper .dataTables_paginate {\n  float: right;\n  text-align: right;\n  padding-top: 0.25em;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button {\n  box-sizing: border-box;\n  display: inline-block;\n  min-width: 1.5em;\n  padding: 0.5em 1em;\n  margin-left: 2px;\n  text-align: center;\n  text-decoration: none !important;\n  cursor: pointer;\n  *cursor: hand;\n  color: #333 !important;\n  border: 1px solid transparent;\n  border-radius: 2px;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {\n  color: #333 !important;\n  border: 1px solid #979797;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {\n  cursor: default;\n  color: #666 !important;\n  border: 1px solid transparent;\n  background: transparent;\n  box-shadow: none;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n  color: white !important;\n  border: 1px solid #111;\n  background-color: #585858;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #585858 0%, #111 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #585858 0%, #111 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #585858 0%, #111 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #585858 0%, #111 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #585858 0%, #111 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:active {\n  outline: none;\n  background-color: #2b2b2b;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b), color-stop(100%, #0c0c0c));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #2b2b2b 0%, #0c0c0c 100%);\n  /* W3C */\n  box-shadow: inset 0 0 3px #111;\n}\n.dataTables_wrapper .dataTables_paginate .ellipsis {\n  padding: 0 1em;\n}\n.dataTables_wrapper .dataTables_processing {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100%;\n  height: 40px;\n  margin-left: -50%;\n  margin-top: -25px;\n  padding-top: 20px;\n  text-align: center;\n  font-size: 1.2em;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(25%, rgba(255, 255, 255, 0.9)), color-stop(75%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n}\n.dataTables_wrapper .dataTables_length,\n.dataTables_wrapper .dataTables_filter,\n.dataTables_wrapper .dataTables_info,\n.dataTables_wrapper .dataTables_processing,\n.dataTables_wrapper .dataTables_paginate {\n  color: #333;\n}\n.dataTables_wrapper .dataTables_scroll {\n  clear: both;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {\n  *margin-top: -1px;\n  -webkit-overflow-scrolling: touch;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {\n  vertical-align: middle;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td > div.dataTables_sizing, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td > div.dataTables_sizing {\n  height: 0;\n  overflow: hidden;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n.dataTables_wrapper.no-footer .dataTables_scrollBody {\n  border-bottom: 1px solid #111;\n}\n.dataTables_wrapper.no-footer div.dataTables_scrollHead table.dataTable,\n.dataTables_wrapper.no-footer div.dataTables_scrollBody > table {\n  border-bottom: none;\n}\n.dataTables_wrapper:after {\n  visibility: hidden;\n  display: block;\n  content: \"\";\n  clear: both;\n  height: 0;\n}\n\n@media screen and (max-width: 767px) {\n  .dataTables_wrapper .dataTables_info,\n  .dataTables_wrapper .dataTables_paginate {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_paginate {\n    margin-top: 0.5em;\n  }\n}\n@media screen and (max-width: 640px) {\n  .dataTables_wrapper .dataTables_length,\n  .dataTables_wrapper .dataTables_filter {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_filter {\n    margin-top: 0.5em;\n  }\n}\n\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  content: ' ';\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
+exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(35) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(36) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(37) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(38) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(39) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n/*\n * Control feature layout\n */\n.dataTables_wrapper {\n  position: relative;\n  clear: both;\n  *zoom: 1;\n  zoom: 1;\n}\n.dataTables_wrapper .dataTables_length {\n  float: left;\n}\n.dataTables_wrapper .dataTables_filter {\n  float: right;\n  text-align: right;\n}\n.dataTables_wrapper .dataTables_filter input {\n  margin-left: 0.5em;\n}\n.dataTables_wrapper .dataTables_info {\n  clear: both;\n  float: left;\n  padding-top: 0.755em;\n}\n.dataTables_wrapper .dataTables_paginate {\n  float: right;\n  text-align: right;\n  padding-top: 0.25em;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button {\n  box-sizing: border-box;\n  display: inline-block;\n  min-width: 1.5em;\n  padding: 0.5em 1em;\n  margin-left: 2px;\n  text-align: center;\n  text-decoration: none !important;\n  cursor: pointer;\n  *cursor: hand;\n  color: #333 !important;\n  border: 1px solid transparent;\n  border-radius: 2px;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {\n  color: #333 !important;\n  border: 1px solid #979797;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {\n  cursor: default;\n  color: #666 !important;\n  border: 1px solid transparent;\n  background: transparent;\n  box-shadow: none;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n  color: white !important;\n  border: 1px solid #111;\n  background-color: #585858;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #585858 0%, #111 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #585858 0%, #111 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #585858 0%, #111 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #585858 0%, #111 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #585858 0%, #111 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:active {\n  outline: none;\n  background-color: #2b2b2b;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b), color-stop(100%, #0c0c0c));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #2b2b2b 0%, #0c0c0c 100%);\n  /* W3C */\n  box-shadow: inset 0 0 3px #111;\n}\n.dataTables_wrapper .dataTables_paginate .ellipsis {\n  padding: 0 1em;\n}\n.dataTables_wrapper .dataTables_processing {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100%;\n  height: 40px;\n  margin-left: -50%;\n  margin-top: -25px;\n  padding-top: 20px;\n  text-align: center;\n  font-size: 1.2em;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(25%, rgba(255, 255, 255, 0.9)), color-stop(75%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n}\n.dataTables_wrapper .dataTables_length,\n.dataTables_wrapper .dataTables_filter,\n.dataTables_wrapper .dataTables_info,\n.dataTables_wrapper .dataTables_processing,\n.dataTables_wrapper .dataTables_paginate {\n  color: #333;\n}\n.dataTables_wrapper .dataTables_scroll {\n  clear: both;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {\n  *margin-top: -1px;\n  -webkit-overflow-scrolling: touch;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {\n  vertical-align: middle;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td > div.dataTables_sizing, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td > div.dataTables_sizing {\n  height: 0;\n  overflow: hidden;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n.dataTables_wrapper.no-footer .dataTables_scrollBody {\n  border-bottom: 1px solid #111;\n}\n.dataTables_wrapper.no-footer div.dataTables_scrollHead table.dataTable,\n.dataTables_wrapper.no-footer div.dataTables_scrollBody > table {\n  border-bottom: none;\n}\n.dataTables_wrapper:after {\n  visibility: hidden;\n  display: block;\n  content: \"\";\n  clear: both;\n  height: 0;\n}\n\n@media screen and (max-width: 767px) {\n  .dataTables_wrapper .dataTables_info,\n  .dataTables_wrapper .dataTables_paginate {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_paginate {\n    margin-top: 0.5em;\n  }\n}\n@media screen and (max-width: 640px) {\n  .dataTables_wrapper .dataTables_length,\n  .dataTables_wrapper .dataTables_filter {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_filter {\n    margin-top: 0.5em;\n  }\n}\n\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  content: ' ';\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7XQMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC"
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZ0lEQVQ4y2NgGLKgquEuFxBPAGI2ahhWCsS/gDibUoO0gPgxEP8H4ttArEyuQYxAPBdqEAxPBImTY5gjEL9DM+wTENuQahAvEO9DMwiGdwAxOymGJQLxTyD+jgWDxCMZRsEoGAVoAADeemwtPcZI2wAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZUlEQVQ4y2NgGAWjYBSggaqGu5FA/BOIv2PBIPFEUgxjB+IdQPwfC94HxLykus4GiD+hGfQOiB3J8SojEE9EM2wuSJzcsFMG4ttQgx4DsRalkZENxL+AuJQaMcsGxBOAmGvopk8AVz1sLZgg0bsAAAAASUVORK5CYII="
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAW0lEQVQoz2NgoCm4w3Vnwh02wspK7/y6k01Ikdadx3f+37l9RxmfIsY7c4GKQHDiHUbcyhzvvIMq+3THBpci3jv7oIpAcMcdduzKEu/8vPMdDn/eiWQYBYMKAAC3ykIEuYQJUgAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAWUlEQVQoz2NgGAWDCtyJvPPzznc4/HknEbsy9js77vyHw313eHGZZ3PnE1TRuzuOuK1lvDMRqmzuHUZ87lO+cxuo6PEdLUIeyb7z604pYf+y3Zlwh4u2YQoAc7ZCBHH4jigAAAAASUVORK5CYII="
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
@@ -51273,10 +51356,10 @@ exports.push([module.i, "table.dataTable{clear:both;margin-top:6px !important;ma
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+/* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
     __webpack_require__(2),
     __webpack_require__(11),
@@ -51293,10 +51376,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         template: _.template(UnmatchedReportTemplate),
 
         initialize: function() {},
+
         render: function(data, fileColumns, fieldData) {
             
         if (data.file1.unmachedData.length && data.file2.unmachedData.length) {
-
+            this.$el.html(this.template());
             var fileColumns1 = [];
             var fileColumns2 = [];
 
@@ -51317,13 +51401,19 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
             var dataColumns = [];
             _.each(fileColumns1, function(item, index) {
-                dataColumns[index] = fileColumns1[index].concat([currentMatchingField1]/[currentMatchingField2]);
+                dataColumns[index] = fileColumns1[index].concat([currentMatchingField1 + '/' + currentMatchingField2]);
                 dataColumns[index] = dataColumns[index].concat(fileColumns2[index]);
             });
 
+            this.$('.unmachedReportTable').empty();
             this.$('.unmachedReportTable').DataTable({
                 "data": dataColumns,
-                "columns": fileColumns
+                "columns": fileColumns,
+                "rowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                    if(aData[iDisplayIndex] == currentMatchingField1 + '/' + currentMatchingField2){
+                        $('th:contains(' + aData[iDisplayIndex]  + ')').addClass("redBackground");
+                    }
+                }
             });
         }
         return this;
@@ -51331,15 +51421,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     });
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(42);
+var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -51364,7 +51455,7 @@ if(false) {
 }
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);

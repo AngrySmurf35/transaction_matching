@@ -3,6 +3,7 @@ define([
     'backbone',
     '../templates/mainFileCompareTemplate.html',
     './fileCompareView.js',
+    '../lib/fileMatch.js',
     '../lib/bootstrap.css'
 ], function (_, Backbone, MainTemplate, FileCompareView) {
 
@@ -36,87 +37,58 @@ return Backbone.View.extend({
         this.fileCompareView2 = new FileCompareView({model: this.model2});
     },
     
-    triggerCompare: function(fileObj, matchingOn, fieldData) {
+    triggerCompare: function(fileObj, matchingOn) {
         this.matchingOn = matchingOn;
-        this.fieldData = fieldData ? fieldData : {};
 
-        var pickerValue1 = this.fieldData.pickerFile1 ? this.fieldData.pickerFile1.value : {};
-        var pickerValue2 = this.fieldData.pickerFile2 ? this.fieldData.pickerFile2.value : {};
+        this.commonData1 = [];
+        this.commonData2 = [];
 
-        //var fileData1 = this.getUniqMatchingRecords(fileObj.fileUploadView1.data, pickerValue1);
-        //var fileData2 = this.getUniqMatchingRecords(fileObj.fileUploadView2.data, pickerValue2);
+        this.differentData1 = [];
+        this.differentData2 = [];
 
-        var fileData1 = fileObj.fileUploadView1.data, pickerValue1;
-        var fileData2 = fileObj.fileUploadView2.data, pickerValue2;
+        var fileData1 = fileObj.fileUploadView1.data;
+        var fileData2 = fileObj.fileUploadView2.data;
+
+        var matchingCount1 = this.matchingRecords(fileData1, fileData2);
+        var matchingCount2 = this.matchingRecords(fileData1, fileData2);
+
+        // perfect match data
+        commonData1 = _.filter(matchingCount1, function(val, index) {
+            return val[(val.length-1)/2] == 1;
+        });
+
+        commonData2 = _.filter(matchingCount2, function(val, index) {
+            return val[(val.length-1)/2] == 1;
+        });
+
+        // completley different data
+        differentData1 = _.filter(matchingCount1, function(val, index) {
+            return val[(val.length-1)/2] !== 1;
+        });
+
+        differentData2 = _.filter(matchingCount2, function(val, index) {
+            return val[(val.length-1)/2] !== 1;
+        });
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
-            'commonDataCount': this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2).length,
-            'unmachedDataCount': _.difference(fileObj.fileUploadView1.data, this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2)).length
+            'commonDataCount': commonData1.length,
+            'unmachedDataCount': differentData1.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
         this.model2.set({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
-            'commonDataCount': this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1).length,
-            'unmachedDataCount': _.difference(fileObj.fileUploadView2.data, this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1)).length
+            'commonDataCount': commonData2.length,
+            'unmachedDataCount': differentData2.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
-
-        this.data.file1 = { "unmachedData": _.difference(fileObj.fileUploadView1.data, this.matchingRecords(fileData1, fileData2, pickerValue1, pickerValue2)) };
-        this.data.file2 = { "unmachedData": _.difference(fileObj.fileUploadView2.data, this.matchingRecords(fileData2, fileData1, pickerValue2, pickerValue1)) };
     },
 
-    matchingRecords: function(fileData1, fileData2, pickerValue1, pickerValue2) {
-        var commonData = [];
-        if (!this.matchingOn) {
-            _.find(fileData1, function(value1) {
-                _.find(fileData2, function(value2) {
-                    if(_.isEqual(value1, value2)) {
-                         commonData.push(value1);
-                         return _.isEqual(value1, value2);
-                    }
-                });
-            });
-        
-            return commonData;
-        } else {
-            // code for field matching goes here
-            _.some(fileData1, function(value1) {
-                _.some(fileData2, function(value2) {
-                    if(value1[pickerValue1] && value2[pickerValue2] && _.isEqual(value1[pickerValue1], value2[pickerValue2]) && _.isEqual(value2[pickerValue2], value1[pickerValue1])) {
-                         commonData.push(value1);
-                    }
-                });
-            });
-            return _.uniq(commonData, pickerValue1);
-        }
-    },
-
-    getUniqMatchingRecords: function(object, pickerFile) {
-        var data = _.uniq(object, function(item, index, object) {
-            var returnedValue = '';
-            if (Object.values(item).length > 1) {
-                _.each(Object.keys(item), function(val) {
-                    if (index < Object.keys(item).length)
-                        returnedValue += item[val] + ' && ';
-                    else 
-                        returnedValue += item[val];
-                });
-            }
-
-            return returnedValue;
-        
-        });
-
-        var that = this;
-        data = _.filter(data, function(item) {
-            return item[pickerFile];
-        });
-
-        return data;
+    matchingRecords: function(fileData1, fileData2) {
+        var fileMatch = new FileMatch(fileData1, fileData2);
     },
 
     unmachedReport: function() {

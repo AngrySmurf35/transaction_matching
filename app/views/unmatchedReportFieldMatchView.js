@@ -44,8 +44,6 @@ define([
                 dataColumns[index] = dataColumns[index].concat(fileColumns2[index]);
             });
 
-            console.log(fileColumns);
-            console.log(dataColumns);
             this.$('.unmachedReportTable').empty();
             this.$('.unmachedReportTable').DataTable({
                 "data": dataColumns,
