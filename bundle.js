@@ -13813,7 +13813,7 @@ return jQuery;
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(22);
+var content = __webpack_require__(20);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -13966,7 +13966,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(23);
+var	fixUrls = __webpack_require__(21);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -14285,7 +14285,7 @@ function updateLink (link, options, obj) {
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
     __webpack_require__(2),
-    __webpack_require__(29),
+    __webpack_require__(24),
     __webpack_require__(10)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, fileCompareTemplate, Papa) {
 
@@ -14300,8 +14300,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
       this.$el.html(this.template({
         'name': this.model.get("name") ? this.model.get("name") : '',
         'totalDataCount': this.model.get("totalDataCount"),
-        'commonDataCount': this.model.get("commonDataCount"),
-        'unmatchedDataCount': this.model.get("unmachedDataCount"),
+        'kindOfMatchDataCount': this.model.get('kindOfMatchDataCount'),
+        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount')
       }));
 
       return this;
@@ -50236,7 +50236,7 @@ return Scroller;
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(34);
+var content = __webpack_require__(29);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -50287,7 +50287,7 @@ module.exports = "<table class=\"unmachedReportTable table table-striped table-b
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(40);
+var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -50320,10 +50320,10 @@ if(false) {
     __webpack_require__(2),
     __webpack_require__(15),
     __webpack_require__(16),
-    __webpack_require__(27),
-    __webpack_require__(31),
+    __webpack_require__(22),
+    __webpack_require__(26),
     __webpack_require__(3),
-    __webpack_require__(42)
+    __webpack_require__(37)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, MainUnmatchedReportView) {
 
 var MainView = Backbone.View.extend({
@@ -50374,15 +50374,15 @@ var MainView = Backbone.View.extend({
       }
 
       this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
-      Backbone.trigger('triggerCompareView', fileObj, this.matchingOn, this.fieldData);
+      Backbone.trigger('triggerCompareView', fileObj);
     },
 
-    triggerUnmatched: function(data, matchingOn) {
+    triggerUnmatched: function(data) {
       if (!this.mainUnmatchedReportView)
         this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
       this.$("#fileUnmatchedView").html(this.mainUnmatchedReportView.render().$el);
-      Backbone.trigger('triggerUnmatchedView', data, matchingOn, this.fieldData);
+      Backbone.trigger('triggerUnmatchedView', data);
     },
 
 
@@ -50440,9 +50440,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     __webpack_require__(2),
     __webpack_require__(17),
     __webpack_require__(18),
-    __webpack_require__(25),
     __webpack_require__(3),
-], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, MainFileTransactionSelectView, FileUploadView) {
+], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, FileUploadView) {
 
 return Backbone.View.extend({
     className: "bs-callout bs-callout-primary flexBlock flexWrap mainViews",
@@ -50455,7 +50454,6 @@ return Backbone.View.extend({
     initialize: function() {
       this.fileUploadView1 = new FileUploadView("file1");
       this.fileUploadView2 = new FileUploadView("file2");
-      this.mainFileTransactionSelectView = new MainFileTransactionSelectView();
     },
 
     render: function() {
@@ -50463,7 +50461,6 @@ return Backbone.View.extend({
 
       this.$("#loadFileViews").append(this.fileUploadView1.render().$el);
       this.$("#loadFileViews").append(this.fileUploadView2.render().$el);
-      this.$("#fieldMatchingViews").append(this.mainFileTransactionSelectView.render().$el);
       return this;
     },
 
@@ -50486,108 +50483,73 @@ module.exports = "<h1 class=col-md-12>Specify files to compare</h1>\r\n<div clas
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
     __webpack_require__(2),
     __webpack_require__(19),
-    __webpack_require__(20),
-    __webpack_require__(3)
-], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainFileTransactionSelectTemplate, FileTransactionSelectView) {
-   
-    return Backbone.View.extend({
-        className: "form-group",
-        template: _.template(MainFileTransactionSelectTemplate),
-        initialize: function() {
-            this.fieldFilter = false;
-            Backbone.on("thisTriggerSelect", this.triggerFileSelect);
-        },
+    __webpack_require__(10)
+], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, fileUploadTemplate, Papa) {
 
-        events: {
-            "change #fieldMatching": "changeMatchingType"
-        },
+  return Backbone.View.extend({
+    className: "form-group",
+    template: _.template(fileUploadTemplate),
+    events: {
+      'change .file': function() {
+        this.parseData();
+        this.displayFileName();      
+      }
 
-        render: function() {
-            this.$el.html(this.template({}));
-            return this;
-        },
+    },
+    initialize: function(id) {
+        this.id = id;
+        this.data = [];
+        this.file = [];
+    },
 
-        triggerFileSelect: function(transactionHeaders, file) {
-            if($(file).attr("id") == "file1") {
-                if (!this.fileTransactionSelectView1) {
-                    this.fileTransactionSelectView1 = new FileTransactionSelectView();
-                }
-                this.$("#fieldMapping_file1").append(this.fileTransactionSelectView1.render(transactionHeaders, "pickerFile1").$el);
-            }
-            if($(file).attr("id") == "file2") {
-                if (!this.fileTransactionSelectView2) {
-                    this.fileTransactionSelectView2 = new FileTransactionSelectView();
-                }
-                this.$("#fieldMapping_file1").append(this.fileTransactionSelectView2.render(transactionHeaders, "pickerFile2").$el);
-            }
-        },
+    render: function() {
+      this.$el.html(this.template({
+        fileId: this.id
+      }));
 
-        changeMatchingType: function() {
-            this.fieldFilter = !this.fieldFilter;
-            this.$("#fieldMapping_file1").toggle();
-            Backbone.trigger('triggerSelectFiles', this.fieldFilter);
+      return this;
+    },
+
+    parseData: function() {
+      var that = this;
+      if(!e){ var e = window.event; }
+      Papa.parse(e.target.files[0], {
+        header: true,
+        complete: function(results, file) {
+         that.data = results.data;
+         that.file = file;
+         that.triggerFieldMatching(e);  
         }
-    });
+      });
+    },
 
+    triggerFieldMatching: function(e) {
+      var items = _.filter(Object.keys(this.data[0]), function(item) {
+        return item !== "__parsed_extra";
+      });
+      Backbone.trigger("thisTriggerSelect", items, e.target);
+    },
+
+    displayFileName: function() {
+      this.$(".showFileName").val(event.target.files[0].name);
+    }
+    
+  });
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"fieldMatchCheckbox col-md-4\">\r\n    <input id=fieldMatching type=checkbox value=no>\r\n    <label for=fieldMatching>Field matching</label>\r\n</div>\r\n\r\n<div class=\"fieldMatchFields col-md-8\">\r\n    <div id=fieldMapping_file1 style=display:none></div>\r\n    <div id=fieldMapping_file2 style=display:none></div>\r\n</div>\r\n\r\n";
+module.exports = "<div class=input-group>\r\n    <span class=input-group-btn>\r\n        <span class=\"btn btn-primary btn-file\">\r\n            Select File... <input id=\"<%= fileId %>\" class=file type=file single>\r\n        </span>\r\n    </span>\r\n    <input type=text class=\"form-control showFileName\" readonly=\"\">\r\n</div>";
 
 /***/ }),
 /* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-    __webpack_require__(0),
-    __webpack_require__(2),
-    __webpack_require__(21),
-    __webpack_require__(3),
-    __webpack_require__(24),
-], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, FileTransactionSelectTemplate) {
-   
-    return Backbone.View.extend({
-        className: "form-group",
-        template: _.template(FileTransactionSelectTemplate),
-        initialize: function() {},
-        events: {
-            "change .selectpicker": "changeMapping"
-        },
-
-        render: function(transactionHeader, id) {
-            this.$el.html(this.template({
-                transactionHeader: transactionHeader,
-                id: id
-            }));
-        
-            return this;
-        },
-
-        changeMapping: function(event) {
-            Backbone.trigger('triggerPickerSelect', event);
-        }
-    });
-
-}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-module.exports = "<select class=\"btn btn-default selectpicker\" id=\"<%= id %>\">\r\n  <option> - select picker - </option>\r\n  <% _.each(transactionHeader, function(header) { %>\r\n    <option><%= header %></option>\r\n  <% }) %>\r\n</select>\r\n ";
-
-/***/ }),
-/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
@@ -50601,7 +50563,7 @@ exports.push([module.i, "/*!\r\n * Bootstrap v3.3.7 (http://getbootstrap.com)\r\
 
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, exports) {
 
 
@@ -50696,256 +50658,15 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
- * http://getbootstrap.com/javascript/#dropdowns
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // DROPDOWN CLASS DEFINITION
-  // =========================
-
-  var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle="dropdown"]'
-  var Dropdown = function (element) {
-    $(element).on('click.bs.dropdown', this.toggle)
-  }
-
-  Dropdown.VERSION = '3.3.7'
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
-  }
-
-  function clearMenus(e) {
-    if (e && e.which === 3) return
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
-
-      if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
-
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
-    })
-  }
-
-  Dropdown.prototype.toggle = function (e) {
-    var $this = $(this)
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    clearMenus()
-
-    if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
-        // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
-      }
-
-      var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
-
-      if (e.isDefaultPrevented()) return
-
-      $this
-        .trigger('focus')
-        .attr('aria-expanded', 'true')
-
-      $parent
-        .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
-    }
-
-    return false
-  }
-
-  Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
-
-    var $this = $(this)
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if ($this.is('.disabled, :disabled')) return
-
-    var $parent  = getParent($this)
-    var isActive = $parent.hasClass('open')
-
-    if (!isActive && e.which != 27 || isActive && e.which == 27) {
-      if (e.which == 27) $parent.find(toggle).trigger('focus')
-      return $this.trigger('click')
-    }
-
-    var desc = ' li:not(.disabled):visible a'
-    var $items = $parent.find('.dropdown-menu' + desc)
-
-    if (!$items.length) return
-
-    var index = $items.index(e.target)
-
-    if (e.which == 38 && index > 0)                 index--         // up
-    if (e.which == 40 && index < $items.length - 1) index++         // down
-    if (!~index)                                    index = 0
-
-    $items.eq(index).trigger('focus')
-  }
-
-
-  // DROPDOWN PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.dropdown')
-
-      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.dropdown
-
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
-
-
-  // DROPDOWN NO CONFLICT
-  // ====================
-
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
-    return this
-  }
-
-
-  // APPLY TO STANDARD DROPDOWN ELEMENTS
-  // ===================================
-
-  $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
-
-}(jQuery);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 25 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
     __webpack_require__(2),
-    __webpack_require__(26),
-    __webpack_require__(10)
-], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, fileUploadTemplate, Papa) {
-
-  return Backbone.View.extend({
-    className: "form-group",
-    template: _.template(fileUploadTemplate),
-    events: {
-      'change .file': function() {
-        this.parseData();
-        this.displayFileName();      
-      }
-
-    },
-    initialize: function(id) {
-        this.id = id;
-        this.data = [];
-        this.file = [];
-    },
-
-    render: function() {
-      this.$el.html(this.template({
-        fileId: this.id
-      }));
-
-      return this;
-    },
-
-    parseData: function() {
-      var that = this;
-      if(!e){ var e = window.event; }
-      Papa.parse(e.target.files[0], {
-        header: true,
-        complete: function(results, file) {
-         that.data = results.data;
-         that.file = file;
-         that.triggerFieldMatching(e);  
-        }
-      });
-    },
-
-    triggerFieldMatching: function(e) {
-      var items = _.filter(Object.keys(this.data[0]), function(item) {
-        return item !== "__parsed_extra";
-      });
-      Backbone.trigger("thisTriggerSelect", items, e.target);
-    },
-
-    displayFileName: function() {
-      this.$(".showFileName").val(event.target.files[0].name);
-    }
-    
-  });
-}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=input-group>\r\n    <span class=input-group-btn>\r\n        <span class=\"btn btn-primary btn-file\">\r\n            Select File... <input id=\"<%= fileId %>\" class=file type=file single>\r\n        </span>\r\n    </span>\r\n    <input type=text class=\"form-control showFileName\" readonly=\"\">\r\n</div>";
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-    __webpack_require__(0),
-    __webpack_require__(2),
-    __webpack_require__(28),
+    __webpack_require__(23),
     __webpack_require__(6),
-    __webpack_require__(30),
+    __webpack_require__(25),
     __webpack_require__(3)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, FileCompareView) {
 
@@ -50992,49 +50713,35 @@ return Backbone.View.extend({
         var fileData2 = fileObj.fileUploadView2.data;
 
         var matchingCount1 = this.matchingRecords(fileData1, fileData2);
-        var matchingCount2 = this.matchingRecords(fileData1, fileData2);
-
-        // perfect match data
-        commonData1 = _.filter(matchingCount1, function(val, index) {
-            return val[(val.length-1)/2] == 1;
-        });
-
-        commonData2 = _.filter(matchingCount2, function(val, index) {
-            return val[(val.length-1)/2] == 1;
-        });
-
-        // completley different data
-        differentData1 = _.filter(matchingCount1, function(val, index) {
-            return val[(val.length-1)/2] !== 1;
-        });
-
-        differentData2 = _.filter(matchingCount2, function(val, index) {
-            return val[(val.length-1)/2] !== 1;
-        });
+        var matchingCount2 = this.matchingRecords(fileData2, fileData1);
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
-            'commonDataCount': commonData1.length,
-            'unmachedDataCount': differentData1.length
+            'kindOfMatchDataCount': matchingCount1.differentFieldMatchSmall.length,
+            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length 
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
         this.model2.set({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
-            'commonDataCount': commonData2.length,
-            'unmachedDataCount': differentData2.length
+            'kindOfMatchDataCount': matchingCount2.differentFieldMatchSmall.length,
+            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length 
         });
+
+        this.data.file1 = [matchingCount1.differentFieldMatchSmall, matchingCount1.differentFieldMatchBig, Object.keys(fileData1[0])];
+        this.data.file2 = [matchingCount2.differentFieldMatchSmall, matchingCount2.differentFieldMatchBig, Object.keys(fileData2[0])];
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
     },
 
     matchingRecords: function(fileData1, fileData2) {
         var fileMatch = new FileMatch(fileData1, fileData2);
+        return fileMatch;
     },
 
     unmachedReport: function() {
-        Backbone.trigger("triggerUnmatched", this.data, this.matchingOn);
+        Backbone.trigger("triggerUnmatched", this.data);
     }
 
   });
@@ -51043,19 +50750,19 @@ return Backbone.View.extend({
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 28 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = "<h1 class=col-md-12>Comparision result</h1>\r\n<div class=\"col-md-12 flexBlock\" id=loadCompareViews></div>\r\n<div class=col-md-12>\r\n    <button class=\"btn btn-default blockCenter\" style=float:left id=report>Unmatched Report</button>\r\n</div>";
 
 /***/ }),
-/* 29 */
+/* 24 */
 /***/ (function(module, exports) {
 
-module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %></p>\r\n<p>Maching Records: <%= commonDataCount %></p>\r\n<p>Unmached Records <%= unmatchedDataCount %></p>";
+module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %></p>\r\n<p>Somewhat Maching Records: <%= kindOfMatchDataCount %></p>\r\n<p>Not Really Matching Records: <%= notReallyMatchDataCount %></p>";
 
 /***/ }),
-/* 30 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -51077,24 +50784,34 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return Object.values(value);
         });
 
-        _.each(a, function(item1, index1) {
-            _.each(b, function(item2, index2) {
-                if (_.isEqual(item1, item2)) {
-                    a.splice(index1, 1);
-                    b.splice(index2, 1);
-                }
+        // create array from objects
+        a = Array.from(new Set(a.map(JSON.stringify)), JSON.parse);
+        b = Array.from(new Set(b.map(JSON.stringify)), JSON.parse);
+
+        var rDuplicates = function(a, b) {
+            var g = true;
+            var ls = [];
+            _.each(a, function(itema, indexa) {
+                g = true;
+                _.each(b, function(itemb, indexb) {
+                    if (_.isEqual(itema, itemb)) { g = false; }
+                });
+                if (g) ls.push(itema);
             });
-        });
+    
+            return ls;
+        }
+
+        var als = rDuplicates(a, b);
+        var bls = rDuplicates(b, a);
 
         var different = []; // completly different - this is used to test for other things, show in table
         var differentSort = []; // completly different with sort - 
-        var diff = []; // completly different but somewhat the same - ???
 
         // only select differences with no perfect match
-
-        var s = function(a, b) {
-          return _.filter(a, function(vala, indexa) {
-              return _.find(b, function(valb, indexb) {
+        var s = function(als, bls) {
+          return _.filter(als, function(vala, indexa) {
+              return _.find(bls, function(valb, indexb) {
                 if (_.isEqual(vala, valb)) {
                     return true;
                 }
@@ -51104,11 +50821,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
               });
           });
         };
-        
-        s(a, b);
-        console.log("difference: ", different);
+
+        s(als, bls);
+
         // need to filter the list to only show items that are a bit different
-        var cd = function() {
+        var spreadDifference = function(acceptedLengthDifference, acceptedLengthDifferenceMin) {
+            var diff = [];
             _.filter(different, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
@@ -51122,53 +50840,41 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
            var positionMatch = _.every(_.intersection(arr1, arr2), function(item, index) {
                 return arr1.indexOf(index) == arr2.indexOf(index);
            });
-        
-           var acceptedLengthDifference = 2;
-        
            if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
-                
-                // find a way to add the non matching fields somehow
+                i.unshift(_.difference(arr1, arr2));
                 diff.push(i);
-
             }
           });
+          return diff;
         };
+
+        var diff = spreadDifference(2); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(7); // completly different but somewhat the same but not really - ???
+        bigDiff = rDuplicates(bigDiff, diff);
         
-        cd();
 
         // remove duplicates
         var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
-        console.log("diff: ", diff);
-        // items are sorted different
-       /* var c = function(difa, difb) {
-          return _.filter(difa, function(vala, indexa) {
-              return _.find(difb, function(valb, indexb) {
-                var va = vala.slice(0);
-                var vb = valb.slice(0);
-                   if (!_.isEqual(va.sort(), vb.sort())) {
-                    differentSort.push(vala.concat(valb));
-                  return _.isEqual(va.sort(), vb.sort());
-                }
-              });
-          });
-        };*/
-        
-        //c(a, b);
-        //c(b, a);
-    }
+
+        return {
+            "differentFieldMatchSmall": diff,
+            "differentFieldMatchBig": bigDiff
+        }
+    };
+
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 31 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(0),
     __webpack_require__(2),
-    __webpack_require__(32),
-    __webpack_require__(33),
-    __webpack_require__(41),
+    __webpack_require__(27),
+    __webpack_require__(28),
+    __webpack_require__(36),
     __webpack_require__(6),
     __webpack_require__(3),
     __webpack_require__(8),
@@ -51209,39 +50915,31 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
             return columns; // title columns
         },
-        triggerCompare: function(data, matchingOn, fieldData) {
+        triggerCompare: function(data) {
             this.$el.html(this.template());
-            if (matchingOn) {
-                var fileTitleColumns = this.filterMatchingFields(data, fieldData);
-                if (!this.unmatchedReportFieldMatchView) {
-                    this.unmatchedReportFieldMatchView = new UnmatchedReportFieldMatchView();
-                }
-
-                this.$("#table1").html(this.unmatchedReportFieldMatchView.render(data, fileTitleColumns, fieldData).$el);
-            } else {
-                if (!this.unmatchedReportView1) {
-                    this.unmatchedReportView1 = new UnmatchedReportView();
-                }
-                
-                if (!this.unmatchedReportView2) {
-                    this.unmatchedReportView2 = new UnmatchedReportView();
-                }
-                this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
-                this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
+           
+            if (!this.unmatchedReportView1) {
+                this.unmatchedReportView1 = new UnmatchedReportView();
             }
+            
+            if (!this.unmatchedReportView2) {
+                this.unmatchedReportView2 = new UnmatchedReportView();
+            }
+            this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
+            this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
         }
     });
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 32 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=table1 style=overflow:auto></div>\r\n<div id=table2 style=overflow:auto></div>";
 
 /***/ }),
-/* 33 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -51264,26 +50962,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
         render: function(data) {
                 
-            if (data.unmachedData.length) {
+            if (data.length) {
                 this.$el.html(this.template());
-                var column = [];
-                _.each(Object.values(data), function(item) {
-                    column.push(Object.keys(item[0]));
-                });
-
-                column[0] = _.filter(column[0], function(item) {
-                    return item !== "__parsed_extra";
-                });
 
                 var columns = [];
-                _.each(column[0], function(col) {
-                    columns.push({'data': col, 'title': col});
+                var cols = ['Fields with issues'].concat(data[2]);
+                cols = cols.concat(data[2]);
+                _.each(cols, function(col) {
+                    columns.push({'title': col});
                 });
 
                 var dataColumns = [];
-                _.each(data.unmachedData, function(item) {
+                _.each(data[0], function(item) {
                     dataColumns.push(item);
-                    delete item.__parsed_extra;
+                });
+
+                _.each(data[1], function(item) {
+                    dataColumns.push(item);
                 });
 
                 this.$('.unmachedReportTable').DataTable({
@@ -51298,7 +50993,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 34 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
@@ -51306,43 +51001,43 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(35) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(36) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(37) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(38) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(39) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n/*\n * Control feature layout\n */\n.dataTables_wrapper {\n  position: relative;\n  clear: both;\n  *zoom: 1;\n  zoom: 1;\n}\n.dataTables_wrapper .dataTables_length {\n  float: left;\n}\n.dataTables_wrapper .dataTables_filter {\n  float: right;\n  text-align: right;\n}\n.dataTables_wrapper .dataTables_filter input {\n  margin-left: 0.5em;\n}\n.dataTables_wrapper .dataTables_info {\n  clear: both;\n  float: left;\n  padding-top: 0.755em;\n}\n.dataTables_wrapper .dataTables_paginate {\n  float: right;\n  text-align: right;\n  padding-top: 0.25em;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button {\n  box-sizing: border-box;\n  display: inline-block;\n  min-width: 1.5em;\n  padding: 0.5em 1em;\n  margin-left: 2px;\n  text-align: center;\n  text-decoration: none !important;\n  cursor: pointer;\n  *cursor: hand;\n  color: #333 !important;\n  border: 1px solid transparent;\n  border-radius: 2px;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {\n  color: #333 !important;\n  border: 1px solid #979797;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {\n  cursor: default;\n  color: #666 !important;\n  border: 1px solid transparent;\n  background: transparent;\n  box-shadow: none;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n  color: white !important;\n  border: 1px solid #111;\n  background-color: #585858;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #585858 0%, #111 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #585858 0%, #111 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #585858 0%, #111 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #585858 0%, #111 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #585858 0%, #111 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:active {\n  outline: none;\n  background-color: #2b2b2b;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b), color-stop(100%, #0c0c0c));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #2b2b2b 0%, #0c0c0c 100%);\n  /* W3C */\n  box-shadow: inset 0 0 3px #111;\n}\n.dataTables_wrapper .dataTables_paginate .ellipsis {\n  padding: 0 1em;\n}\n.dataTables_wrapper .dataTables_processing {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100%;\n  height: 40px;\n  margin-left: -50%;\n  margin-top: -25px;\n  padding-top: 20px;\n  text-align: center;\n  font-size: 1.2em;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(25%, rgba(255, 255, 255, 0.9)), color-stop(75%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n}\n.dataTables_wrapper .dataTables_length,\n.dataTables_wrapper .dataTables_filter,\n.dataTables_wrapper .dataTables_info,\n.dataTables_wrapper .dataTables_processing,\n.dataTables_wrapper .dataTables_paginate {\n  color: #333;\n}\n.dataTables_wrapper .dataTables_scroll {\n  clear: both;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {\n  *margin-top: -1px;\n  -webkit-overflow-scrolling: touch;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {\n  vertical-align: middle;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td > div.dataTables_sizing, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td > div.dataTables_sizing {\n  height: 0;\n  overflow: hidden;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n.dataTables_wrapper.no-footer .dataTables_scrollBody {\n  border-bottom: 1px solid #111;\n}\n.dataTables_wrapper.no-footer div.dataTables_scrollHead table.dataTable,\n.dataTables_wrapper.no-footer div.dataTables_scrollBody > table {\n  border-bottom: none;\n}\n.dataTables_wrapper:after {\n  visibility: hidden;\n  display: block;\n  content: \"\";\n  clear: both;\n  height: 0;\n}\n\n@media screen and (max-width: 767px) {\n  .dataTables_wrapper .dataTables_info,\n  .dataTables_wrapper .dataTables_paginate {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_paginate {\n    margin-top: 0.5em;\n  }\n}\n@media screen and (max-width: 640px) {\n  .dataTables_wrapper .dataTables_length,\n  .dataTables_wrapper .dataTables_filter {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_filter {\n    margin-top: 0.5em;\n  }\n}\n\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  content: ' ';\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
+exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(30) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(31) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(32) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(33) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(34) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n/*\n * Control feature layout\n */\n.dataTables_wrapper {\n  position: relative;\n  clear: both;\n  *zoom: 1;\n  zoom: 1;\n}\n.dataTables_wrapper .dataTables_length {\n  float: left;\n}\n.dataTables_wrapper .dataTables_filter {\n  float: right;\n  text-align: right;\n}\n.dataTables_wrapper .dataTables_filter input {\n  margin-left: 0.5em;\n}\n.dataTables_wrapper .dataTables_info {\n  clear: both;\n  float: left;\n  padding-top: 0.755em;\n}\n.dataTables_wrapper .dataTables_paginate {\n  float: right;\n  text-align: right;\n  padding-top: 0.25em;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button {\n  box-sizing: border-box;\n  display: inline-block;\n  min-width: 1.5em;\n  padding: 0.5em 1em;\n  margin-left: 2px;\n  text-align: center;\n  text-decoration: none !important;\n  cursor: pointer;\n  *cursor: hand;\n  color: #333 !important;\n  border: 1px solid transparent;\n  border-radius: 2px;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {\n  color: #333 !important;\n  border: 1px solid #979797;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, white 0%, #dcdcdc 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {\n  cursor: default;\n  color: #666 !important;\n  border: 1px solid transparent;\n  background: transparent;\n  box-shadow: none;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n  color: white !important;\n  border: 1px solid #111;\n  background-color: #585858;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #585858 0%, #111 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #585858 0%, #111 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #585858 0%, #111 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #585858 0%, #111 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #585858 0%, #111 100%);\n  /* W3C */\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:active {\n  outline: none;\n  background-color: #2b2b2b;\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b), color-stop(100%, #0c0c0c));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -moz-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* FF3.6+ */\n  background: -ms-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* IE10+ */\n  background: -o-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);\n  /* Opera 11.10+ */\n  background: linear-gradient(to bottom, #2b2b2b 0%, #0c0c0c 100%);\n  /* W3C */\n  box-shadow: inset 0 0 3px #111;\n}\n.dataTables_wrapper .dataTables_paginate .ellipsis {\n  padding: 0 1em;\n}\n.dataTables_wrapper .dataTables_processing {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100%;\n  height: 40px;\n  margin-left: -50%;\n  margin-top: -25px;\n  padding-top: 20px;\n  text-align: center;\n  font-size: 1.2em;\n  background-color: white;\n  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(25%, rgba(255, 255, 255, 0.9)), color-stop(75%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);\n}\n.dataTables_wrapper .dataTables_length,\n.dataTables_wrapper .dataTables_filter,\n.dataTables_wrapper .dataTables_info,\n.dataTables_wrapper .dataTables_processing,\n.dataTables_wrapper .dataTables_paginate {\n  color: #333;\n}\n.dataTables_wrapper .dataTables_scroll {\n  clear: both;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {\n  *margin-top: -1px;\n  -webkit-overflow-scrolling: touch;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {\n  vertical-align: middle;\n}\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td > div.dataTables_sizing, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th > div.dataTables_sizing,\n.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td > div.dataTables_sizing {\n  height: 0;\n  overflow: hidden;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n.dataTables_wrapper.no-footer .dataTables_scrollBody {\n  border-bottom: 1px solid #111;\n}\n.dataTables_wrapper.no-footer div.dataTables_scrollHead table.dataTable,\n.dataTables_wrapper.no-footer div.dataTables_scrollBody > table {\n  border-bottom: none;\n}\n.dataTables_wrapper:after {\n  visibility: hidden;\n  display: block;\n  content: \"\";\n  clear: both;\n  height: 0;\n}\n\n@media screen and (max-width: 767px) {\n  .dataTables_wrapper .dataTables_info,\n  .dataTables_wrapper .dataTables_paginate {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_paginate {\n    margin-top: 0.5em;\n  }\n}\n@media screen and (max-width: 640px) {\n  .dataTables_wrapper .dataTables_length,\n  .dataTables_wrapper .dataTables_filter {\n    float: none;\n    text-align: center;\n  }\n  .dataTables_wrapper .dataTables_filter {\n    margin-top: 0.5em;\n  }\n}\n\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  content: ' ';\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 35 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7XQMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC"
 
 /***/ }),
-/* 36 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZ0lEQVQ4y2NgGLKgquEuFxBPAGI2ahhWCsS/gDibUoO0gPgxEP8H4ttArEyuQYxAPBdqEAxPBImTY5gjEL9DM+wTENuQahAvEO9DMwiGdwAxOymGJQLxTyD+jgWDxCMZRsEoGAVoAADeemwtPcZI2wAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 37 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZUlEQVQ4y2NgGAWjYBSggaqGu5FA/BOIv2PBIPFEUgxjB+IdQPwfC94HxLykus4GiD+hGfQOiB3J8SojEE9EM2wuSJzcsFMG4ttQgx4DsRalkZENxL+AuJQaMcsGxBOAmGvopk8AVz1sLZgg0bsAAAAASUVORK5CYII="
 
 /***/ }),
-/* 38 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAW0lEQVQoz2NgoCm4w3Vnwh02wspK7/y6k01Ikdadx3f+37l9RxmfIsY7c4GKQHDiHUbcyhzvvIMq+3THBpci3jv7oIpAcMcdduzKEu/8vPMdDn/eiWQYBYMKAAC3ykIEuYQJUgAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 39 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAWUlEQVQoz2NgGAWDCtyJvPPzznc4/HknEbsy9js77vyHw313eHGZZ3PnE1TRuzuOuK1lvDMRqmzuHUZ87lO+cxuo6PEdLUIeyb7z604pYf+y3Zlwh4u2YQoAc7ZCBHH4jigAAAAASUVORK5CYII="
 
 /***/ }),
-/* 40 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
@@ -51356,7 +51051,7 @@ exports.push([module.i, "table.dataTable{clear:both;margin-top:6px !important;ma
 
 
 /***/ }),
-/* 41 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
@@ -51424,13 +51119,13 @@ exports.push([module.i, "table.dataTable{clear:both;margin-top:6px !important;ma
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 42 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(43);
+var content = __webpack_require__(38);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -51455,7 +51150,7 @@ if(false) {
 }
 
 /***/ }),
-/* 43 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(undefined);
