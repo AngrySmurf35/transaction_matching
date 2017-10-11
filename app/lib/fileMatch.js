@@ -17,24 +17,34 @@ define([
             return Object.values(value);
         });
 
-        _.each(a, function(item1, index1) {
-            _.each(b, function(item2, index2) {
-                if (_.isEqual(item1, item2)) {
-                    a.splice(index1, 1);
-                    b.splice(index2, 1);
-                }
+        // create array from objects
+        a = Array.from(new Set(a.map(JSON.stringify)), JSON.parse);
+        b = Array.from(new Set(b.map(JSON.stringify)), JSON.parse);
+
+        var rDuplicates = function(a, b) {
+            var g = true;
+            var ls = [];
+            _.each(a, function(itema, indexa) {
+                g = true;
+                _.each(b, function(itemb, indexb) {
+                    if (_.isEqual(itema, itemb)) { g = false; }
+                });
+                if (g) ls.push(itema);
             });
-        });
+    
+            return ls;
+        }
+
+        var als = rDuplicates(a, b);
+        var bls = rDuplicates(b, a);
 
         var different = []; // completly different - this is used to test for other things, show in table
         var differentSort = []; // completly different with sort - 
-        var diff = []; // completly different but somewhat the same - ???
 
         // only select differences with no perfect match
-
-        var s = function(a, b) {
-          return _.filter(a, function(vala, indexa) {
-              return _.find(b, function(valb, indexb) {
+        var s = function(als, bls) {
+          return _.filter(als, function(vala, indexa) {
+              return _.find(bls, function(valb, indexb) {
                 if (_.isEqual(vala, valb)) {
                     return true;
                 }
@@ -44,11 +54,12 @@ define([
               });
           });
         };
-        
-        s(a, b);
-        console.log("difference: ", different);
+
+        s(als, bls);
+
         // need to filter the list to only show items that are a bit different
-        var cd = function() {
+        var spreadDifference = function(acceptedLengthDifference, acceptedLengthDifferenceMin) {
+            var diff = [];
             _.filter(different, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
@@ -62,38 +73,26 @@ define([
            var positionMatch = _.every(_.intersection(arr1, arr2), function(item, index) {
                 return arr1.indexOf(index) == arr2.indexOf(index);
            });
-        
-           var acceptedLengthDifference = 2;
-        
            if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
-                
-                // find a way to add the non matching fields somehow
+                i.unshift(_.difference(arr1, arr2));
                 diff.push(i);
-
             }
           });
+          return diff;
         };
+
+        var diff = spreadDifference(2); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(7); // completly different but somewhat the same but not really - ???
+        bigDiff = rDuplicates(bigDiff, diff);
         
-        cd();
 
         // remove duplicates
         var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
-        console.log("diff: ", diff);
-        // items are sorted different
-       /* var c = function(difa, difb) {
-          return _.filter(difa, function(vala, indexa) {
-              return _.find(difb, function(valb, indexb) {
-                var va = vala.slice(0);
-                var vb = valb.slice(0);
-                   if (!_.isEqual(va.sort(), vb.sort())) {
-                    differentSort.push(vala.concat(valb));
-                  return _.isEqual(va.sort(), vb.sort());
-                }
-              });
-          });
-        };*/
-        
-        //c(a, b);
-        //c(b, a);
-    }
+
+        return {
+            "differentFieldMatchSmall": diff,
+            "differentFieldMatchBig": bigDiff
+        }
+    };
+
 });

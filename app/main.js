@@ -57,15 +57,15 @@ var MainView = Backbone.View.extend({
       }
 
       this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
-      Backbone.trigger('triggerCompareView', fileObj, this.matchingOn, this.fieldData);
+      Backbone.trigger('triggerCompareView', fileObj);
     },
 
-    triggerUnmatched: function(data, matchingOn) {
+    triggerUnmatched: function(data) {
       if (!this.mainUnmatchedReportView)
         this.mainUnmatchedReportView = new MainUnmatchedReportView();
       
       this.$("#fileUnmatchedView").html(this.mainUnmatchedReportView.render().$el);
-      Backbone.trigger('triggerUnmatchedView', data, matchingOn, this.fieldData);
+      Backbone.trigger('triggerUnmatchedView', data);
     },
 
 

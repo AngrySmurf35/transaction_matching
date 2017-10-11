@@ -44,26 +44,18 @@ define([
 
             return columns; // title columns
         },
-        triggerCompare: function(data, matchingOn, fieldData) {
+        triggerCompare: function(data) {
             this.$el.html(this.template());
-            if (matchingOn) {
-                var fileTitleColumns = this.filterMatchingFields(data, fieldData);
-                if (!this.unmatchedReportFieldMatchView) {
-                    this.unmatchedReportFieldMatchView = new UnmatchedReportFieldMatchView();
-                }
-
-                this.$("#table1").html(this.unmatchedReportFieldMatchView.render(data, fileTitleColumns, fieldData).$el);
-            } else {
-                if (!this.unmatchedReportView1) {
-                    this.unmatchedReportView1 = new UnmatchedReportView();
-                }
-                
-                if (!this.unmatchedReportView2) {
-                    this.unmatchedReportView2 = new UnmatchedReportView();
-                }
-                this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
-                this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
+           
+            if (!this.unmatchedReportView1) {
+                this.unmatchedReportView1 = new UnmatchedReportView();
             }
+            
+            if (!this.unmatchedReportView2) {
+                this.unmatchedReportView2 = new UnmatchedReportView();
+            }
+            this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
+            this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
         }
     });
 });

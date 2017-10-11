@@ -18,26 +18,23 @@ define([
 
         render: function(data) {
                 
-            if (data.unmachedData.length) {
+            if (data.length) {
                 this.$el.html(this.template());
-                var column = [];
-                _.each(Object.values(data), function(item) {
-                    column.push(Object.keys(item[0]));
-                });
-
-                column[0] = _.filter(column[0], function(item) {
-                    return item !== "__parsed_extra";
-                });
 
                 var columns = [];
-                _.each(column[0], function(col) {
-                    columns.push({'data': col, 'title': col});
+                var cols = ['Fields with issues'].concat(data[2]);
+                cols = cols.concat(data[2]);
+                _.each(cols, function(col) {
+                    columns.push({'title': col});
                 });
 
                 var dataColumns = [];
-                _.each(data.unmachedData, function(item) {
+                _.each(data[0], function(item) {
                     dataColumns.push(item);
-                    delete item.__parsed_extra;
+                });
+
+                _.each(data[1], function(item) {
+                    dataColumns.push(item);
                 });
 
                 this.$('.unmachedReportTable').DataTable({

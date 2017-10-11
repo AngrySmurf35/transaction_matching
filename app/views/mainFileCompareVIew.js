@@ -50,49 +50,35 @@ return Backbone.View.extend({
         var fileData2 = fileObj.fileUploadView2.data;
 
         var matchingCount1 = this.matchingRecords(fileData1, fileData2);
-        var matchingCount2 = this.matchingRecords(fileData1, fileData2);
-
-        // perfect match data
-        commonData1 = _.filter(matchingCount1, function(val, index) {
-            return val[(val.length-1)/2] == 1;
-        });
-
-        commonData2 = _.filter(matchingCount2, function(val, index) {
-            return val[(val.length-1)/2] == 1;
-        });
-
-        // completley different data
-        differentData1 = _.filter(matchingCount1, function(val, index) {
-            return val[(val.length-1)/2] !== 1;
-        });
-
-        differentData2 = _.filter(matchingCount2, function(val, index) {
-            return val[(val.length-1)/2] !== 1;
-        });
+        var matchingCount2 = this.matchingRecords(fileData2, fileData1);
 
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
-            'commonDataCount': commonData1.length,
-            'unmachedDataCount': differentData1.length
+            'kindOfMatchDataCount': matchingCount1.differentFieldMatchSmall.length,
+            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length 
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
         this.model2.set({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
-            'commonDataCount': commonData2.length,
-            'unmachedDataCount': differentData2.length
+            'kindOfMatchDataCount': matchingCount2.differentFieldMatchSmall.length,
+            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length 
         });
+
+        this.data.file1 = [matchingCount1.differentFieldMatchSmall, matchingCount1.differentFieldMatchBig, Object.keys(fileData1[0])];
+        this.data.file2 = [matchingCount2.differentFieldMatchSmall, matchingCount2.differentFieldMatchBig, Object.keys(fileData2[0])];
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
     },
 
     matchingRecords: function(fileData1, fileData2) {
         var fileMatch = new FileMatch(fileData1, fileData2);
+        return fileMatch;
     },
 
     unmachedReport: function() {
-        Backbone.trigger("triggerUnmatched", this.data, this.matchingOn);
+        Backbone.trigger("triggerUnmatched", this.data);
     }
 
   });
