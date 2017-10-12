@@ -3,59 +3,42 @@ define([
     'backbone',
     '../templates/mainUnmatchedReportTemplate.html',
     '../views/unmatchedReportView.js',
-    '../views/unmatchedReportFieldMatchView.js',
     './fileCompareView.js',
     '../lib/bootstrap.css',
     '../lib/datatables/datatables.js',
     '../lib/datatables/datatables.css'
-], function (_, Backbone, MainUnmatchedReportTemplate, UnmatchedReportView, UnmatchedReportFieldMatchView, FileCompareView) {
+], function (_, Backbone, MainUnmatchedReportTemplate, UnmatchedReportView, FileCompareView) {
 
     return Backbone.View.extend({
         el: "<div>",
         className: "mainViews",
         template: _.template(MainUnmatchedReportTemplate),
         initialize: function() {
-            this.data = [];
             Backbone.on("triggerUnmatchedView", this.triggerCompare, this);
         },
         render: function() {
             this.$el.html(this.template());
             return this;
         },
-        filterMatchingFields: function(data, fieldData) {
-            var fileColumns1 = Object.keys(data.file1.unmachedData[0]);
-            var fileColumns2 = Object.keys(data.file2.unmachedData[0]);
-
-            fileColumns1 = _.filter(fileColumns1, function(item) {
-                return item !== "__parsed_extra" && item !== fieldData.pickerFile1.value;
-            });
-
-            fileColumns2 = _.filter(fileColumns2, function(item) {
-                return item !== "__parsed_extra" && item !== fieldData.pickerFile2.value;
-            });
-
-            var fileColumns = fileColumns1.concat([fieldData.pickerFile1.value + '/' + fieldData.pickerFile2.value]);
-            fileColumns = fileColumns.concat(fileColumns2);
-
-            var columns = [];
-            _.each(fileColumns, function(col) {
-                columns.push({'title': col});
-            });
-
-            return columns; // title columns
-        },
         triggerCompare: function(data) {
             this.$el.html(this.template());
+
+            this.model1 = this.model;
+            this.model2 = this.model;
            
+            this.model1.set("dfile", data.file1);
+            this.model2.set("dfile", data.file2);
+
             if (!this.unmatchedReportView1) {
-                this.unmatchedReportView1 = new UnmatchedReportView();
+                this.unmatchedReportView1 = new UnmatchedReportView({model: this.model});
             }
             
             if (!this.unmatchedReportView2) {
-                this.unmatchedReportView2 = new UnmatchedReportView();
+                this.unmatchedReportView2 = new UnmatchedReportView({model: this.model});
             }
-            this.$("#table1").html(this.unmatchedReportView1.render(data.file1).$el);
-            this.$("#table2").html(this.unmatchedReportView2.render(data.file2).$el);
+
+            this.$("#table1").html(this.unmatchedReportView1.render().$el);
+            this.$("#table2").html(this.unmatchedReportView2.render().$el);
         }
     });
 });

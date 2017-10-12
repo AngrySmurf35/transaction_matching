@@ -16,10 +16,7 @@ return Backbone.View.extend({
     },
     
     initialize: function() {
-        this.data = {
-            "file1": {},
-            "file2": {}
-        };
+        this.data = {"file1": {}, "file2": {}};
         Backbone.on("triggerCompareView", this.triggerCompare, this);
     },
 
@@ -37,8 +34,7 @@ return Backbone.View.extend({
         this.fileCompareView2 = new FileCompareView({model: this.model2});
     },
     
-    triggerCompare: function(fileObj, matchingOn) {
-        this.matchingOn = matchingOn;
+    triggerCompare: function(fileObj) {
 
         this.commonData1 = [];
         this.commonData2 = [];
@@ -67,9 +63,11 @@ return Backbone.View.extend({
             'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length 
         });
 
+        this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
+
+        
         this.data.file1 = [matchingCount1.differentFieldMatchSmall, matchingCount1.differentFieldMatchBig, Object.keys(fileData1[0])];
         this.data.file2 = [matchingCount2.differentFieldMatchSmall, matchingCount2.differentFieldMatchBig, Object.keys(fileData2[0])];
-        this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
     },
 
     matchingRecords: function(fileData1, fileData2) {

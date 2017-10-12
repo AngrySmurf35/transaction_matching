@@ -19,7 +19,6 @@ var MainView = Backbone.View.extend({
 
       Backbone.on('triggerSelectFiles', this.triggerSelectFiles);
       Backbone.on("triggerUnmatched", this.triggerUnmatched);
-      Backbone.on('triggerPickerSelect', this.setPickerEvent);
       Backbone.on("triggerCompareFile", this.triggerCompare);
     },
 
@@ -30,44 +29,24 @@ var MainView = Backbone.View.extend({
       return this;
     },
 
-    triggerSelectFiles: function(matchingOn) {
-      // returns true if the field matching checkbox is checked
-      this.matchingOn = matchingOn;
-    },
-
-    setPickerEvent: function(event) {
-      if (!this.fieldData) {
-        this.fieldData = {'pickerFile1': {}, 'pickerFile2': {}};
-      }
-
-      var fieldId = $(event.currentTarget).attr("id");
-      // the value of the transaction
-      if ($(event.currentTarget) && this.fieldData[fieldId]) {
-        this.fieldData[$(event.currentTarget).attr("id")] = event.currentTarget;
-      }
-    },
 
     triggerCompare: function(fileObj) {
       var Model = new Backbone.Model();
       if (!this.mainFileCompareView)
         this.mainFileCompareView = new MainFileCompareView({model: Model});
 
-      if (!this.matchingOn) {
-        this.matchingOn = false;
-      }
-
       this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
       Backbone.trigger('triggerCompareView', fileObj);
     },
 
     triggerUnmatched: function(data) {
+      var Model = new Backbone.Model();
       if (!this.mainUnmatchedReportView)
-        this.mainUnmatchedReportView = new MainUnmatchedReportView();
+        this.mainUnmatchedReportView = new MainUnmatchedReportView({model: Model});
       
       this.$("#fileUnmatchedView").html(this.mainUnmatchedReportView.render().$el);
       Backbone.trigger('triggerUnmatchedView', data);
-    },
-
+    }
 
   });
 

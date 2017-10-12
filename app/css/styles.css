@@ -60,12 +60,18 @@ h4 {
     flex-wrap: wrap;
 }
 
+@media (max-width: 720px) { 
+	.flexBlock {
+		flex-direction: column;
+	}
+}
+
 .blockCenter {
 	display: block;
 	margin: 0 auto;
 }
 
-.twp_columns {
+.two_columns {
 	width: 50%;
 }
 
@@ -80,5 +86,5 @@ h4 {
 }
 
 .unmachedReportTable {
-	//padding-top: 10px;
+	padding-top: 10px;
 }

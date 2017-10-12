@@ -16,24 +16,24 @@ define([
 
         initialize: function() {},
 
-        render: function(data) {
-                
-            if (data.length) {
+        render: function() {
+            
+            if (this.model.get("dfile").length) {
                 this.$el.html(this.template());
 
                 var columns = [];
-                var cols = ['Fields with issues'].concat(data[2]);
-                cols = cols.concat(data[2]);
+                var cols = ['Fields with issues'].concat(this.model.get("dfile")[2]);
+                cols = cols.concat(this.model.get("dfile")[2]);
                 _.each(cols, function(col) {
                     columns.push({'title': col});
                 });
 
                 var dataColumns = [];
-                _.each(data[0], function(item) {
+                _.each(this.model.get("dfile")[0], function(item) {
                     dataColumns.push(item);
                 });
 
-                _.each(data[1], function(item) {
+                _.each(this.model.get("dfile")[1], function(item) {
                     dataColumns.push(item);
                 });
 

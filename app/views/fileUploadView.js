@@ -6,7 +6,7 @@ define([
 ], function (_, Backbone, fileUploadTemplate, Papa) {
 
   return Backbone.View.extend({
-    className: "form-group",
+    className: "col-md-6 form-group",
     template: _.template(fileUploadTemplate),
     events: {
       'change .file': function() {

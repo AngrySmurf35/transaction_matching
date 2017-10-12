@@ -1,10 +1,7 @@
-define([
-    'underscore',
-    'backbone'
-], function (_, Backbone, moment) {
-    return FileMatch = function(fileData1, fileData2) {
-        var fileData1 = fileData1;
-        var fileData2 = fileData2;
+var _ = require('underscore');
+var Backbone = require('backbone');
+    module.exports = FileMatch = function(fileData1, fileData2) {
+
         var matchTypeValue = 'unknown';
 
         var a = _.map(fileData1, function(value, index) {
@@ -84,15 +81,13 @@ define([
         var diff = spreadDifference(2); // completly different but somewhat the same - ???
         var bigDiff = spreadDifference(7); // completly different but somewhat the same but not really - ???
         bigDiff = rDuplicates(bigDiff, diff);
-        
 
         // remove duplicates
         var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
+        var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
 
         return {
             "differentFieldMatchSmall": diff,
             "differentFieldMatchBig": bigDiff
         }
     };
-
-});
