@@ -10,7 +10,7 @@ define([
     template: _.template(fileUploadTemplate),
     events: {
       'change .file': function() {
-        if (this.isValid()) {
+        if (this.isValidFile()) {
           this.parseData();
           this.error = "";
         } else {
@@ -37,7 +37,7 @@ define([
       return this;
     },
 
-    isValid: function() {
+    isValidFile: function() {
       var fileUpload = this.$("#" + this.id)[0].value && this.$("#" + this.id)[0].value != '' ? this.$("#" + this.id)[0] : this.$('.showFileName')[0];
       var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
       

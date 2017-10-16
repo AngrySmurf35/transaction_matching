@@ -29550,7 +29550,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         'name': this.model.get("name") ? this.model.get("name") : '',
         'totalDataCount': this.model.get("totalDataCount"),
         'kindOfMatchDataCount': this.model.get('kindOfMatchDataCount'),
-        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount')
+        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount'),
+        'completlyDifferentDataCount': this.model.get('completlyDifferentDataCount')
       }));
 
       return this;
@@ -50407,8 +50408,7 @@ return Backbone.View.extend({
     },
 
     compareResults: function() {
-      this.fileUploadView1.isValid(this.fileUploadView1);
-      if (this.fileUploadView1.isValid() && this.fileUploadView2.isValid()) {
+      if (this.fileUploadView1.isValidFile() && this.fileUploadView2.isValidFile()) {
         Backbone.trigger('triggerCompareFile', this);
       }
     }
@@ -50440,7 +50440,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     template: _.template(fileUploadTemplate),
     events: {
       'change .file': function() {
-        if (this.isValid()) {
+        if (this.isValidFile()) {
           this.parseData();
           this.error = "";
         } else {
@@ -50467,7 +50467,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
       return this;
     },
 
-    isValid: function() {
+    isValidFile: function() {
       var fileUpload = this.$("#" + this.id)[0].value && this.$("#" + this.id)[0].value != '' ? this.$("#" + this.id)[0] : this.$('.showFileName')[0];
       var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
       
@@ -50680,7 +50680,8 @@ return Backbone.View.extend({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
             'kindOfMatchDataCount': matchingCount1.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length 
+            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length,
+            'completlyDifferentDataCount': matchingCount1.differentFieldMatchCompletly.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
@@ -50688,7 +50689,8 @@ return Backbone.View.extend({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
             'kindOfMatchDataCount': matchingCount2.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length 
+            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length,
+            'completlyDifferentDataCount': matchingCount2.differentFieldMatchCompletly.length
         });
 
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
@@ -50720,7 +50722,7 @@ module.exports = "<h1 class=col-md-12>Comparision result</h1>\r\n<div class=\"co
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %></p>\r\n<p>Somewhat Maching Records: <%= kindOfMatchDataCount %></p>\r\n<p>Not Really Matching Records: <%= notReallyMatchDataCount %></p>";
+module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %></p>\r\n<p>Records that kind of match: <%= kindOfMatchDataCount %></p>\r\n<p>Records that don't really match: <%= notReallyMatchDataCount %></p>\r\n<p>Records that don't match at all: <%= completlyDifferentDataCount %></p>";
 
 /***/ }),
 /* 23 */
@@ -50783,9 +50785,9 @@ var Backbone = __webpack_require__(2);
         s(als, bls);
 
         // need to filter the list to only show items that are a bit different
-        var spreadDifference = function(acceptedLengthDifference, diffErent) {
+        var spreadDifference = function(acceptedLengthDifference) {
             var diff = [];
-            _.filter(diffErent, function(item, index) {
+            _.filter(different, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
                 var iii = i.slice(0);
@@ -50809,9 +50811,9 @@ var Backbone = __webpack_require__(2);
           return diff;
         };
 
-        var smallDiff = spreadDifference(2, different); // completly different but somewhat the same - ???
-        var bigDiff = spreadDifference(4, different); // completly different but somewhat the same but not really - ???
-        var completlyDiff = spreadDifference(6, different); // completly different
+        var smallDiff = spreadDifference(2); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(4); // completly different but somewhat the same but not really - ???
+        var completlyDiff = spreadDifference(6); // completly different
 
         completlyDiff = rDuplicates(completlyDiff, bigDiff);
         bigDiff = rDuplicates(bigDiff, smallDiff);
@@ -50820,9 +50822,6 @@ var Backbone = __webpack_require__(2);
         var smallDiff = Array.from(new Set(smallDiff.map(JSON.stringify)), JSON.parse);
         var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
         var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
-
-        console.log(bigDiff);
-        console.log(completlyDiff);
 
         return {
             "differentFieldMatchSmall": smallDiff,
@@ -50927,11 +50926,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                     dataColumns.push(item);
                 });
 
+              //  console.log(dataColumns);
+
                 var table = this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
                     "columns": columns,
                     'rowCallback': function(row, data, index){
+                        var count = 0;
                         _.each(data, function(val, index) {
+                            count++;
                             // highligh the values that have issues
                             if ((data[0].includes(data[index]) || data[(data.length/2)].includes(data[index])) && !Array.isArray(data[index])) {
                                 row.children[index].className = "diffElements";
@@ -50939,7 +50942,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                             if (Array.isArray(data[index])) {
                                 row.children[index].className = "differencesHighligh";
                                 row.children[index].className = 'notVisible';
-                                if ((data[index].length >= row.childNodes.length/2-3)) {
+                                if ((data[index].length >= row.childNodes.length/2-4)) {
                                     row.className = "veryDifferentElements";
                                 }
                             }

@@ -28,8 +28,7 @@ return Backbone.View.extend({
     },
 
     compareResults: function() {
-      this.fileUploadView1.isValid(this.fileUploadView1);
-      if (this.fileUploadView1.isValid() && this.fileUploadView2.isValid()) {
+      if (this.fileUploadView1.isValidFile() && this.fileUploadView2.isValidFile()) {
         Backbone.trigger('triggerCompareFile', this);
       }
     }
