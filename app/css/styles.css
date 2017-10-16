@@ -96,3 +96,13 @@ h4 {
 .differencesHighligh {
 	background-color: orange;
 }
+
+.veryDifferentElements td{
+	background-color: orangered !important;
+	color: #fff;
+}
+
+.notVisible {
+	max-width: 40px;
+	visibility: hidden;
+}

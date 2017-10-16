@@ -98,6 +98,6 @@ test('fileMatch.bigDiff', () => {
     expect(fileMatch.differentFieldMatchBig.length).toBe(1);
 });
 
-test('fileMatch.bigDiff', () => {
+test('fileMatch.differentFieldMatchCompletly', () => {
     expect(fileMatch.differentFieldMatchCompletly.length).toBe(2);
 });

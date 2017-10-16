@@ -25,7 +25,7 @@ define([
 
             this.model1 = this.model;
            
-            this.model1.set("dfile", data.file1);
+            this.model1.set("dfile", data.file);
 
             if (!this.unmatchedReportView1) {
                 this.unmatchedReportView1 = new UnmatchedReportView({model: this.model});

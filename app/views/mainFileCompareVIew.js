@@ -65,7 +65,7 @@ return Backbone.View.extend({
 
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
 
-        this.data.file1 = [matchingCount1.differentFieldMatchSmall, matchingCount1.differentFieldMatchBig, Object.keys(fileData1[0])];
+        this.data.file = [matchingCount1, Object.keys(fileData1[0])];
     },
 
     matchingRecords: function(fileData1, fileData2) {

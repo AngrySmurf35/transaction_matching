@@ -73,7 +73,7 @@ var Backbone = require('backbone');
            if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
                 // addd the differences to the array
 
-                i.splice(arr1.length, 0, _.difference(arr1, arr2));
+                i.splice(0, 0, _.difference(arr1, arr2));
                 i.splice(arr1.length + 1, 0, _.difference(arr2, arr1));
                 diff.push(i);
             }
@@ -82,8 +82,8 @@ var Backbone = require('backbone');
         };
 
         var smallDiff = spreadDifference(2, different); // completly different but somewhat the same - ???
-        var bigDiff = spreadDifference(7, different); // completly different but somewhat the same but not really - ???
-        var completlyDiff = spreadDifference(8, different); // completly different
+        var bigDiff = spreadDifference(4, different); // completly different but somewhat the same but not really - ???
+        var completlyDiff = spreadDifference(6, different); // completly different
 
         completlyDiff = rDuplicates(completlyDiff, bigDiff);
         bigDiff = rDuplicates(bigDiff, smallDiff);
@@ -93,46 +93,9 @@ var Backbone = require('backbone');
         var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
         var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
 
-        console.log(smallDiff);
-        /*var bigDiffTrim = [];
-        var ibigDiffTrim = JSON.parse(JSON.stringify(smallDiff));
-        var ibigDiffStr = JSON.parse(JSON.stringify(smallDiff));
-        var ibigDiffToLowerCase = JSON.parse(JSON.stringify(smallDiff));
-       _.each(ibigDiffTrim, function(item, index) {
-            _.each(item, function(v, i) {
-                item[i] = v.trim();
-            });
-            bigDiffTrim.push(item);
-        });
+        console.log(bigDiff);
+        console.log(completlyDiff);
 
-            var bigDiffStr = [];
-            _.each(ibigDiffStr, function(item, index) {
-                _.each(item, function(v, i) {
-                     item[i] = v.replace(/\s/g, '');
-                });
-                bigDiffStr.push(item);
-            });
-
-            var bigDiffToLowerCase = [];
-            _.each(ibigDiffToLowerCase, function(item, index) {
-                _.each(item, function(v, i) {
-                    item[i] = v.toLowerCase();
-               });
-                bigDiffToLowerCase.push(item);
-            });
-
-            var bigDiffNoVowel= [];
-            _.each(ibigDiffToLowerCase, function(item, index) {
-                _.each(item, function(v, i) {
-                    item[i] = v.replace(/[aeiou]/ig,'');
-               });
-               bigDiffNoVowel.push(item);
-            });
-
-        console.log("bigDiffTrim: ", spreadDifference(2, bigDiffTrim)); 
-        console.log("bigDiffStr: ", spreadDifference(2, bigDiffStr)); 
-        console.log("bigDiffToLowerCase: ", spreadDifference(2, bigDiffToLowerCase));
-        console.log("bigDiffNoVowel: ", spreadDifference(2, bigDiffNoVowel));*/
         return {
             "differentFieldMatchSmall": smallDiff,
             "differentFieldMatchBig": bigDiff,
