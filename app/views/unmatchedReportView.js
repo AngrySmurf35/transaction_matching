@@ -17,12 +17,12 @@ define([
         initialize: function() {},
 
         render: function() {
-            
             if (this.model.get("dfile").length) {
                 this.$el.html(this.template());
 
                 var columns = [];
-                var cols = ['Fields with issues'].concat(this.model.get("dfile")[2]);
+                var cols = this.model.get("dfile")[2].concat(["Difference with file two"]);
+                cols = cols.concat(["Difference with file one"]);
                 cols = cols.concat(this.model.get("dfile")[2]);
                 _.each(cols, function(col) {
                     columns.push({'title': col});
@@ -39,7 +39,19 @@ define([
 
                 this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
-                    "columns": columns
+                    "columns": columns,
+                    'rowCallback': function(row, data, index){
+                        _.each(data, function(val, index) {
+                            // highligh the values that have issues
+                            if ((data[(data.length/2)-1].includes(data[index]) || data[(data.length/2)].includes(data[index])) && !Array.isArray(data[index])) {
+                                row.children[index].className = "diffElements";
+                            }
+
+                            if (Array.isArray(data[index])) {
+                                row.children[index].className = "differencesHighligh";
+                            }
+                        });
+                    }
                 });
             }
             return this;

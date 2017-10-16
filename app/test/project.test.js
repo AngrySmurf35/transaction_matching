@@ -97,3 +97,7 @@ test('fileMatch.diff', () => {
 test('fileMatch.bigDiff', () => {
     expect(fileMatch.differentFieldMatchBig.length).toBe(1);
 });
+
+test('fileMatch.bigDiff', () => {
+    expect(fileMatch.differentFieldMatchCompletly.length).toBe(2);
+});

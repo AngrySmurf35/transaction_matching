@@ -88,3 +88,11 @@ h4 {
 .unmachedReportTable {
 	padding-top: 10px;
 }
+
+.diffElements {
+	background-color: yellow;
+}
+
+.differencesHighligh {
+	background-color: orange;
+}

@@ -55,9 +55,9 @@ var Backbone = require('backbone');
         s(als, bls);
 
         // need to filter the list to only show items that are a bit different
-        var spreadDifference = function(acceptedLengthDifference, acceptedLengthDifferenceMin) {
+        var spreadDifference = function(acceptedLengthDifference, diffErent) {
             var diff = [];
-            _.filter(different, function(item, index) {
+            _.filter(diffErent, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
                 var iii = i.slice(0);
@@ -71,23 +71,71 @@ var Backbone = require('backbone');
                 return arr1.indexOf(index) == arr2.indexOf(index);
            });
            if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
-                i.unshift(_.difference(arr1, arr2));
+                // addd the differences to the array
+
+                i.splice(arr1.length, 0, _.difference(arr1, arr2));
+                i.splice(arr1.length + 1, 0, _.difference(arr2, arr1));
                 diff.push(i);
             }
           });
           return diff;
         };
 
-        var diff = spreadDifference(2); // completly different but somewhat the same - ???
-        var bigDiff = spreadDifference(7); // completly different but somewhat the same but not really - ???
-        bigDiff = rDuplicates(bigDiff, diff);
+        var smallDiff = spreadDifference(2, different); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(7, different); // completly different but somewhat the same but not really - ???
+        var completlyDiff = spreadDifference(8, different); // completly different
+
+        completlyDiff = rDuplicates(completlyDiff, bigDiff);
+        bigDiff = rDuplicates(bigDiff, smallDiff);
 
         // remove duplicates
-        var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
+        var smallDiff = Array.from(new Set(smallDiff.map(JSON.stringify)), JSON.parse);
         var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
+        var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
 
+        console.log(smallDiff);
+        /*var bigDiffTrim = [];
+        var ibigDiffTrim = JSON.parse(JSON.stringify(smallDiff));
+        var ibigDiffStr = JSON.parse(JSON.stringify(smallDiff));
+        var ibigDiffToLowerCase = JSON.parse(JSON.stringify(smallDiff));
+       _.each(ibigDiffTrim, function(item, index) {
+            _.each(item, function(v, i) {
+                item[i] = v.trim();
+            });
+            bigDiffTrim.push(item);
+        });
+
+            var bigDiffStr = [];
+            _.each(ibigDiffStr, function(item, index) {
+                _.each(item, function(v, i) {
+                     item[i] = v.replace(/\s/g, '');
+                });
+                bigDiffStr.push(item);
+            });
+
+            var bigDiffToLowerCase = [];
+            _.each(ibigDiffToLowerCase, function(item, index) {
+                _.each(item, function(v, i) {
+                    item[i] = v.toLowerCase();
+               });
+                bigDiffToLowerCase.push(item);
+            });
+
+            var bigDiffNoVowel= [];
+            _.each(ibigDiffToLowerCase, function(item, index) {
+                _.each(item, function(v, i) {
+                    item[i] = v.replace(/[aeiou]/ig,'');
+               });
+               bigDiffNoVowel.push(item);
+            });
+
+        console.log("bigDiffTrim: ", spreadDifference(2, bigDiffTrim)); 
+        console.log("bigDiffStr: ", spreadDifference(2, bigDiffStr)); 
+        console.log("bigDiffToLowerCase: ", spreadDifference(2, bigDiffToLowerCase));
+        console.log("bigDiffNoVowel: ", spreadDifference(2, bigDiffNoVowel));*/
         return {
-            "differentFieldMatchSmall": diff,
-            "differentFieldMatchBig": bigDiff
+            "differentFieldMatchSmall": smallDiff,
+            "differentFieldMatchBig": bigDiff,
+            "differentFieldMatchCompletly": completlyDiff
         }
     };

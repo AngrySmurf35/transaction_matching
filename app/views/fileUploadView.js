@@ -10,23 +10,42 @@ define([
     template: _.template(fileUploadTemplate),
     events: {
       'change .file': function() {
-        this.parseData();
-        this.displayFileName();      
+        if (this.isValid()) {
+          this.parseData();
+          this.error = "";
+        } else {
+          this.error = "Not a CSV file!";
+        }
+        this.render();
+        this.displayFileName();
       }
-
     },
+
     initialize: function(id) {
         this.id = id;
+        this.error;
         this.data = [];
         this.file = [];
     },
 
     render: function() {
       this.$el.html(this.template({
-        fileId: this.id
+        fileId: this.id,
+        error: this.error
       }));
 
       return this;
+    },
+
+    isValid: function() {
+      var fileUpload = this.$("#" + this.id)[0].value && this.$("#" + this.id)[0].value != '' ? this.$("#" + this.id)[0] : this.$('.showFileName')[0];
+      var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+      
+      if (regex.test(fileUpload.value.toLowerCase())) {
+        return true;
+      }
+
+      return false;
     },
 
     parseData: function() {
@@ -34,6 +53,7 @@ define([
       if(!e){ var e = window.event; }
       Papa.parse(e.target.files[0], {
         header: true,
+        skipEmptyLines: true,
         complete: function(results, file) {
          that.data = results.data;
          that.file = file;
