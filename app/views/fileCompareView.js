@@ -17,7 +17,8 @@ define([
         'name': this.model.get("name") ? this.model.get("name") : '',
         'totalDataCount': this.model.get("totalDataCount"),
         'kindOfMatchDataCount': this.model.get('kindOfMatchDataCount'),
-        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount')
+        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount'),
+        'completlyDifferentDataCount': this.model.get('completlyDifferentDataCount')
       }));
 
       return this;

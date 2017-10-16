@@ -6,6 +6,8 @@ define([
     '../lib/bootstrap.css',
     '../lib/datatables/datatables.js',
     '../lib/datatables/datatables.css',
+    '../lib/datatables/DataTables-1.10.16/js/jquery.dataTables.js',
+    '../lib/datatables/DataTables-1.10.16/js/dataTables.bootstrap.min.js',
     '../lib/datatables/datatables.boostrap.min.css'
 ], function (_, Backbone, UnmatchedReportTemplate, FileCompareView) {
 
@@ -45,7 +47,9 @@ define([
                     "data": dataColumns,
                     "columns": columns,
                     'rowCallback': function(row, data, index){
+                        var count = 0;
                         _.each(data, function(val, index) {
+                            count++;
                             // highligh the values that have issues
                             if ((data[0].includes(data[index]) || data[(data.length/2)].includes(data[index])) && !Array.isArray(data[index])) {
                                 row.children[index].className = "diffElements";
@@ -53,7 +57,7 @@ define([
                             if (Array.isArray(data[index])) {
                                 row.children[index].className = "differencesHighligh";
                                 row.children[index].className = 'notVisible';
-                                if ((data[index].length >= row.childNodes.length/2-3)) {
+                                if ((data[index].length >= row.childNodes.length/2-4)) {
                                     row.className = "veryDifferentElements";
                                 }
                             }

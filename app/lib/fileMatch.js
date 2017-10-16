@@ -55,9 +55,9 @@ var Backbone = require('backbone');
         s(als, bls);
 
         // need to filter the list to only show items that are a bit different
-        var spreadDifference = function(acceptedLengthDifference, diffErent) {
+        var spreadDifference = function(acceptedLengthDifference) {
             var diff = [];
-            _.filter(diffErent, function(item, index) {
+            _.filter(different, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
                 var iii = i.slice(0);
@@ -81,9 +81,9 @@ var Backbone = require('backbone');
           return diff;
         };
 
-        var smallDiff = spreadDifference(2, different); // completly different but somewhat the same - ???
-        var bigDiff = spreadDifference(4, different); // completly different but somewhat the same but not really - ???
-        var completlyDiff = spreadDifference(6, different); // completly different
+        var smallDiff = spreadDifference(2); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(4); // completly different but somewhat the same but not really - ???
+        var completlyDiff = spreadDifference(6); // completly different
 
         completlyDiff = rDuplicates(completlyDiff, bigDiff);
         bigDiff = rDuplicates(bigDiff, smallDiff);
@@ -92,9 +92,6 @@ var Backbone = require('backbone');
         var smallDiff = Array.from(new Set(smallDiff.map(JSON.stringify)), JSON.parse);
         var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
         var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
-
-        console.log(bigDiff);
-        console.log(completlyDiff);
 
         return {
             "differentFieldMatchSmall": smallDiff,

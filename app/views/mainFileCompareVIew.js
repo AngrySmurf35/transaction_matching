@@ -52,7 +52,8 @@ return Backbone.View.extend({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
             'kindOfMatchDataCount': matchingCount1.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length 
+            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length,
+            'completlyDifferentDataCount': matchingCount1.differentFieldMatchCompletly.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
@@ -60,7 +61,8 @@ return Backbone.View.extend({
             'name': fileObj.fileUploadView2.file.name,
             'totalDataCount': fileObj.fileUploadView2.data.length,
             'kindOfMatchDataCount': matchingCount2.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length 
+            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length,
+            'completlyDifferentDataCount': matchingCount2.differentFieldMatchCompletly.length
         });
 
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
