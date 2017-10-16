@@ -50407,7 +50407,10 @@ return Backbone.View.extend({
     },
 
     compareResults: function() {
-      Backbone.trigger('triggerCompareFile', this);
+      this.fileUploadView1.isValid(this.fileUploadView1);
+      if (this.fileUploadView1.isValid() && this.fileUploadView2.isValid()) {
+        Backbone.trigger('triggerCompareFile', this);
+      }
     }
 
   });
@@ -50437,23 +50440,42 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
     template: _.template(fileUploadTemplate),
     events: {
       'change .file': function() {
-        this.parseData();
-        this.displayFileName();      
+        if (this.isValid()) {
+          this.parseData();
+          this.error = "";
+        } else {
+          this.error = "Not a CSV file!";
+        }
+        this.render();
+        this.displayFileName();
       }
-
     },
+
     initialize: function(id) {
         this.id = id;
+        this.error;
         this.data = [];
         this.file = [];
     },
 
     render: function() {
       this.$el.html(this.template({
-        fileId: this.id
+        fileId: this.id,
+        error: this.error
       }));
 
       return this;
+    },
+
+    isValid: function() {
+      var fileUpload = this.$("#" + this.id)[0].value && this.$("#" + this.id)[0].value != '' ? this.$("#" + this.id)[0] : this.$('.showFileName')[0];
+      var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+      
+      if (regex.test(fileUpload.value.toLowerCase())) {
+        return true;
+      }
+
+      return false;
     },
 
     parseData: function() {
@@ -50461,6 +50483,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
       if(!e){ var e = window.event; }
       Papa.parse(e.target.files[0], {
         header: true,
+        skipEmptyLines: true,
         complete: function(results, file) {
          that.data = results.data;
          that.file = file;
@@ -50488,7 +50511,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=input-group>\r\n    <span class=input-group-btn>\r\n        <span class=\"btn btn-primary btn-file\">\r\n            Select File... <input id=\"<%= fileId %>\" class=file type=file single>\r\n        </span>\r\n    </span>\r\n    <input type=text class=\"form-control showFileName\" readonly=\"\">\r\n</div>";
+module.exports = "<div class=\"input-group form-group\">\r\n    <span class=input-group-btn>\r\n        <span class=\"btn btn-primary btn-file\">\r\n            Select File... <input id=\"<%= fileId %>\" class=file type=file single>\r\n        </span>\r\n    </span>\r\n    <input type=text class=\"form-control showFileName\" readonly=\"\">\r\n</div>\r\n<% if (error) { %>\r\n    <div class=\"alert alert-danger\"><%= error %>\r\n<% } %></div>";
 
 /***/ }),
 /* 18 */
@@ -50670,9 +50693,7 @@ return Backbone.View.extend({
 
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);
 
-        
-        this.data.file1 = [matchingCount1.differentFieldMatchSmall, matchingCount1.differentFieldMatchBig, Object.keys(fileData1[0])];
-        this.data.file2 = [matchingCount2.differentFieldMatchSmall, matchingCount2.differentFieldMatchBig, Object.keys(fileData2[0])];
+        this.data.file = [matchingCount1, Object.keys(fileData1[0])];
     },
 
     matchingRecords: function(fileData1, fileData2) {
@@ -50762,9 +50783,9 @@ var Backbone = __webpack_require__(2);
         s(als, bls);
 
         // need to filter the list to only show items that are a bit different
-        var spreadDifference = function(acceptedLengthDifference, acceptedLengthDifferenceMin) {
+        var spreadDifference = function(acceptedLengthDifference, diffErent) {
             var diff = [];
-            _.filter(different, function(item, index) {
+            _.filter(diffErent, function(item, index) {
                 var i = item.slice(0);
                 var ii = i.slice(0);
                 var iii = i.slice(0);
@@ -50778,24 +50799,35 @@ var Backbone = __webpack_require__(2);
                 return arr1.indexOf(index) == arr2.indexOf(index);
            });
            if (positionMatch && _.intersection(arr1, arr2).length >= arr1.length - acceptedLengthDifference) {
-                i.unshift(_.difference(arr1, arr2));
+                // addd the differences to the array
+
+                i.splice(0, 0, _.difference(arr1, arr2));
+                i.splice(arr1.length + 1, 0, _.difference(arr2, arr1));
                 diff.push(i);
             }
           });
           return diff;
         };
 
-        var diff = spreadDifference(2); // completly different but somewhat the same - ???
-        var bigDiff = spreadDifference(7); // completly different but somewhat the same but not really - ???
-        bigDiff = rDuplicates(bigDiff, diff);
+        var smallDiff = spreadDifference(2, different); // completly different but somewhat the same - ???
+        var bigDiff = spreadDifference(4, different); // completly different but somewhat the same but not really - ???
+        var completlyDiff = spreadDifference(6, different); // completly different
+
+        completlyDiff = rDuplicates(completlyDiff, bigDiff);
+        bigDiff = rDuplicates(bigDiff, smallDiff);
 
         // remove duplicates
-        var diff = Array.from(new Set(diff.map(JSON.stringify)), JSON.parse);
+        var smallDiff = Array.from(new Set(smallDiff.map(JSON.stringify)), JSON.parse);
         var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
+        var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
+
+        console.log(bigDiff);
+        console.log(completlyDiff);
 
         return {
-            "differentFieldMatchSmall": diff,
-            "differentFieldMatchBig": bigDiff
+            "differentFieldMatchSmall": smallDiff,
+            "differentFieldMatchBig": bigDiff,
+            "differentFieldMatchCompletly": completlyDiff
         }
     };
 
@@ -50829,21 +50861,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             this.$el.html(this.template());
 
             this.model1 = this.model;
-            this.model2 = this.model;
            
-            this.model1.set("dfile", data.file1);
-            this.model2.set("dfile", data.file2);
+            this.model1.set("dfile", data.file);
 
             if (!this.unmatchedReportView1) {
                 this.unmatchedReportView1 = new UnmatchedReportView({model: this.model});
             }
-            
-            if (!this.unmatchedReportView2) {
-                this.unmatchedReportView2 = new UnmatchedReportView({model: this.model});
-            }
 
             this.$("#table1").html(this.unmatchedReportView1.render().$el);
-            this.$("#table2").html(this.unmatchedReportView2.render().$el);
         }
     });
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
@@ -50878,29 +50903,48 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         initialize: function() {},
 
         render: function() {
-            
             if (this.model.get("dfile").length) {
                 this.$el.html(this.template());
 
                 var columns = [];
-                var cols = ['Fields with issues'].concat(this.model.get("dfile")[2]);
-                cols = cols.concat(this.model.get("dfile")[2]);
+                var cols = ["File 1"].concat(this.model.get("dfile")[1]);
+                cols = cols.concat(["File 2"]);
+                cols = cols.concat(this.model.get("dfile")[1]);
                 _.each(cols, function(col) {
                     columns.push({'title': col});
                 });
 
                 var dataColumns = [];
-                _.each(this.model.get("dfile")[0], function(item) {
+                _.each(this.model.get("dfile")[0].differentFieldMatchSmall, function(item, index) {
                     dataColumns.push(item);
                 });
 
-                _.each(this.model.get("dfile")[1], function(item) {
+                _.each(this.model.get("dfile")[0].differentFieldMatchBig, function(item, index) {
                     dataColumns.push(item);
                 });
 
-                this.$('.unmachedReportTable').DataTable({
+                _.each(this.model.get("dfile")[0].differentFieldMatchCompletly, function(item, index) {
+                    dataColumns.push(item);
+                });
+
+                var table = this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
-                    "columns": columns
+                    "columns": columns,
+                    'rowCallback': function(row, data, index){
+                        _.each(data, function(val, index) {
+                            // highligh the values that have issues
+                            if ((data[0].includes(data[index]) || data[(data.length/2)].includes(data[index])) && !Array.isArray(data[index])) {
+                                row.children[index].className = "diffElements";
+                            }
+                            if (Array.isArray(data[index])) {
+                                row.children[index].className = "differencesHighligh";
+                                row.children[index].className = 'notVisible';
+                                if ((data[index].length >= row.childNodes.length/2-3)) {
+                                    row.className = "veryDifferentElements";
+                                }
+                            }
+                        });
+                    }
                 });
             }
             return this;
@@ -51044,7 +51088,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tline-height: 1.5em;\r\n\tfont-size: 12px;\r\n}\r\n\t\t\r\na:link, a:visited { color: #FF9900; text-decoration: none; font-weight: normal; } \r\na:active, a:hover { color: #FFFF66; text-decoration: underline; }\r\n\r\np { margin: 0px; padding: 0px; }\r\n\r\nimg { margin: 0px; padding: 0px; border: none; }\r\n\r\n.cleaner { clear: both; width: 100%; height: 0px; font-size: 0px;  }\r\n\r\n.cleaner_h10 { clear: both; width:100%; height: 10px; }\r\n.cleaner_h20 { clear: both; width:100%; height: 20px; }\r\n.cleaner_h30 { clear: both; width:100%; height: 30px; }\r\n\r\n.m_right { margin-right: 30px; }\r\n\r\nh1 {\r\n\tmargin: 0px;\r\n\tpadding: 21px 0;\r\n\tfont-size: 30px;\r\n\tfont-weight: bold;\r\n}\r\n\r\nh2 {\r\n\tmargin: 0 0 20px 0;\r\n\tpadding: 2px 0 20px 0;\r\n\tfont-size: 26px;\r\n\tfont-weight: normal;\r\n}\r\n\r\nh3 {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\nh4 {\r\n\tmargin: 0;\r\n\tpadding: 10px 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\n.flexBlock {\r\n\tdisplay: flex;\r\n\toverflow: visible;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n.flexAlignEnd {\r\n    align-self: flex-end;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n@media (max-width: 720px) { \r\n\t.flexBlock {\r\n\t\tflex-direction: column;\r\n\t}\r\n}\r\n\r\n.blockCenter {\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.two_columns {\r\n\twidth: 50%;\r\n}\r\n\r\n.mainViews {\r\n\tbackground-color: #e6e6e6;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.insideView {\r\n\tbackground-color: #fff;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.unmachedReportTable {\r\n\tpadding-top: 10px;\r\n}", ""]);
+exports.push([module.i, "body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tline-height: 1.5em;\r\n\tfont-size: 12px;\r\n}\r\n\t\t\r\na:link, a:visited { color: #FF9900; text-decoration: none; font-weight: normal; } \r\na:active, a:hover { color: #FFFF66; text-decoration: underline; }\r\n\r\np { margin: 0px; padding: 0px; }\r\n\r\nimg { margin: 0px; padding: 0px; border: none; }\r\n\r\n.cleaner { clear: both; width: 100%; height: 0px; font-size: 0px;  }\r\n\r\n.cleaner_h10 { clear: both; width:100%; height: 10px; }\r\n.cleaner_h20 { clear: both; width:100%; height: 20px; }\r\n.cleaner_h30 { clear: both; width:100%; height: 30px; }\r\n\r\n.m_right { margin-right: 30px; }\r\n\r\nh1 {\r\n\tmargin: 0px;\r\n\tpadding: 21px 0;\r\n\tfont-size: 30px;\r\n\tfont-weight: bold;\r\n}\r\n\r\nh2 {\r\n\tmargin: 0 0 20px 0;\r\n\tpadding: 2px 0 20px 0;\r\n\tfont-size: 26px;\r\n\tfont-weight: normal;\r\n}\r\n\r\nh3 {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\nh4 {\r\n\tmargin: 0;\r\n\tpadding: 10px 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\n.flexBlock {\r\n\tdisplay: flex;\r\n\toverflow: visible;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n.flexAlignEnd {\r\n    align-self: flex-end;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n@media (max-width: 720px) { \r\n\t.flexBlock {\r\n\t\tflex-direction: column;\r\n\t}\r\n}\r\n\r\n.blockCenter {\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.two_columns {\r\n\twidth: 50%;\r\n}\r\n\r\n.mainViews {\r\n\tbackground-color: #e6e6e6;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.insideView {\r\n\tbackground-color: #fff;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.unmachedReportTable {\r\n\tpadding-top: 10px;\r\n}\r\n\r\n.diffElements {\r\n\tbackground-color: yellow;\r\n}\r\n\r\n.differencesHighligh {\r\n\tbackground-color: orange;\r\n}\r\n\r\n.veryDifferentElements td{\r\n\tbackground-color: orangered !important;\r\n\tcolor: #fff;\r\n}\r\n\r\n.notVisible {\r\n\tmax-width: 40px;\r\n\tvisibility: hidden;\r\n}", ""]);
 
 // exports
 
