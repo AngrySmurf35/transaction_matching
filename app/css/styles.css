@@ -106,3 +106,7 @@ h4 {
 	max-width: 40px;
 	visibility: hidden;
 }
+
+#loadFileViews {
+	width: 100%;
+}

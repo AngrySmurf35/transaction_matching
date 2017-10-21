@@ -16,9 +16,7 @@ define([
       this.$el.html(this.template({
         'name': this.model.get("name") ? this.model.get("name") : '',
         'totalDataCount': this.model.get("totalDataCount"),
-        'kindOfMatchDataCount': this.model.get('kindOfMatchDataCount'),
-        'notReallyMatchDataCount': this.model.get('notReallyMatchDataCount'),
-        'completlyDifferentDataCount': this.model.get('completlyDifferentDataCount')
+        'differentDataCount': this.model.get('differentDataCount')
       }));
 
       return this;

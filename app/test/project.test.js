@@ -1,103 +1,60 @@
 var FileMatch = require('../lib/fileMatch.js');
+var _ = require('underscore');
 
 
 var fileData1 = [ 
-    {    
+    {
         ProfileName: "Card Campaign",
+        TransactionDate: "2014-01-11 22:27:44",
         TransactionAmount: "-20000",
-        TransactionDate: "2014-01-11 22:27:44",
+        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
         TransactionDescription: "DEDUCT",
         TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
+        TransactionType: 1,
+        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5" 
     },
     {
         ProfileName: "Card Campaign",
-        TransactionAmount: "-20000",
-        TransactionDate: "2014-01-11 22:27:44",
+        TransactionDate: "2014-01-11 22:39:11",
+        TransactionAmount: "-10000",
+        TransactionNarrative: "*MOGODITSHANE2            MOGODITHSANE  BW",
         TransactionDescription: "DEDUCT",
-        TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
+        TransactionID: "0584011815513406",
+        TransactionType: 1,
+        WalletReference: "P_NzI1MjA1NjZfMTM3ODczODI3Mi4wNzY5"
     },
-    {
-        ProfileName: "Card Campaign",
-        TransactionAmount: "-200001",
-        TransactionDate: "2014-01-11 22:27:44",
-        TransactionDescription: "DEDUCT",
-        TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
-    },
-    {
-        ProfileName: "Card Campaign1",
-        TransactionAmount: "-100001",
-        TransactionDate: "2014-01-11 22:27:24",
-        TransactionDescription: "DEDUCT1",
-        TransactionID: "058401180864951153",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BWT",
-        TransactionType: "0",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
-    }
 
 ];
 
 var fileData2 = [ 
-    {    
+    {
         ProfileName: "Card Campaign",
-        TransactionAmount: "-20000",
         TransactionDate: "2014-01-11 22:27:44",
+        TransactionAmount: "20000",
+        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
         TransactionDescription: "DEDUCT",
         TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
+        TransactionType: 1,
+        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5" 
     },
     {
         ProfileName: "Card Campaign",
-        TransactionAmount: "-200006",
-        TransactionDate: "2014-01-11 22:27:44",
-        TransactionDescription: "DEDUCT",
-        TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5"
+        TransactionDate: "2014-01-12 12:56:25",
+        TransactionAmount: "4310",
+        TransactionNarrative: "766831 SHOPRITE GABORONE  BOTSWANA      BW",
+        TransactionDescription: "REVERSAL",
+        TransactionID: "0004012321856252",
+        TransactionType: 0,
+        WalletReference: "P_NzI0MTE0MjJfMTM4ODEzMTA0Mi42MTI3" 
     },
-    {
-        ProfileName: "Card Campaign",
-        TransactionAmount: "-20000",
-        TransactionDate: "2014-01-11 22:27:44",
-        TransactionDescription: "DEDUCT",
-        TransactionID: "0584011808649511",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BW",
-        TransactionType: "1",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA51"
-    },
-    {
-        ProfileName: "Card Campaign1",
-        TransactionAmount: "-100001",
-        TransactionDate: "2014-01-11 22:27:24",
-        TransactionDescription: "DEDUCT1",
-        TransactionID: "058401180864951153",
-        TransactionNarrative: "*MOLEPS ATM25             MOLEPOLOLE    BWT",
-        TransactionType: "0",
-        WalletReference: "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA51"
-    }
 ];
 
 var fileMatch = new FileMatch(fileData1, fileData2);
-
-test('fileMatch.diff', () => {
-    expect(fileMatch.differentFieldMatchSmall.length).toBe(3);
+console.log(fileMatch);
+test('first transaction matching', () => {
+    expect(fileMatch[0][0]).toEqual(['-20000']);
 });
 
-test('fileMatch.bigDiff', () => {
-    expect(fileMatch.differentFieldMatchBig.length).toBe(1);
-});
-
-test('fileMatch.differentFieldMatchCompletly', () => {
-    expect(fileMatch.differentFieldMatchCompletly.length).toBe(2);
+test('second transaction matching', () => {
+    expect(fileMatch[1][0]).toEqual([ '2014-01-11 22:39:11','-10000','DEDUCT','0004012321856252',1,'P_NzIzMjA1MjZFMTM4ODczMTI3Mi4MMjY5']);
 });

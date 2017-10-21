@@ -51,18 +51,14 @@ return Backbone.View.extend({
         this.model1.set({
             'name': fileObj.fileUploadView1.file.name,
             'totalDataCount': fileObj.fileUploadView1.data.length,
-            'kindOfMatchDataCount': matchingCount1.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount1.differentFieldMatchBig.length,
-            'completlyDifferentDataCount': matchingCount1.differentFieldMatchCompletly.length
+            'differentDataCount': matchingCount1.length
         });
         this.$("#loadCompareViews").append(this.fileCompareView1.render().$el);
 
         this.model2.set({
-            'name': fileObj.fileUploadView2.file.name,
-            'totalDataCount': fileObj.fileUploadView2.data.length,
-            'kindOfMatchDataCount': matchingCount2.differentFieldMatchSmall.length,
-            'notReallyMatchDataCount': matchingCount2.differentFieldMatchBig.length,
-            'completlyDifferentDataCount': matchingCount2.differentFieldMatchCompletly.length
+            'name': fileObj.fileUploadView1.file.name,
+            'totalDataCount': fileObj.fileUploadView1.data.length,
+            'differentDataCount': matchingCount1.length
         });
 
         this.$("#loadCompareViews").append(this.fileCompareView2.render().$el);

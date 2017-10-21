@@ -48,9 +48,8 @@ define([
       return false;
     },
 
-    parseData: function() {
+    parseData: function(e) {
       var that = this;
-      if(!e){ var e = window.event; }
       Papa.parse(e.target.files[0], {
         header: true,
         skipEmptyLines: true,
