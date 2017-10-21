@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -13804,41 +13804,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
   return Backbone;
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(18);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./bootstrap.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./bootstrap.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1.10.16
@@ -29087,6 +29056,37 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(19);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(6)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./bootstrap.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./bootstrap.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -29215,7 +29215,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(19);
+var	fixUrls = __webpack_require__(20);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -29534,7 +29534,7 @@ function updateLink (link, options, obj) {
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(22),
+    __webpack_require__(23),
     __webpack_require__(8)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, fileCompareTemplate, Papa) {
 
@@ -29575,6 +29575,66 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 /* 9 */
+/***/ (function(module, exports) {
+
+module.exports = function testForId(a, b) {
+    // perfect match
+    if (/^(0)\d{2}4012\d{9}$/.test(a)) {
+        return a;
+    } else if (/^(0)\d{2}4012\d{9}$/.test(b)){
+        return b;
+    } 
+    // does it start with 0
+    else if (!/^0\d+$/.test(a)) {
+        a = a.replace(/^(?!0)./, '0');
+        return testForId(a, b);
+    } else if (!/^0\d+$/.test(b)) {
+        b = b.replace(/^(?!0)./, '0');
+        return testForId(a, b);
+    } 
+    // does it have 4012 at 4th position
+    else if (/^(0)\d{15}/.test(a)) {
+        a = a.replace(/(?!..............)\d{0,4}/, '4012');
+        return testForId(a, b);
+    } else {
+        b = b.replace(/(?!..............)\d{0,4}/, '4012');
+        return testForId(a, b);
+    }
+}
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(32);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(6)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./datatables.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./datatables.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -44842,7 +44902,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AM
 (function( factory ){
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -46696,7 +46756,7 @@ return Buttons;
 (function( factory ){
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -48050,7 +48110,7 @@ return Responsive;
 (function( factory ){
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -48853,7 +48913,7 @@ return RowReorder;
 (function( factory ){
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -50243,49 +50303,18 @@ return Scroller;
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(28);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./datatables.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./datatables.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(13),
     __webpack_require__(14),
-    __webpack_require__(20),
-    __webpack_require__(24),
-    __webpack_require__(3),
-    __webpack_require__(38)
+    __webpack_require__(15),
+    __webpack_require__(21),
+    __webpack_require__(29),
+    __webpack_require__(4),
+    __webpack_require__(46)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, MainFileUploadView, MainFileCompareView, MainUnmatchedReportView) {
 
 var MainView = Backbone.View.extend({
@@ -50340,7 +50369,7 @@ var MainView = Backbone.View.extend({
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 var g;
@@ -50367,21 +50396,21 @@ module.exports = g;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=fileUploadView></div>\r\n<div id=fileCompareView></div>\r\n<div class=col-md-12 id=fileUnmatchedView></div>";
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(15),
     __webpack_require__(16),
-    __webpack_require__(3),
+    __webpack_require__(17),
+    __webpack_require__(4),
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, FileUploadView) {
 
 return Backbone.View.extend({
@@ -50417,19 +50446,19 @@ return Backbone.View.extend({
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = "<h1 class=col-md-12>Specify files to compare</h1>\r\n<div id=loadFileViews></div>\r\n<div class=col-md-12>\r\n    <button class=\"btn btn-default\" id=compare>Compare</button>\r\n</div>\r\n\r\n";
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(17),
+    __webpack_require__(18),
     __webpack_require__(8)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, fileUploadTemplate, Papa) {
 
@@ -50476,7 +50505,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
       return false;
     },
 
-    parseData: function() {
+    parseData: function(e) {
       var that = this;
       if(!e){ var e = window.event; }
       Papa.parse(e.target.files[0], {
@@ -50506,13 +50535,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"input-group form-group\">\r\n    <span class=input-group-btn>\r\n        <span class=\"btn btn-primary btn-file\">\r\n            Select File... <input id=\"<%= fileId %>\" class=file type=file single>\r\n        </span>\r\n    </span>\r\n    <input type=text class=\"form-control showFileName\" readonly=\"\">\r\n</div>\r\n<% if (error) { %>\r\n    <div class=\"alert alert-danger\"><%= error %>\r\n<% } %></div>";
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(undefined);
@@ -50526,7 +50555,7 @@ exports.push([module.i, "/*!\r\n * Bootstrap v3.3.7 (http://getbootstrap.com)\r\
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 
@@ -50621,16 +50650,16 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(21),
+    __webpack_require__(22),
     __webpack_require__(7),
-    __webpack_require__(23),
-    __webpack_require__(3)
+    __webpack_require__(24),
+    __webpack_require__(4)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainTemplate, FileCompareView) {
 
 return Backbone.View.extend({
@@ -50707,40 +50736,51 @@ return Backbone.View.extend({
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = "<h1 class=col-md-12>Comparision result</h1>\r\n<div class=\"col-md-12 flexBlock\" id=loadCompareViews></div>\r\n<div class=col-md-12>\r\n    <button class=\"btn btn-default blockCenter\" style=float:left id=report>Unmatched Report</button>\r\n</div>";
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = "<h4><%= name %></h4>\r\n<p>Total Records: <%= totalDataCount %></p>\r\n<p>Different Records: <%= differentDataCount %></p>";
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(1);
+var validate = __webpack_require__(25);
 
 module.exports = FileMatch = function(fileData1, fileData2) {
-    var a = _.map(fileData1, function(value, index) {
-        delete value["__parsed_extra"];
-        return Object.values(value);
-    });
-
-    var b = _.map(fileData2, function(value, index) {
-        delete value["__parsed_extra"];
-        return Object.values(value);
-    });
+    var a = _cleanObject(fileData1);
+    var b = _cleanObject(fileData2);
 
     //remove duplicates
     a = Array.from(new Set(a.map(JSON.stringify)), JSON.parse);
     b = Array.from(new Set(b.map(JSON.stringify)), JSON.parse);
 
+    var mergedTransactions = _mergedList(a, b);
+    mergedTransactions = _removeDuplicates(mergedTransactions);
+
+    return mergedTransactions;
+}
+
+// remove extra array added by Papa parse
+function _cleanObject(obj) {
+    return _.map(obj, function(value, index) {
+        delete value["__parsed_extra"];
+        return Object.values(value);
+    });
+}
+
+function _mergedList(a, b) {
+
     var mergedTransactions = [];
 
+    // create a single transaction list, we need it for datatables rendering
     _.each(a, function(valuea, indexa) {
         _.each(b, function(valueb, indexb) {
             if (!_.isEqual(valuea, valueb) && indexa == indexb) {
@@ -50749,200 +50789,288 @@ module.exports = FileMatch = function(fileData1, fileData2) {
         });
     });
 
+    // add common traansaction fields to the list, so we have list 1 differences, list 2 differences and the errors and suggestions fields
     _.each(mergedTransactions, function(value, index) {
         value.splice(0, 0,  _.difference(value.slice(0, value.length/2), value.slice(value.length/2, value.length)));
         value.splice(value.length/2+1, 0,  _.difference(value.slice((value.length+1)/2, value.length+1), value.slice(0, (value.length+1)/2)));
-        value.splice(0, 0, findSameTransaction(value[0], value[value.length/2]));
+        value.splice(0, 0, _getErrors(value[0], value[value.length/2]));
     });
-
-    function findSameTransaction(a, b) {
-        var errors = []
-        _.each(a, function(value, index) {
-            errors.push(validate(a[index], b[index], _));
-        });
-
-        if (errors.length == 0) return "no errors";
-
-        // remove duplicate errors
-        return _.uniq(_.flatten(errors));
-    }
-
-    function validate(a, b, _) {
-        var errors = [];
-        var dateMatch = /^\d{4}([./-])(0[1-9]|1[012])\1(0[1-9]|[12][0-9]|3[01])([ ])([01][0-9]|[2][0-3])([:])([0-5][0-9])\6([0-5][0-9])$/;
-        var dateType = /^\d{4}([./-])\d{2}\1\d{2}([ ])\d{2}([:])\d{2}\3\d{2}$/;
-        var testWallet = /^P_Nz([A-Za-z0-9]+)/;
-        var testId = /\d{1,3}()\d{1,4}()\d{1,2}()\d{1,4}\d{1,3}/;
-        var replaceSpecialChar = /[&\/\\#,+()$~%.'":*?<>{}]/g;
-
-        var messages = {
-            "diffType": "the transactions types are different, suggestion: ",
-            "diffTypeValue": "the transactions types are uncommon, suggestion: ",
-            "diffAmount": "the amounts are not quite the same",
-            "invalidDate": "one ore both dates are invalid",
-            "noMatchDate": "dates are too far appart",
-            "addressNoMatch": "addresses don't match",
-            "idNoMatch": "these id's don't match",
-            "walletNoMatch": "these wallet refferences don't match, suggestion: ",
-            "noField": "transaction field is missing"
-        }
-
-        if (a.length == 0 || b.length == 0) {
-            errors.push(messages.noField);
-        }
-
-        // if the differences are numbers
-        if (/^(-|)\d+$/.test(a)) {
-
-            // transaction type
-            if (!/^(0|1)$/.test(a) && !/^(0|1)$/.test(b)) {
-                errors.push(messages.diffTypeValue + /^(0|1)$/.test(a) ? a : b);
-            }
-
-            if (a !== b && /^(0|1)$/.test(a) && /^(0|1)$/.test(b)) {
-                errors.push(messages.diffType + a);
-            }
-
-            if (a.length != 16  &&  (parseFloat(a) > parseFloat(b) + 50 || parseFloat(b) > parseFloat(a) + 50)) {
-                errors.push(messages.diffAmount);
-            }
-
-            if (a.length === 16 ) {
-                // id's
-                var av = [];
-                var bv = [];
-                av.push(a.slice(0, 3));
-                av.push(a.slice(3, 7));
-                av.push(a.slice(7, 9));
-                av.push(a.slice(9, 13));
-                av.push(a.slice(13, 16));
-
-                bv.push(b.slice(0, 3));
-                bv.push(b.slice(3, 7));
-                bv.push(b.slice(7, 9));
-                bv.push(b.slice(9, 13));
-                bv.push(b.slice(13, 16));
-
-                if (_.intersection(av, bv) < 4) {
-                    errors.push(messages.idNoMatch);
-                }
-            }
-        }
-
-        // if the differences are dates
-        if (dateType.test(a)) {
-
-            if (!(dateMatch.test(a)) || 
-            !(dateMatch.test(b))) {
-                errors.push(messages.invalidDate);
-            }
-
-            // test for 1 day difference
-            if (new Date(a).getTime()/1000 > new Date(b).getTime()/1000 + 864001|| new Date(b).getTime()/1000 > new Date(a).getTime()/1000 + 864001) {
-                errors.push(messages.noMatchDate);
-            }
-
-        }
-
-        // test for id's
-        if (testWallet.test(a) && testWallet.test(b)) {
-
-            var suggestedWallet = [];
-
-            suggestedWallet.push(a.slice(0, 4)) //P_Nz
-            a.slice(4, 5) == b.slice(4, 5) ? suggestedWallet.push(a.slice(4, 5)) : suggestedWallet.push("I");
-            a.slice(5, 6) == b.slice(5, 6) ? suggestedWallet.push(a.slice(5, 6)) : suggestedWallet.push("z");
-            a.slice(6, 7) == b.slice(6, 7) ? suggestedWallet.push(a.slice(6, 7)) : /[A-Z]/.test(a.slice(6, 7)) ? suggestedWallet.push("M") : suggestedWallet.push("z");      
-            a.slice(7, 8) == b.slice(7, 8) ? suggestedWallet.push(a.slice(7, 8)) : /[A-Z]/.test(a.slice(7, 8)) ? suggestedWallet.push("T") : suggestedWallet.push("j"); 
-            
-            suggestedWallet.push(a.slice(8, 9));
-            suggestedWallet.push(a.slice(9, 10));
-
-            a.slice(10, 11) == b.slice(10, 11) ? suggestedWallet.push(a.slice(10, 11)) : /[A-Z]/.test(a.slice(10, 11)) ? suggestedWallet.push("M") : suggestedWallet.push("z");      
-            a.slice(11, 12) == b.slice(11, 12) ? suggestedWallet.push(a.slice(11, 12)) : /[A-Z]/.test(a.slice(11, 12)) ? suggestedWallet.push("T") : suggestedWallet.push("j"); 
-            
-            suggestedWallet.push(a.slice(12, 13));
-
-            a.slice(13, 18) == b.slice(13, 18) ? suggestedWallet.push(a.slice(13, 18)) : "FMTM4";
-
-            a.slice(18, 19) == b.slice(18, 19) ? suggestedWallet.push(a.slice(18, 19)) : suggestedWallet.push("M");
-            a.slice(19, 20) == b.slice(19, 20) ? suggestedWallet.push(a.slice(19, 20)) : /[A-Z]/.test(a.slice(19, 20)) ? suggestedWallet.push("T") : suggestedWallet.push("j");    
-            
-            suggestedWallet.push(a.slice(20, 21));
-            suggestedWallet.push(a.slice(21, 22));
-
-            a.slice(22, 23) == b.slice(22, 23) ? suggestedWallet.push(a.slice(22, 23)) : suggestedWallet.push("M");
-            a.slice(23, 24) == b.slice(23, 24) ? suggestedWallet.push(a.slice(23, 24)) : /[A-Z]/.test(a.slice(23, 24)) ? suggestedWallet.push("T") : suggestedWallet.push("z");    
-            
-            suggestedWallet.push(a.slice(24, 25));
-            suggestedWallet.push(a.slice(25, 26));
-
-            a.slice(26, 27) == b.slice(26, 27) ? suggestedWallet.push(a.slice(26, 27)) : suggestedWallet.push("O");
-            a.slice(27, 28) == b.slice(27, 28) ? suggestedWallet.push(a.slice(27, 28)) : suggestedWallet.push("S");
-            
-            a.slice(28, 29) == b.slice(28, 29) ? suggestedWallet.push(a.slice(28, 29)) : suggestedWallet.push("4");
-            a.slice(29, 30) == b.slice(29, 30) ? suggestedWallet.push(a.slice(29, 30)) : suggestedWallet.push("M");
-
-            a.slice(30, 31) == b.slice(30, 31) ? suggestedWallet.push(a.slice(30, 31)) : suggestedWallet.push("M");
-            a.slice(31, 32) == b.slice(31, 32) ? suggestedWallet.push(a.slice(31, 32)) : /[A-Z]/.test(a.slice(31, 32)) ? suggestedWallet.push("T") : suggestedWallet.push("j");    
-
-            suggestedWallet.push(a.slice(32, 33));
-            suggestedWallet.push(a.slice(33, 34));
-            
-            errors.push(messages.walletNoMatch + suggestedWallet.join(""));
-        }
-
-        // test for address
-        if (!dateType.test(a) && !(/^(-|)\d+$/.test(a)) && !dateType.test(b) && !(/^(-|)\d+$/.test(b))) {
-            // remove extra spaces
-            var splitA = a.replace(replaceSpecialChar, '');
-            var splitB = b.replace(replaceSpecialChar, '');
-
-            splitA = splitA.replace(/\s+/g,' ').trim().toLowerCase().split(" ").filter(function(val) { return val.length > 2});
-            splitB = splitB.replace(/\s+/g,' ').trim().toLowerCase().split(" ").filter(function(val) { return val.length > 2});
-
-            if (_.intersection(splitA, splitB) < 1)  {
-                errors.push(messages.addressNoMatch);
-            }
-        }
-
-        return errors;
-    }
-
-    console.log(mergedTransactions);
-
-    mergedTransactions = _.filter(mergedTransactions, function(value, index) {
-        return value[0].length > 0
-    });
-
-    console.log(mergedTransactions);
 
     return mergedTransactions;
 }
 
+// return the errors in each transactions and "flaten" them to a list
+function _getErrors(a, b) {
+    var suggest = []
+    _.each(a, function(value, index) {
+        suggest.push(validate(a[index], b[index]));
+    });
+    
+    if (suggest.length == 0) return "no suggestions";
 
-    /*var smallDiff = Array.from(new Set(smallDiff.map(JSON.stringify)), JSON.parse);
-    var bigDiff = Array.from(new Set(bigDiff.map(JSON.stringify)), JSON.parse);
-    var completlyDiff = Array.from(new Set(completlyDiff.map(JSON.stringify)), JSON.parse);
+    // remove duplicate suggestions
+    return _.uniq(_.flatten(suggest));
+}
 
-    return {
-        "differentFieldMatchSmall": smallDiff,
-        "differentFieldMatchBig": bigDiff,
-        "differentFieldMatchCompletly": completlyDiff
-    }*/
+// remove duplicates from merged list
+function _removeDuplicates(obj) {
+    return _.filter(obj, function(value, index) {
+        return value[0].length > 0;
+    });
+}
 
 /***/ }),
-/* 24 */
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _ = __webpack_require__(1);
+var testForAddres = __webpack_require__(26);
+var testForId = __webpack_require__(9);
+var testForWalletId = __webpack_require__(27);
+var fileMatchNumberDifference = __webpack_require__(28);
+
+// validation for each type of field in the transaction
+module.exports = function validate(a, b) {
+    var suggestions = [];
+    var dateMatch = /^\d{4}([./-])(0[1-9]|1[012])\1(0[1-9]|[12][0-9]|3[01])([ ])([01][0-9]|[2][0-3])([:])([0-5][0-9])\6([0-5][0-9])$/;
+    var dateType = /^\d{4}([./-])\d{2}\1\d{2}([ ])\d{2}([:])\d{2}\3\d{2}$/;
+    var testWallet = /^P_Nz([A-Za-z0-9]+)/;
+    var testId = /\d{1,3}()\d{1,4}()\d{1,2}()\d{1,4}\d{1,3}/;
+
+    // test for empty fields
+    if (a.length == 0 || b.length == 0) {
+        suggestions.push("a transaction field is missing");
+    }
+
+    // test for description
+    if (/^DEDUCT|REVERSAL$/.test(a) || /^DEDUCT|REVERSAL$/.test(b)) {
+        suggestions.push("DEDUCT");
+    }
+
+    // if the differences are numbers
+    if (/^(-|)\d+$/.test(a)) {
+        suggestions.push(fileMatchNumberDifference(a, b));
+    }
+
+    // test for date
+    if (dateType.test(a)) {
+        // test for invalid date
+        if (!dateMatch.test(a) || !dateMatch.test(b)) {
+            suggestions.push(dateMatch.test(a) ? a : b);
+        } else {
+            suggestions.push(a);
+        }
+    }
+
+    // test for wallet id
+    if (testWallet.test(a) && testWallet.test(b)) {
+        suggestions.push(testForWalletId(a, b));
+    }
+
+    // test for address
+    if (!dateType.test(a) && !/^(-|)\d+$/.test(a) && !testWallet.test(a) && !/^DEDUCT|REVERSAL$/.test(a) ) {
+        suggestions.push(testForAddres(a));
+    }
+
+    return suggestions;
+}
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _ = __webpack_require__(1);
+
+module.exports = function testForAddres(transaction) {
+    var cities = ['GABORONE', 'BOTSWANA', 'LOBATSE', 'MAHALAPYE', 'MALEPOLOLE', 'MOGODITHSANE', 'PALAPYE', 'SEROWE', 'MOCHAUDI', 'FRSNCISTOWN', 'MAUN', 'JOHANNESBURG']
+
+    // add BW to the end of the list
+    transaction = transaction.replace(/[a-zA-z]{1,2}$/, "BW");
+
+    /** remove spaces, convert to upper case and split the address in separate array chunks
+        transaction[transaction.length-1] - BW
+        transaction[transaction.length-2] - town
+        transaction[transaction.length-3] - other strings
+        transaction[transaction.length-4] - * (if exists)
+    **/
+    transaction = transaction.trim().toUpperCase().split(/\s\s+/).filter(function(val) {
+        val.trim();
+        return val;
+    });
+
+    if (transaction.length > 2) {
+
+        // test if the address maches teh city array
+        if (!_.contains(cities, transaction[transaction.length-2])) {
+            _.find(cities, function(city) {
+                
+                // test if the city could be mismatched
+                if (_.intersection(city.split(''), transaction[transaction.length-2].split('')).length > 2 && !city.includes(transaction[transaction.length-2])
+                 && transaction[transaction.length-2].length <= 3) {
+                    transaction[transaction.length-2] = city
+                }
+
+                // get the common part between the city and the rest of the address
+                if (_.intersection(city.split(''), transaction[transaction.length-3].split('')).length > 2) {
+                    
+                    // match address to different city
+                    switch(transaction[transaction.length-2]) {
+                        case "BOTSWANA":
+                            if (!/^\d+/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, Math.floor(Math.random()* 900000) + 100000 + " ");
+                            }
+                            break;
+                        case "LOBATSE":
+                            if (!/^CHOPPIES|Choppies/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, "Choppies ");
+                            }
+                            break;
+                        case "MAHALAPYE":
+                            if (!/^\*MAHALAPYE/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, "*MAHALAPYE ");
+                            }
+                            break;
+                        case "MALEPOLOLE":
+                            if (!/^\*/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, "*");
+                            }
+                            break;
+                        case "MOGODITSHANE":
+                            if (!/^\*MOGODITSHANE2$/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^.+$/, "*MOGODITSHANE2");
+                            }
+                            break;
+                        case "PALAPYE":
+                            if (!/^PALAPYE Branch|PALAPYE CHOPPIES/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace("", "PALAPYE Branch");
+                            }
+                            break;
+                        case "SEROWE":
+                            if (!/^SEROWE Branch/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, "SEROWE Branch");
+                            }
+                            break;
+                        case "FRANCISTOWN":
+                            if (!/^\*TONOTA|SHELL FRANCISTOWN|Sunset Butchery 100343|FRANCISTOWN INDUSTRIAL|F'TOWN GAME$/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace("", "*TONOTA");
+                            }
+                            break;
+                        case "MAUN":
+                            if (!/^\*MAUN/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace(/^/, "*MAUN");
+                            }
+                            break;
+                        case "KAGISO":
+                            if (!/^GABORONE$/.test(transaction[transaction.length-3])) {
+                                transaction[transaction.length-3] = transaction[transaction.length-3].replace("", "GABORONE");
+                            }
+                            break;                        
+                    }
+                }
+
+                return (_.intersection(city.split(''), transaction[transaction.length-2].split('')).length > 2 && !city.includes(transaction[transaction.length-2])
+                && transaction[transaction.length-2].length <= 3);
+            });
+
+        }
+
+    }
+
+    return transaction.join(" ");
+}
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+
+module.exports = function testForWalletId(a, b) {
+    var suggestedWallet = [];
+    
+    suggestedWallet.push(a.slice(0, 4)) //P_Nz
+    a.slice(4, 5) == b.slice(4, 5) ? suggestedWallet.push(a.slice(4, 5)) : suggestedWallet.push("I");
+    a.slice(5, 6) == b.slice(5, 6) ? suggestedWallet.push(a.slice(5, 6)) : suggestedWallet.push("z");
+    a.slice(6, 7) == b.slice(6, 7) ? suggestedWallet.push(a.slice(6, 7)) : /[A-Z]/.test(a.slice(6, 7)) ? suggestedWallet.push("M") : suggestedWallet.push("z");      
+    a.slice(7, 8) == b.slice(7, 8) ? suggestedWallet.push(a.slice(7, 8)) : /[A-Z]/.test(a.slice(7, 8)) ? suggestedWallet.push("T") : suggestedWallet.push("j"); 
+    
+    suggestedWallet.push(a.slice(8, 9));
+    suggestedWallet.push(a.slice(9, 10));
+
+    a.slice(10, 11) == b.slice(10, 11) ? suggestedWallet.push(a.slice(10, 11)) : /[A-Z]/.test(a.slice(10, 11)) ? suggestedWallet.push("M") : suggestedWallet.push("z");      
+    a.slice(11, 12) == b.slice(11, 12) ? suggestedWallet.push(a.slice(11, 12)) : /[A-Z]/.test(a.slice(11, 12)) ? suggestedWallet.push("T") : suggestedWallet.push("j"); 
+    
+    suggestedWallet.push(a.slice(12, 13));
+
+    a.slice(13, 18) == b.slice(13, 18) ? suggestedWallet.push(a.slice(13, 18)) : suggestedWallet.push("FMTM4");
+
+    a.slice(18, 19) == b.slice(18, 19) ? suggestedWallet.push(a.slice(18, 19)) : suggestedWallet.push("M");
+    a.slice(19, 20) == b.slice(19, 20) ? suggestedWallet.push(a.slice(19, 20)) : /[A-Z]/.test(a.slice(19, 20)) ? suggestedWallet.push("T") : suggestedWallet.push("j");    
+    
+    suggestedWallet.push(a.slice(20, 21));
+    suggestedWallet.push(a.slice(21, 22));
+
+    a.slice(22, 23) == b.slice(22, 23) ? suggestedWallet.push(a.slice(22, 23)) : suggestedWallet.push("M");
+    a.slice(23, 24) == b.slice(23, 24) ? suggestedWallet.push(a.slice(23, 24)) : /[A-Z]/.test(a.slice(23, 24)) ? suggestedWallet.push("T") : suggestedWallet.push("z");    
+    
+    suggestedWallet.push(a.slice(24, 25));
+    suggestedWallet.push(a.slice(25, 26));
+
+    a.slice(26, 27) == b.slice(26, 27) ? suggestedWallet.push(a.slice(26, 27)) : suggestedWallet.push("O");
+    a.slice(27, 28) == b.slice(27, 28) ? suggestedWallet.push(a.slice(27, 28)) : suggestedWallet.push("S");
+    
+    a.slice(28, 29) == b.slice(28, 29) ? suggestedWallet.push(a.slice(28, 29)) : suggestedWallet.push("4");
+    a.slice(29, 30) == b.slice(29, 30) ? suggestedWallet.push(a.slice(29, 30)) : suggestedWallet.push("M");
+
+    a.slice(30, 31) == b.slice(30, 31) ? suggestedWallet.push(a.slice(30, 31)) : suggestedWallet.push("M");
+    a.slice(31, 32) == b.slice(31, 32) ? suggestedWallet.push(a.slice(31, 32)) : /[A-Z]/.test(a.slice(31, 32)) ? suggestedWallet.push("T") : suggestedWallet.push("j");    
+
+    suggestedWallet.push(a.slice(32, 33));
+    suggestedWallet.push(a.slice(33, 34));
+    
+    return suggestedWallet.join("");
+}
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var testForId = __webpack_require__(9);
+
+// if the differences are numbers
+module.exports = function fileMatchNumberDifference(a, b) {
+    // test for type
+    if (a !== b && /^(0|1)$/.test(a) && /^(0|1)$/.test(b)) {
+        return a;
+    }
+
+    // test for amount
+    if (a.length != 16 && !/^0|1$/.test(a) && !/^0|1$/.test(b)) {
+        // if it is negative and 10 multiplier
+        if (/^-\d+(0)$/.test(a)) return a;
+        else if (/^-\d+(0)$/.test(b)) return b;
+        // else brings it to a common denominator
+        else return Math.round(a/10)*10;
+    }
+
+    // test for id's
+    if (a.length == 16) {
+        return testForId(a, b);
+    }
+}
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(25),
-    __webpack_require__(26),
+    __webpack_require__(30),
+    __webpack_require__(31),
     __webpack_require__(7),
-    __webpack_require__(3),
-    __webpack_require__(9),
+    __webpack_require__(4),
+    __webpack_require__(11),
     __webpack_require__(10)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, MainUnmatchedReportTemplate, UnmatchedReportView, FileCompareView) {
 
@@ -50975,26 +51103,28 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 25 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = "<div id=table1 style=overflow:auto></div>\r\n<div id=table2 style=overflow:auto></div>";
 
 /***/ }),
-/* 26 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
     __webpack_require__(1),
     __webpack_require__(2),
-    __webpack_require__(27),
+    __webpack_require__(38),
     __webpack_require__(7),
-    __webpack_require__(3),
-    __webpack_require__(9),
+    __webpack_require__(4),
+    __webpack_require__(11),
     __webpack_require__(10),
-    __webpack_require__(34),
-    __webpack_require__(35),
-    __webpack_require__(36)
+    __webpack_require__(39),
+    __webpack_require__(40),
+    __webpack_require__(41),
+    __webpack_require__(42),
+    __webpack_require__(44)
 ], __WEBPACK_AMD_DEFINE_RESULT__ = function (_, Backbone, UnmatchedReportTemplate, FileCompareView) {
 
     return Backbone.View.extend({
@@ -51009,7 +51139,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 this.$el.html(this.template());
 
                 var columns = [];
-                var cols = ["Errors", "File 1"];
+                var cols = ["Suggestions", "File 1"];
 
                 cols = cols.concat(this.model.get("dfile")[1]);
                 cols = cols.concat(["File 2"]);
@@ -51028,8 +51158,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 var table = this.$('.unmachedReportTable').DataTable({
                     "data": dataColumns,
                     "columns": columns,
+                    "responsive": true,
                     'rowCallback': function(row, data, index){
                         _.each(data, function(val, index) {
+
                             // highligh the values that have issues
                             if ((data[1].includes(data[index]) || data[((data.length+1)/2)].includes(data[index])) && !Array.isArray(data[index])) {
                                 row.children[index].className = "diffElements";
@@ -51043,7 +51175,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                             }
                         });
                     }
-                });
+                }).columns.adjust().responsive.recalc();;
             }
             return this;
         }
@@ -51052,13 +51184,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-module.exports = "<table class=\"unmachedReportTable table table-striped table-bordered dt-responsive nowrap\"></table>\r\n";
-
-/***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(undefined);
@@ -51066,43 +51192,49 @@ exports = module.exports = __webpack_require__(5)(undefined);
 
 
 // module
-exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(29) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(30) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(31) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(32) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(33) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
+exports.push([module.i, "/*\n * This combined file was created by the DataTables downloader builder:\n *   https://datatables.net/download\n *\n * To rebuild or modify this file with the latest versions of the included\n * software please visit:\n *   https://datatables.net/download/#dt/dt-1.10.16/b-1.4.2/r-2.2.0/rr-1.2.3/sc-1.4.3\n *\n * Included libraries:\n *   DataTables 1.10.16, Buttons 1.4.2, Responsive 2.2.0, RowReorder 1.2.3, Scroller 1.4.3\n */\n\n/*\n * Table styles\n */\ntable.dataTable {\n  width: 100%;\n  margin: 0 auto;\n  clear: both;\n  border-collapse: separate;\n  border-spacing: 0;\n  /*\n   * Header and footer styles\n   */\n  /*\n   * Body styles\n   */\n}\ntable.dataTable thead th,\ntable.dataTable tfoot th {\n  font-weight: bold;\n}\ntable.dataTable thead th,\ntable.dataTable thead td {\n  padding: 10px 18px;\n  border-bottom: 1px solid #111;\n}\ntable.dataTable thead th:active,\ntable.dataTable thead td:active {\n  outline: none;\n}\ntable.dataTable tfoot th,\ntable.dataTable tfoot td {\n  padding: 10px 18px 6px 18px;\n  border-top: 1px solid #111;\n}\ntable.dataTable thead .sorting,\ntable.dataTable thead .sorting_asc,\ntable.dataTable thead .sorting_desc,\ntable.dataTable thead .sorting_asc_disabled,\ntable.dataTable thead .sorting_desc_disabled {\n  cursor: pointer;\n  *cursor: hand;\n  background-repeat: no-repeat;\n  background-position: center right;\n}\ntable.dataTable thead .sorting {\n  background-image: url(" + __webpack_require__(33) + ");\n}\ntable.dataTable thead .sorting_asc {\n  background-image: url(" + __webpack_require__(34) + ");\n}\ntable.dataTable thead .sorting_desc {\n  background-image: url(" + __webpack_require__(35) + ");\n}\ntable.dataTable thead .sorting_asc_disabled {\n  background-image: url(" + __webpack_require__(36) + ");\n}\ntable.dataTable thead .sorting_desc_disabled {\n  background-image: url(" + __webpack_require__(37) + ");\n}\ntable.dataTable tbody tr {\n  background-color: #ffffff;\n}\ntable.dataTable tbody tr.selected {\n  background-color: #B0BED9;\n}\ntable.dataTable tbody th,\ntable.dataTable tbody td {\n  padding: 8px 10px;\n}\ntable.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {\n  border-top: 1px solid #ddd;\n}\ntable.dataTable.row-border tbody tr:first-child th,\ntable.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,\ntable.dataTable.display tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {\n  border-top: 1px solid #ddd;\n  border-right: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr th:first-child,\ntable.dataTable.cell-border tbody tr td:first-child {\n  border-left: 1px solid #ddd;\n}\ntable.dataTable.cell-border tbody tr:first-child th,\ntable.dataTable.cell-border tbody tr:first-child td {\n  border-top: none;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n  background-color: #f9f9f9;\n}\ntable.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {\n  background-color: #acbad4;\n}\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n  background-color: #f6f6f6;\n}\ntable.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {\n  background-color: #aab7d1;\n}\ntable.dataTable.order-column tbody tr > .sorting_1,\ntable.dataTable.order-column tbody tr > .sorting_2,\ntable.dataTable.order-column tbody tr > .sorting_3, table.dataTable.display tbody tr > .sorting_1,\ntable.dataTable.display tbody tr > .sorting_2,\ntable.dataTable.display tbody tr > .sorting_3 {\n  background-color: #fafafa;\n}\ntable.dataTable.order-column tbody tr.selected > .sorting_1,\ntable.dataTable.order-column tbody tr.selected > .sorting_2,\ntable.dataTable.order-column tbody tr.selected > .sorting_3, table.dataTable.display tbody tr.selected > .sorting_1,\ntable.dataTable.display tbody tr.selected > .sorting_2,\ntable.dataTable.display tbody tr.selected > .sorting_3 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {\n  background-color: #f1f1f1;\n}\ntable.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {\n  background-color: #f3f3f3;\n}\ntable.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {\n  background-color: whitesmoke;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_1 {\n  background-color: #a6b4cd;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_2 {\n  background-color: #a8b5cf;\n}\ntable.dataTable.display tbody tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd.selected > .sorting_3 {\n  background-color: #a9b7d1;\n}\ntable.dataTable.display tbody tr.even > .sorting_1, table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {\n  background-color: #fafafa;\n}\ntable.dataTable.display tbody tr.even > .sorting_2, table.dataTable.order-column.stripe tbody tr.even > .sorting_2 {\n  background-color: #fcfcfc;\n}\ntable.dataTable.display tbody tr.even > .sorting_3, table.dataTable.order-column.stripe tbody tr.even > .sorting_3 {\n  background-color: #fefefe;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_1 {\n  background-color: #acbad5;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {\n  background-color: #aebcd6;\n}\ntable.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {\n  background-color: #afbdd8;\n}\ntable.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {\n  background-color: #eaeaea;\n}\ntable.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {\n  background-color: #ececec;\n}\ntable.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {\n  background-color: #efefef;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_1, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_1 {\n  background-color: #a2aec7;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_2, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_2 {\n  background-color: #a3b0c9;\n}\ntable.dataTable.display tbody tr:hover.selected > .sorting_3, table.dataTable.order-column.hover tbody tr:hover.selected > .sorting_3 {\n  background-color: #a5b2cb;\n}\ntable.dataTable.no-footer {\n  border-bottom: 1px solid #111;\n}\ntable.dataTable.nowrap th, table.dataTable.nowrap td {\n  white-space: nowrap;\n}\ntable.dataTable.compact thead th,\ntable.dataTable.compact thead td {\n  padding: 4px 17px 4px 4px;\n}\ntable.dataTable.compact tfoot th,\ntable.dataTable.compact tfoot td {\n  padding: 4px;\n}\ntable.dataTable.compact tbody th,\ntable.dataTable.compact tbody td {\n  padding: 4px;\n}\ntable.dataTable th.dt-left,\ntable.dataTable td.dt-left {\n  text-align: left;\n}\ntable.dataTable th.dt-center,\ntable.dataTable td.dt-center,\ntable.dataTable td.dataTables_empty {\n  text-align: center;\n}\ntable.dataTable th.dt-right,\ntable.dataTable td.dt-right {\n  text-align: right;\n}\ntable.dataTable th.dt-justify,\ntable.dataTable td.dt-justify {\n  text-align: justify;\n}\ntable.dataTable th.dt-nowrap,\ntable.dataTable td.dt-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable thead th.dt-head-left,\ntable.dataTable thead td.dt-head-left,\ntable.dataTable tfoot th.dt-head-left,\ntable.dataTable tfoot td.dt-head-left {\n  text-align: left;\n}\ntable.dataTable thead th.dt-head-center,\ntable.dataTable thead td.dt-head-center,\ntable.dataTable tfoot th.dt-head-center,\ntable.dataTable tfoot td.dt-head-center {\n  text-align: center;\n}\ntable.dataTable thead th.dt-head-right,\ntable.dataTable thead td.dt-head-right,\ntable.dataTable tfoot th.dt-head-right,\ntable.dataTable tfoot td.dt-head-right {\n  text-align: right;\n}\ntable.dataTable thead th.dt-head-justify,\ntable.dataTable thead td.dt-head-justify,\ntable.dataTable tfoot th.dt-head-justify,\ntable.dataTable tfoot td.dt-head-justify {\n  text-align: justify;\n}\ntable.dataTable thead th.dt-head-nowrap,\ntable.dataTable thead td.dt-head-nowrap,\ntable.dataTable tfoot th.dt-head-nowrap,\ntable.dataTable tfoot td.dt-head-nowrap {\n  white-space: nowrap;\n}\ntable.dataTable tbody th.dt-body-left,\ntable.dataTable tbody td.dt-body-left {\n  text-align: left;\n}\ntable.dataTable tbody th.dt-body-center,\ntable.dataTable tbody td.dt-body-center {\n  text-align: center;\n}\ntable.dataTable tbody th.dt-body-right,\ntable.dataTable tbody td.dt-body-right {\n  text-align: right;\n}\ntable.dataTable tbody th.dt-body-justify,\ntable.dataTable tbody td.dt-body-justify {\n  text-align: justify;\n}\ntable.dataTable tbody th.dt-body-nowrap,\ntable.dataTable tbody td.dt-body-nowrap {\n  white-space: nowrap;\n}\n\ntable.dataTable,\ntable.dataTable th,\ntable.dataTable td {\n  box-sizing: content-box;\n}\n\n@keyframes dtb-spinner {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@-o-keyframes dtb-spinner {\n  100% {\n    -o-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-ms-keyframes dtb-spinner {\n  100% {\n    -ms-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-webkit-keyframes dtb-spinner {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@-moz-keyframes dtb-spinner {\n  100% {\n    -moz-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\ndiv.dt-button-info {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 400px;\n  margin-top: -100px;\n  margin-left: -200px;\n  background-color: white;\n  border: 2px solid #111;\n  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);\n  border-radius: 3px;\n  text-align: center;\n  z-index: 21;\n}\ndiv.dt-button-info h2 {\n  padding: 0.5em;\n  margin: 0;\n  font-weight: normal;\n  border-bottom: 1px solid #ddd;\n  background-color: #f3f3f3;\n}\ndiv.dt-button-info > div {\n  padding: 1em;\n}\n\nbutton.dt-button,\ndiv.dt-button,\na.dt-button {\n  position: relative;\n  display: inline-block;\n  box-sizing: border-box;\n  margin-right: 0.333em;\n  padding: 0.5em 1em;\n  border: 1px solid #999;\n  border-radius: 2px;\n  cursor: pointer;\n  font-size: 0.88em;\n  color: black;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: #e9e9e9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, white 0%, #e9e9e9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, white 0%, #e9e9e9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  text-decoration: none;\n  outline: none;\n}\nbutton.dt-button.disabled,\ndiv.dt-button.disabled,\na.dt-button.disabled {\n  color: #999;\n  border: 1px solid #d0d0d0;\n  cursor: default;\n  background-color: #f9f9f9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f9f9f9');\n}\nbutton.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled),\ndiv.dt-button:active:not(.disabled),\ndiv.dt-button.active:not(.disabled),\na.dt-button:active:not(.disabled),\na.dt-button.active:not(.disabled) {\n  background-color: #e2e2e2;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f3f3f3 0%, #e2e2e2 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f3f3f3', EndColorStr='#e2e2e2');\n  box-shadow: inset 1px 1px 3px #999999;\n}\nbutton.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled),\ndiv.dt-button:active:not(.disabled):hover:not(.disabled),\ndiv.dt-button.active:not(.disabled):hover:not(.disabled),\na.dt-button:active:not(.disabled):hover:not(.disabled),\na.dt-button.active:not(.disabled):hover:not(.disabled) {\n  box-shadow: inset 1px 1px 3px #999999;\n  background-color: #cccccc;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #eaeaea 0%, #cccccc 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #eaeaea 0%, #cccccc 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc');\n}\nbutton.dt-button:hover,\ndiv.dt-button:hover,\na.dt-button:hover {\n  text-decoration: none;\n}\nbutton.dt-button:hover:not(.disabled),\ndiv.dt-button:hover:not(.disabled),\na.dt-button:hover:not(.disabled) {\n  border: 1px solid #666;\n  background-color: #e0e0e0;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e0e0e0');\n}\nbutton.dt-button:focus:not(.disabled),\ndiv.dt-button:focus:not(.disabled),\na.dt-button:focus:not(.disabled) {\n  border: 1px solid #426c9e;\n  text-shadow: 0 1px 0 #c4def1;\n  outline: none;\n  background-color: #79ace9;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #bddef4 0%, #79ace9 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #bddef4 0%, #79ace9 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bddef4', EndColorStr='#79ace9');\n}\n\n.dt-button embed {\n  outline: none;\n}\n\ndiv.dt-buttons {\n  position: relative;\n  float: left;\n}\ndiv.dt-buttons.buttons-right {\n  float: right;\n}\n\ndiv.dt-button-collection {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 150px;\n  margin-top: 3px;\n  padding: 8px 8px 4px 8px;\n  border: 1px solid #ccc;\n  border: 1px solid rgba(0, 0, 0, 0.4);\n  background-color: white;\n  overflow: hidden;\n  z-index: 2002;\n  border-radius: 5px;\n  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);\n  z-index: 2002;\n  -webkit-column-gap: 8px;\n  -moz-column-gap: 8px;\n  -ms-column-gap: 8px;\n  -o-column-gap: 8px;\n  column-gap: 8px;\n}\ndiv.dt-button-collection button.dt-button,\ndiv.dt-button-collection div.dt-button,\ndiv.dt-button-collection a.dt-button {\n  position: relative;\n  left: 0;\n  right: 0;\n  display: block;\n  float: none;\n  margin-bottom: 4px;\n  margin-right: 0;\n}\ndiv.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled),\ndiv.dt-button-collection div.dt-button:active:not(.disabled),\ndiv.dt-button-collection div.dt-button.active:not(.disabled),\ndiv.dt-button-collection a.dt-button:active:not(.disabled),\ndiv.dt-button-collection a.dt-button.active:not(.disabled) {\n  background-color: #dadada;\n  /* Fallback */\n  background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Chrome 10+, Saf5.1+, iOS 5+ */\n  background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* FF3.6 */\n  background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* IE10 */\n  background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);\n  /* Opera 11.10+ */\n  background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f0f0f0', EndColorStr='#dadada');\n  box-shadow: inset 1px 1px 3px #666;\n}\ndiv.dt-button-collection.fixed {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  margin-left: -75px;\n  border-radius: 0;\n}\ndiv.dt-button-collection.fixed.two-column {\n  margin-left: -150px;\n}\ndiv.dt-button-collection.fixed.three-column {\n  margin-left: -225px;\n}\ndiv.dt-button-collection.fixed.four-column {\n  margin-left: -300px;\n}\ndiv.dt-button-collection > * {\n  -webkit-column-break-inside: avoid;\n  break-inside: avoid;\n}\ndiv.dt-button-collection.two-column {\n  width: 300px;\n  padding-bottom: 1px;\n  -webkit-column-count: 2;\n  -moz-column-count: 2;\n  -ms-column-count: 2;\n  -o-column-count: 2;\n  column-count: 2;\n}\ndiv.dt-button-collection.three-column {\n  width: 450px;\n  padding-bottom: 1px;\n  -webkit-column-count: 3;\n  -moz-column-count: 3;\n  -ms-column-count: 3;\n  -o-column-count: 3;\n  column-count: 3;\n}\ndiv.dt-button-collection.four-column {\n  width: 600px;\n  padding-bottom: 1px;\n  -webkit-column-count: 4;\n  -moz-column-count: 4;\n  -ms-column-count: 4;\n  -o-column-count: 4;\n  column-count: 4;\n}\n\ndiv.dt-button-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  /* Fallback */\n  background: -ms-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* IE10 Consumer Preview */\n  background: -moz-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Firefox */\n  background: -o-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Opera */\n  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, rgba(0, 0, 0, 0.3)), color-stop(1, rgba(0, 0, 0, 0.7)));\n  /* Webkit (Safari/Chrome 10) */\n  background: -webkit-radial-gradient(center, ellipse farthest-corner, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* Webkit (Chrome 11+) */\n  background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);\n  /* W3C Markup, IE10 Release Preview */\n  z-index: 2001;\n}\n\n@media screen and (max-width: 640px) {\n  div.dt-buttons {\n    float: none !important;\n    text-align: center;\n  }\n}\nbutton.dt-button.processing,\ndiv.dt-button.processing,\na.dt-button.processing {\n  color: rgba(0, 0, 0, 0.2);\n}\nbutton.dt-button.processing:after,\ndiv.dt-button.processing:after,\na.dt-button.processing:after {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 16px;\n  height: 16px;\n  margin: -8px 0 0 -8px;\n  box-sizing: border-box;\n  display: block;\n  border: 2px solid #282828;\n  border-radius: 50%;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  animation: dtb-spinner 1500ms infinite linear;\n  -o-animation: dtb-spinner 1500ms infinite linear;\n  -ms-animation: dtb-spinner 1500ms infinite linear;\n  -webkit-animation: dtb-spinner 1500ms infinite linear;\n  -moz-animation: dtb-spinner 1500ms infinite linear;\n}\n\n\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {\n  cursor: default !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > th.child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty:before {\n  display: none !important;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child {\n  position: relative;\n  padding-left: 30px;\n  cursor: pointer;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr[role=\"row\"] > th:first-child:before {\n  top: 9px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child {\n  padding-left: 27px;\n}\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > td:first-child:before,\ntable.dataTable.dtr-inline.collapsed.compact > tbody > tr > th:first-child:before {\n  top: 5px;\n  left: 4px;\n  height: 14px;\n  width: 14px;\n  border-radius: 14px;\n  line-height: 14px;\n  text-indent: 3px;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control,\ntable.dataTable.dtr-column > tbody > tr > th.control {\n  position: relative;\n  cursor: pointer;\n}\ntable.dataTable.dtr-column > tbody > tr > td.control:before,\ntable.dataTable.dtr-column > tbody > tr > th.control:before {\n  top: 50%;\n  left: 50%;\n  height: 16px;\n  width: 16px;\n  margin-top: -10px;\n  margin-left: -10px;\n  display: block;\n  position: absolute;\n  color: white;\n  border: 2px solid white;\n  border-radius: 14px;\n  box-shadow: 0 0 3px #444;\n  box-sizing: content-box;\n  text-align: center;\n  text-indent: 0 !important;\n  font-family: 'Courier New', Courier, monospace;\n  line-height: 14px;\n  content: '+';\n  background-color: #31b131;\n}\ntable.dataTable.dtr-column > tbody > tr.parent td.control:before,\ntable.dataTable.dtr-column > tbody > tr.parent th.control:before {\n  content: '-';\n  background-color: #d33333;\n}\ntable.dataTable > tbody > tr.child {\n  padding: 0.5em 1em;\n}\ntable.dataTable > tbody > tr.child:hover {\n  background: transparent !important;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details {\n  display: inline-block;\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li {\n  border-bottom: 1px solid #efefef;\n  padding: 0.5em 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:first-child {\n  padding-top: 0;\n}\ntable.dataTable > tbody > tr.child ul.dtr-details > li:last-child {\n  border-bottom: none;\n}\ntable.dataTable > tbody > tr.child span.dtr-title {\n  display: inline-block;\n  min-width: 75px;\n  font-weight: bold;\n}\n\ndiv.dtr-modal {\n  position: fixed;\n  box-sizing: border-box;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 100;\n  padding: 10em 1em;\n}\ndiv.dtr-modal div.dtr-modal-display {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  width: 50%;\n  height: 50%;\n  overflow: auto;\n  margin: auto;\n  z-index: 102;\n  overflow: auto;\n  background-color: #f5f5f7;\n  border: 1px solid black;\n  border-radius: 0.5em;\n  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);\n}\ndiv.dtr-modal div.dtr-modal-content {\n  position: relative;\n  padding: 1em;\n}\ndiv.dtr-modal div.dtr-modal-close {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n  width: 22px;\n  height: 22px;\n  border: 1px solid #eaeaea;\n  background-color: #f9f9f9;\n  text-align: center;\n  border-radius: 3px;\n  cursor: pointer;\n  z-index: 12;\n}\ndiv.dtr-modal div.dtr-modal-close:hover {\n  background-color: #eaeaea;\n}\ndiv.dtr-modal div.dtr-modal-background {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 101;\n  background: rgba(0, 0, 0, 0.6);\n}\n\n@media screen and (max-width: 767px) {\n  div.dtr-modal div.dtr-modal-display {\n    width: 95%;\n  }\n}\n\n\ntable.dt-rowReorder-float {\n  position: absolute !important;\n  opacity: 0.8;\n  table-layout: fixed;\n  outline: 2px solid #888;\n  outline-offset: -2px;\n  z-index: 2001;\n}\n\ntr.dt-rowReorder-moving {\n  outline: 2px solid #555;\n  outline-offset: -2px;\n}\n\nbody.dt-rowReorder-noOverflow {\n  overflow-x: hidden;\n}\n\ntable.dataTable td.reorder {\n  text-align: center;\n  cursor: move;\n}\n\n\ndiv.DTS {\n  display: block !important;\n}\ndiv.DTS tbody th,\ndiv.DTS tbody td {\n  white-space: nowrap;\n}\ndiv.DTS div.DTS_Loading {\n  z-index: 1;\n}\ndiv.DTS div.dataTables_scrollBody {\n  background: repeating-linear-gradient(45deg, #edeeff, #edeeff 10px, white 10px, white 20px);\n}\ndiv.DTS div.dataTables_scrollBody table {\n  z-index: 2;\n}\ndiv.DTS div.dataTables_paginate,\ndiv.DTS div.dataTables_length {\n  display: none;\n}\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7XQMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC"
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZ0lEQVQ4y2NgGLKgquEuFxBPAGI2ahhWCsS/gDibUoO0gPgxEP8H4ttArEyuQYxAPBdqEAxPBImTY5gjEL9DM+wTENuQahAvEO9DMwiGdwAxOymGJQLxTyD+jgWDxCMZRsEoGAVoAADeemwtPcZI2wAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZUlEQVQ4y2NgGAWjYBSggaqGu5FA/BOIv2PBIPFEUgxjB+IdQPwfC94HxLykus4GiD+hGfQOiB3J8SojEE9EM2wuSJzcsFMG4ttQgx4DsRalkZENxL+AuJQaMcsGxBOAmGvopk8AVz1sLZgg0bsAAAAASUVORK5CYII="
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAW0lEQVQoz2NgoCm4w3Vnwh02wspK7/y6k01Ikdadx3f+37l9RxmfIsY7c4GKQHDiHUbcyhzvvIMq+3THBpci3jv7oIpAcMcdduzKEu/8vPMdDn/eiWQYBYMKAAC3ykIEuYQJUgAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAWUlEQVQoz2NgGAWDCtyJvPPzznc4/HknEbsy9js77vyHw313eHGZZ3PnE1TRuzuOuK1lvDMRqmzuHUZ87lO+cxuo6PEdLUIeyb7z604pYf+y3Zlwh4u2YQoAc7ZCBHH4jigAAAAASUVORK5CYII="
 
 /***/ }),
-/* 34 */
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = "<table class=\"unmachedReportTable table table-striped table-bordered dt-responsive nowrap\"></table>\r\n";
+
+/***/ }),
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1.10.16
@@ -66352,14 +66484,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 
 /***/ }),
-/* 35 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  DataTables Bootstrap 3 integration
  ©2011-2015 SpryMedia Ltd - datatables.net/license
 */
-(function(b){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0),__webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(a){return b(a,window,document)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+(function(b){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0),__webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function(a){return b(a,window,document)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"===typeof exports?module.exports=function(a,d){a||(a=window);if(!d||!d.fn.dataTable)d=require("datatables.net")(a,d).$;return b(d,a,a.document)}:b(jQuery,window,document)})(function(b,a,d,m){var f=b.fn.dataTable;b.extend(!0,f.defaults,{dom:"<'row'<'col-sm-6'l><'col-sm-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>",renderer:"bootstrap"});b.extend(f.ext.classes,
 {sWrapper:"dataTables_wrapper form-inline dt-bootstrap",sFilterInput:"form-control input-sm",sLengthSelect:"form-control input-sm",sProcessing:"dataTables_processing panel panel-default"});f.ext.renderer.pageButton.bootstrap=function(a,h,r,s,j,n){var o=new f.Api(a),t=a.oClasses,k=a.oLanguage.oPaginate,u=a.oLanguage.oAria.paginate||{},e,g,p=0,q=function(d,f){var l,h,i,c,m=function(a){a.preventDefault();!b(a.currentTarget).hasClass("disabled")&&o.page()!=a.data.action&&o.page(a.data.action).draw("page")};
 l=0;for(h=f.length;l<h;l++)if(c=f[l],b.isArray(c))q(d,c);else{g=e="";switch(c){case "ellipsis":e="&#x2026;";g="disabled";break;case "first":e=k.sFirst;g=c+(0<j?"":" disabled");break;case "previous":e=k.sPrevious;g=c+(0<j?"":" disabled");break;case "next":e=k.sNext;g=c+(j<n-1?"":" disabled");break;case "last":e=k.sLast;g=c+(j<n-1?"":" disabled");break;default:e=c+1,g=j===c?"active":""}e&&(i=b("<li>",{"class":t.sPageButton+" "+g,id:0===r&&"string"===typeof c?a.sTableId+"_"+c:null}).append(b("<a>",{href:"#",
@@ -66367,13 +66499,92 @@ l=0;for(h=f.length;l<h;l++)if(c=f[l],b.isArray(c))q(d,c);else{g=e="";switch(c){c
 
 
 /***/ }),
-/* 36 */
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ Responsive 2.2.0
+ 2014-2017 SpryMedia Ltd - datatables.net/license
+*/
+(function(c){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0),__webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = function(k){return c(k,window,document)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"===typeof exports?module.exports=function(k,j){k||(k=window);if(!j||!j.fn.dataTable)j=require("datatables.net")(k,j).$;return c(j,k,k.document)}:c(jQuery,window,document)})(function(c,k,j,q){function s(b,a,d){var e=a+"-"+d;if(l[e])return l[e];for(var c=[],b=b.cell(a,d).node().childNodes,a=0,d=b.length;a<d;a++)c.push(b[a]);return l[e]=c}function r(b,a,c){var e=a+
+    "-"+c;if(l[e]){for(var b=b.cell(a,c).node(),c=l[e][0].parentNode.childNodes,a=[],f=0,g=c.length;f<g;f++)a.push(c[f]);c=0;for(f=a.length;c<f;c++)b.appendChild(a[c]);l[e]=q}}var n=c.fn.dataTable,h=function(b,a){if(!n.versionCheck||!n.versionCheck("1.10.3"))throw"DataTables Responsive requires DataTables 1.10.3 or newer";this.s={dt:new n.Api(b),columns:[],current:[]};this.s.dt.settings()[0].responsive||(a&&"string"===typeof a.details?a.details={type:a.details}:a&&!1===a.details?a.details={type:!1}:a&&
+    !0===a.details&&(a.details={type:"inline"}),this.c=c.extend(!0,{},h.defaults,n.defaults.responsive,a),b.responsive=this,this._constructor())};c.extend(h.prototype,{_constructor:function(){var b=this,a=this.s.dt,d=a.settings()[0],e=c(k).width();a.settings()[0]._responsive=this;c(k).on("resize.dtr orientationchange.dtr",n.util.throttle(function(){var a=c(k).width();a!==e&&(b._resize(),e=a)}));d.oApi._fnCallbackReg(d,"aoRowCreatedCallback",function(e){-1!==c.inArray(!1,b.s.current)&&c(">td, >th",e).each(function(e){e=
+    a.column.index("toData",e);!1===b.s.current[e]&&c(this).css("display","none")})});a.on("destroy.dtr",function(){a.off(".dtr");c(a.table().body()).off(".dtr");c(k).off("resize.dtr orientationchange.dtr");c.each(b.s.current,function(a,e){!1===e&&b._setColumnVis(a,!0)})});this.c.breakpoints.sort(function(a,b){return a.width<b.width?1:a.width>b.width?-1:0});this._classLogic();this._resizeAuto();d=this.c.details;!1!==d.type&&(b._detailsInit(),a.on("column-visibility.dtr",function(){b._classLogic();b._resizeAuto();
+    b._resize()}),a.on("draw.dtr",function(){b._redrawChildren()}),c(a.table().node()).addClass("dtr-"+d.type));a.on("column-reorder.dtr",function(){b._classLogic();b._resizeAuto();b._resize()});a.on("column-sizing.dtr",function(){b._resizeAuto();b._resize()});a.on("preXhr.dtr",function(){var e=[];a.rows().every(function(){this.child.isShown()&&e.push(this.id(true))});a.one("draw.dtr",function(){a.rows(e).every(function(){b._detailsDisplay(this,false)})})});a.on("init.dtr",function(){b._resizeAuto();
+    b._resize();c.inArray(false,b.s.current)&&a.columns.adjust()});this._resize()},_columnsVisiblity:function(b){var a=this.s.dt,d=this.s.columns,e,f,g=d.map(function(a,b){return{columnIdx:b,priority:a.priority}}).sort(function(a,b){return a.priority!==b.priority?a.priority-b.priority:a.columnIdx-b.columnIdx}),i=c.map(d,function(a){return a.auto&&null===a.minWidth?!1:!0===a.auto?"-":-1!==c.inArray(b,a.includeIn)}),o=0;e=0;for(f=i.length;e<f;e++)!0===i[e]&&(o+=d[e].minWidth);e=a.settings()[0].oScroll;
+    e=e.sY||e.sX?e.iBarWidth:0;a=a.table().container().offsetWidth-e-o;e=0;for(f=i.length;e<f;e++)d[e].control&&(a-=d[e].minWidth);o=!1;e=0;for(f=g.length;e<f;e++){var m=g[e].columnIdx;"-"===i[m]&&(!d[m].control&&d[m].minWidth)&&(o||0>a-d[m].minWidth?(o=!0,i[m]=!1):i[m]=!0,a-=d[m].minWidth)}g=!1;e=0;for(f=d.length;e<f;e++)if(!d[e].control&&!d[e].never&&!i[e]){g=!0;break}e=0;for(f=d.length;e<f;e++)d[e].control&&(i[e]=g);-1===c.inArray(!0,i)&&(i[0]=!0);return i},_classLogic:function(){var b=this,a=this.c.breakpoints,
+    d=this.s.dt,e=d.columns().eq(0).map(function(a){var b=this.column(a),e=b.header().className,a=d.settings()[0].aoColumns[a].responsivePriority;a===q&&(b=c(b.header()).data("priority"),a=b!==q?1*b:1E4);return{className:e,includeIn:[],auto:!1,control:!1,never:e.match(/\bnever\b/)?!0:!1,priority:a}}),f=function(a,b){var d=e[a].includeIn;-1===c.inArray(b,d)&&d.push(b)},g=function(c,d,g,h){if(g)if("max-"===g){h=b._find(d).width;d=0;for(g=a.length;d<g;d++)a[d].width<=h&&f(c,a[d].name)}else if("min-"===g){h=
+    b._find(d).width;d=0;for(g=a.length;d<g;d++)a[d].width>=h&&f(c,a[d].name)}else{if("not-"===g){d=0;for(g=a.length;d<g;d++)-1===a[d].name.indexOf(h)&&f(c,a[d].name)}}else e[c].includeIn.push(d)};e.each(function(b,e){for(var d=b.className.split(" "),f=!1,h=0,k=d.length;h<k;h++){var j=c.trim(d[h]);if("all"===j){f=!0;b.includeIn=c.map(a,function(a){return a.name});return}if("none"===j||b.never){f=!0;return}if("control"===j){f=!0;b.control=!0;return}c.each(a,function(a,b){var c=b.name.split("-"),d=j.match(RegExp("(min\\-|max\\-|not\\-)?("+
+    c[0]+")(\\-[_a-zA-Z0-9])?"));d&&(f=!0,d[2]===c[0]&&d[3]==="-"+c[1]?g(e,b.name,d[1],d[2]+d[3]):d[2]===c[0]&&!d[3]&&g(e,b.name,d[1],d[2]))})}f||(b.auto=!0)});this.s.columns=e},_detailsDisplay:function(b,a){var d=this,e=this.s.dt,f=this.c.details;if(f&&!1!==f.type){var g=f.display(b,a,function(){return f.renderer(e,b[0],d._detailsObj(b[0]))});(!0===g||!1===g)&&c(e.table().node()).triggerHandler("responsive-display.dt",[e,b,g,a])}},_detailsInit:function(){var b=this,a=this.s.dt,d=this.c.details;"inline"===
+    d.type&&(d.target="td:first-child, th:first-child");a.on("draw.dtr",function(){b._tabIndexes()});b._tabIndexes();c(a.table().body()).on("keyup.dtr","td, th",function(a){a.keyCode===13&&c(this).data("dtr-keyboard")&&c(this).click()});var e=d.target;c(a.table().body()).on("click.dtr mousedown.dtr mouseup.dtr","string"===typeof e?e:"td, th",function(d){if(c(a.table().node()).hasClass("collapsed")&&c.inArray(c(this).closest("tr").get(0),a.rows().nodes().toArray())!==-1){if(typeof e==="number"){var g=
+    e<0?a.columns().eq(0).length+e:e;if(a.cell(this).index().column!==g)return}g=a.row(c(this).closest("tr"));d.type==="click"?b._detailsDisplay(g,false):d.type==="mousedown"?c(this).css("outline","none"):d.type==="mouseup"&&c(this).blur().css("outline","")}})},_detailsObj:function(b){var a=this,d=this.s.dt;return c.map(this.s.columns,function(e,c){if(!e.never&&!e.control)return{title:d.settings()[0].aoColumns[c].sTitle,data:d.cell(b,c).render(a.c.orthogonal),hidden:d.column(c).visible()&&!a.s.current[c],
+    columnIndex:c,rowIndex:b}})},_find:function(b){for(var a=this.c.breakpoints,d=0,c=a.length;d<c;d++)if(a[d].name===b)return a[d]},_redrawChildren:function(){var b=this,a=this.s.dt;a.rows({page:"current"}).iterator("row",function(c,e){a.row(e);b._detailsDisplay(a.row(e),!0)})},_resize:function(){var b=this,a=this.s.dt,d=c(k).width(),e=this.c.breakpoints,f=e[0].name,g=this.s.columns,i,h=this.s.current.slice();for(i=e.length-1;0<=i;i--)if(d<=e[i].width){f=e[i].name;break}var j=this._columnsVisiblity(f);
+    this.s.current=j;e=!1;i=0;for(d=g.length;i<d;i++)if(!1===j[i]&&!g[i].never&&!g[i].control){e=!0;break}c(a.table().node()).toggleClass("collapsed",e);var l=!1;a.columns().eq(0).each(function(a,c){j[c]!==h[c]&&(l=!0,b._setColumnVis(a,j[c]))});l&&(this._redrawChildren(),c(a.table().node()).trigger("responsive-resize.dt",[a,this.s.current]),0===a.page.info().recordsDisplay&&a.draw())},_resizeAuto:function(){var b=this.s.dt,a=this.s.columns;if(this.c.auto&&-1!==c.inArray(!0,c.map(a,function(a){return a.auto}))){c.isEmptyObject(l)||
+    c.each(l,function(a){a=a.split("-");r(b,1*a[0],1*a[1])});b.table().node();var d=b.table().node().cloneNode(!1),e=c(b.table().header().cloneNode(!1)).appendTo(d),f=c(b.table().body()).clone(!1,!1).empty().appendTo(d),g=b.columns().header().filter(function(a){return b.column(a).visible()}).to$().clone(!1).css("display","table-cell");c(f).append(c(b.rows({page:"current"}).nodes()).clone(!1)).find("th, td").css("display","");if(f=b.table().footer()){var f=c(f.cloneNode(!1)).appendTo(d),i=b.columns().footer().filter(function(a){return b.column(a).visible()}).to$().clone(!1).css("display",
+    "table-cell");c("<tr/>").append(i).appendTo(f)}c("<tr/>").append(g).appendTo(e);"inline"===this.c.details.type&&c(d).addClass("dtr-inline collapsed");c(d).find("[name]").removeAttr("name");d=c("<div/>").css({width:1,height:1,overflow:"hidden",clear:"both"}).append(d);d.insertBefore(b.table().node());g.each(function(c){c=b.column.index("fromVisible",c);a[c].minWidth=this.offsetWidth||0});d.remove()}},_setColumnVis:function(b,a){var d=this.s.dt,e=a?"":"none";c(d.column(b).header()).css("display",e);
+    c(d.column(b).footer()).css("display",e);d.column(b).nodes().to$().css("display",e);c.isEmptyObject(l)||d.cells(null,b).indexes().each(function(a){r(d,a.row,a.column)})},_tabIndexes:function(){var b=this.s.dt,a=b.cells({page:"current"}).nodes().to$(),d=b.settings()[0],e=this.c.details.target;a.filter("[data-dtr-keyboard]").removeData("[data-dtr-keyboard]");a="number"===typeof e?":eq("+e+")":e;"td:first-child, th:first-child"===a&&(a=">td:first-child, >th:first-child");c(a,b.rows({page:"current"}).nodes()).attr("tabIndex",
+    d.iTabIndex).data("dtr-keyboard",1)}});h.breakpoints=[{name:"desktop",width:Infinity},{name:"tablet-l",width:1024},{name:"tablet-p",width:768},{name:"mobile-l",width:480},{name:"mobile-p",width:320}];h.display={childRow:function(b,a,d){if(a){if(c(b.node()).hasClass("parent"))return b.child(d(),"child").show(),!0}else{if(b.child.isShown())return b.child(!1),c(b.node()).removeClass("parent"),!1;b.child(d(),"child").show();c(b.node()).addClass("parent");return!0}},childRowImmediate:function(b,a,d){if(!a&&
+    b.child.isShown()||!b.responsive.hasHidden())return b.child(!1),c(b.node()).removeClass("parent"),!1;b.child(d(),"child").show();c(b.node()).addClass("parent");return!0},modal:function(b){return function(a,d,e){if(d)c("div.dtr-modal-content").empty().append(e());else{var f=function(){g.remove();c(j).off("keypress.dtr")},g=c('<div class="dtr-modal"/>').append(c('<div class="dtr-modal-display"/>').append(c('<div class="dtr-modal-content"/>').append(e())).append(c('<div class="dtr-modal-close">&times;</div>').click(function(){f()}))).append(c('<div class="dtr-modal-background"/>').click(function(){f()})).appendTo("body");
+    c(j).on("keyup.dtr",function(a){27===a.keyCode&&(a.stopPropagation(),f())})}b&&b.header&&c("div.dtr-modal-content").prepend("<h2>"+b.header(a)+"</h2>")}}};var l={};h.renderer={listHiddenNodes:function(){return function(b,a,d){var e=c('<ul data-dtr-index="'+a+'" class="dtr-details"/>'),f=!1;c.each(d,function(a,d){d.hidden&&(c('<li data-dtr-index="'+d.columnIndex+'" data-dt-row="'+d.rowIndex+'" data-dt-column="'+d.columnIndex+'"><span class="dtr-title">'+d.title+"</span> </li>").append(c('<span class="dtr-data"/>').append(s(b,
+    d.rowIndex,d.columnIndex))).appendTo(e),f=!0)});return f?e:!1}},listHidden:function(){return function(b,a,d){return(b=c.map(d,function(a){return a.hidden?'<li data-dtr-index="'+a.columnIndex+'" data-dt-row="'+a.rowIndex+'" data-dt-column="'+a.columnIndex+'"><span class="dtr-title">'+a.title+'</span> <span class="dtr-data">'+a.data+"</span></li>":""}).join(""))?c('<ul data-dtr-index="'+a+'" class="dtr-details"/>').append(b):!1}},tableAll:function(b){b=c.extend({tableClass:""},b);return function(a,
+    d,e){a=c.map(e,function(a){return'<tr data-dt-row="'+a.rowIndex+'" data-dt-column="'+a.columnIndex+'"><td>'+a.title+":</td> <td>"+a.data+"</td></tr>"}).join("");return c('<table class="'+b.tableClass+' dtr-details" width="100%"/>').append(a)}}};h.defaults={breakpoints:h.breakpoints,auto:!0,details:{display:h.display.childRow,renderer:h.renderer.listHidden(),target:0,type:"inline"},orthogonal:"display"};var p=c.fn.dataTable.Api;p.register("responsive()",function(){return this});p.register("responsive.index()",
+    function(b){b=c(b);return{column:b.data("dtr-index"),row:b.parent().data("dtr-index")}});p.register("responsive.rebuild()",function(){return this.iterator("table",function(b){b._responsive&&b._responsive._classLogic()})});p.register("responsive.recalc()",function(){return this.iterator("table",function(b){b._responsive&&(b._responsive._resizeAuto(),b._responsive._resize())})});p.register("responsive.hasHidden()",function(){var b=this.context[0];return b._responsive?-1!==c.inArray(!1,b._responsive.s.current):
+    !1});h.version="2.2.0";c.fn.dataTable.Responsive=h;c.fn.DataTable.Responsive=h;c(j).on("preInit.dt.dtr",function(b,a){if("dt"===b.namespace&&(c(a.nTable).hasClass("responsive")||c(a.nTable).hasClass("dt-responsive")||a.oInit.responsive||n.defaults.responsive)){var d=a.oInit.responsive;!1!==d&&new h(a,c.isPlainObject(d)?d:{})}});return h});
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(37);
+var content = __webpack_require__(43);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(6)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./responsive.dataTables.min.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./responsive.dataTables.min.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "table.dataTable.dtr-inline.collapsed>tbody>tr>td.child,table.dataTable.dtr-inline.collapsed>tbody>tr>th.child,table.dataTable.dtr-inline.collapsed>tbody>tr>td.dataTables_empty{cursor:default !important}table.dataTable.dtr-inline.collapsed>tbody>tr>td.child:before,table.dataTable.dtr-inline.collapsed>tbody>tr>th.child:before,table.dataTable.dtr-inline.collapsed>tbody>tr>td.dataTables_empty:before{display:none !important}table.dataTable.dtr-inline.collapsed>tbody>tr[role=\"row\"]>td:first-child,table.dataTable.dtr-inline.collapsed>tbody>tr[role=\"row\"]>th:first-child{position:relative;padding-left:30px;cursor:pointer}table.dataTable.dtr-inline.collapsed>tbody>tr[role=\"row\"]>td:first-child:before,table.dataTable.dtr-inline.collapsed>tbody>tr[role=\"row\"]>th:first-child:before{top:9px;left:4px;height:14px;width:14px;display:block;position:absolute;color:white;border:2px solid white;border-radius:14px;box-shadow:0 0 3px #444;box-sizing:content-box;text-align:center;text-indent:0 !important;font-family:'Courier New', Courier, monospace;line-height:14px;content:'+';background-color:#31b131}table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before,table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before{content:'-';background-color:#d33333}table.dataTable.dtr-inline.collapsed.compact>tbody>tr>td:first-child,table.dataTable.dtr-inline.collapsed.compact>tbody>tr>th:first-child{padding-left:27px}table.dataTable.dtr-inline.collapsed.compact>tbody>tr>td:first-child:before,table.dataTable.dtr-inline.collapsed.compact>tbody>tr>th:first-child:before{top:5px;left:4px;height:14px;width:14px;border-radius:14px;line-height:14px;text-indent:3px}table.dataTable.dtr-column>tbody>tr>td.control,table.dataTable.dtr-column>tbody>tr>th.control{position:relative;cursor:pointer}table.dataTable.dtr-column>tbody>tr>td.control:before,table.dataTable.dtr-column>tbody>tr>th.control:before{top:50%;left:50%;height:16px;width:16px;margin-top:-10px;margin-left:-10px;display:block;position:absolute;color:white;border:2px solid white;border-radius:14px;box-shadow:0 0 3px #444;box-sizing:content-box;text-align:center;text-indent:0 !important;font-family:'Courier New', Courier, monospace;line-height:14px;content:'+';background-color:#31b131}table.dataTable.dtr-column>tbody>tr.parent td.control:before,table.dataTable.dtr-column>tbody>tr.parent th.control:before{content:'-';background-color:#d33333}table.dataTable>tbody>tr.child{padding:0.5em 1em}table.dataTable>tbody>tr.child:hover{background:transparent !important}table.dataTable>tbody>tr.child ul.dtr-details{display:inline-block;list-style-type:none;margin:0;padding:0}table.dataTable>tbody>tr.child ul.dtr-details>li{border-bottom:1px solid #efefef;padding:0.5em 0}table.dataTable>tbody>tr.child ul.dtr-details>li:first-child{padding-top:0}table.dataTable>tbody>tr.child ul.dtr-details>li:last-child{border-bottom:none}table.dataTable>tbody>tr.child span.dtr-title{display:inline-block;min-width:75px;font-weight:bold}div.dtr-modal{position:fixed;box-sizing:border-box;top:0;left:0;height:100%;width:100%;z-index:100;padding:10em 1em}div.dtr-modal div.dtr-modal-display{position:absolute;top:0;left:0;bottom:0;right:0;width:50%;height:50%;overflow:auto;margin:auto;z-index:102;overflow:auto;background-color:#f5f5f7;border:1px solid black;border-radius:0.5em;box-shadow:0 12px 30px rgba(0,0,0,0.6)}div.dtr-modal div.dtr-modal-content{position:relative;padding:1em}div.dtr-modal div.dtr-modal-close{position:absolute;top:6px;right:6px;width:22px;height:22px;border:1px solid #eaeaea;background-color:#f9f9f9;text-align:center;border-radius:3px;cursor:pointer;z-index:12}div.dtr-modal div.dtr-modal-close:hover{background-color:#eaeaea}div.dtr-modal div.dtr-modal-background{position:fixed;top:0;left:0;right:0;bottom:0;z-index:101;background:rgba(0,0,0,0.6)}@media screen and (max-width: 767px){div.dtr-modal div.dtr-modal-display{width:95%}}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -66398,7 +66609,7 @@ if(false) {
 }
 
 /***/ }),
-/* 37 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(undefined);
@@ -66412,13 +66623,13 @@ exports.push([module.i, "table.dataTable{clear:both;margin-top:6px !important;ma
 
 
 /***/ }),
-/* 38 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(39);
+var content = __webpack_require__(47);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -66443,7 +66654,7 @@ if(false) {
 }
 
 /***/ }),
-/* 39 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(undefined);
@@ -66451,7 +66662,7 @@ exports = module.exports = __webpack_require__(5)(undefined);
 
 
 // module
-exports.push([module.i, "body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tline-height: 1.5em;\r\n\tfont-size: 12px;\r\n}\r\n\t\t\r\na:link, a:visited { color: #FF9900; text-decoration: none; font-weight: normal; } \r\na:active, a:hover { color: #FFFF66; text-decoration: underline; }\r\n\r\np { margin: 0px; padding: 0px; }\r\n\r\nimg { margin: 0px; padding: 0px; border: none; }\r\n\r\n.cleaner { clear: both; width: 100%; height: 0px; font-size: 0px;  }\r\n\r\n.cleaner_h10 { clear: both; width:100%; height: 10px; }\r\n.cleaner_h20 { clear: both; width:100%; height: 20px; }\r\n.cleaner_h30 { clear: both; width:100%; height: 30px; }\r\n\r\n.m_right { margin-right: 30px; }\r\n\r\nh1 {\r\n\tmargin: 0px;\r\n\tpadding: 21px 0;\r\n\tfont-size: 30px;\r\n\tfont-weight: bold;\r\n}\r\n\r\nh2 {\r\n\tmargin: 0 0 20px 0;\r\n\tpadding: 2px 0 20px 0;\r\n\tfont-size: 26px;\r\n\tfont-weight: normal;\r\n}\r\n\r\nh3 {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\nh4 {\r\n\tmargin: 0;\r\n\tpadding: 10px 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\n.flexBlock {\r\n\tdisplay: flex;\r\n\toverflow: visible;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n.flexAlignEnd {\r\n    align-self: flex-end;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n@media (max-width: 720px) { \r\n\t.flexBlock {\r\n\t\tflex-direction: column;\r\n\t}\r\n}\r\n\r\n.blockCenter {\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.two_columns {\r\n\twidth: 50%;\r\n}\r\n\r\n.mainViews {\r\n\tbackground-color: #e6e6e6;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.insideView {\r\n\tbackground-color: #fff;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.unmachedReportTable {\r\n\tpadding-top: 10px;\r\n}\r\n\r\n.diffElements {\r\n\tbackground-color: yellow;\r\n}\r\n\r\n.differencesHighligh {\r\n\tbackground-color: orange;\r\n}\r\n\r\n.veryDifferentElements td{\r\n\tbackground-color: orangered !important;\r\n\tcolor: #fff;\r\n}\r\n\r\n.notVisible {\r\n\tmax-width: 40px;\r\n\tvisibility: hidden;\r\n}", ""]);
+exports.push([module.i, "body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tline-height: 1.5em;\r\n\tfont-size: 12px;\r\n}\r\n\t\t\r\na:link, a:visited { color: #FF9900; text-decoration: none; font-weight: normal; } \r\na:active, a:hover { color: #FFFF66; text-decoration: underline; }\r\n\r\np { margin: 0px; padding: 0px; }\r\n\r\nimg { margin: 0px; padding: 0px; border: none; }\r\n\r\n.cleaner { clear: both; width: 100%; height: 0px; font-size: 0px;  }\r\n\r\n.cleaner_h10 { clear: both; width:100%; height: 10px; }\r\n.cleaner_h20 { clear: both; width:100%; height: 20px; }\r\n.cleaner_h30 { clear: both; width:100%; height: 30px; }\r\n\r\n.m_right { margin-right: 30px; }\r\n\r\nh1 {\r\n\tmargin: 0px;\r\n\tpadding: 21px 0;\r\n\tfont-size: 30px;\r\n\tfont-weight: bold;\r\n}\r\n\r\nh2 {\r\n\tmargin: 0 0 20px 0;\r\n\tpadding: 2px 0 20px 0;\r\n\tfont-size: 26px;\r\n\tfont-weight: normal;\r\n}\r\n\r\nh3 {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\nh4 {\r\n\tmargin: 0;\r\n\tpadding: 10px 0px;\r\n\tfont-size: 18px;\r\n}\r\n\r\n.flexBlock {\r\n\tdisplay: flex;\r\n\toverflow: visible;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n.flexAlignEnd {\r\n    align-self: flex-end;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n@media (max-width: 720px) { \r\n\t.flexBlock {\r\n\t\tflex-direction: column;\r\n\t}\r\n}\r\n\r\n.blockCenter {\r\n\tdisplay: block;\r\n\tmargin: 0 auto;\r\n}\r\n\r\n.two_columns {\r\n\twidth: 50%;\r\n}\r\n\r\n.mainViews {\r\n\tbackground-color: #e6e6e6;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.insideView {\r\n\tbackground-color: #fff;\r\n\tbox-shadow: 3px 3px 5px #CCC;\r\n}\r\n\r\n.unmachedReportTable {\r\n\tpadding-top: 10px;\r\n}\r\n\r\n.diffElements {\r\n\tbackground-color: yellow;\r\n}\r\n\r\n.differencesHighligh {\r\n\tbackground-color: orange;\r\n}\r\n\r\n.veryDifferentElements td{\r\n\tbackground-color: orangered !important;\r\n\tcolor: #fff;\r\n}\r\n\r\n.notVisible {\r\n\tmax-width: 40px;\r\n\tvisibility: hidden;\r\n}\r\n\r\n#loadFileViews {\r\n\twidth: 100%;\r\n}", ""]);
 
 // exports
 

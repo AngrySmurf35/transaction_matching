@@ -1,8 +1,8 @@
-var FileMatch = require('../lib/fileMatch.js');
+var FileMatch = require('../lib/fileMatch/fileMatch.js');
 var _ = require('underscore');
 
 
-var fileData1 = [ 
+var fileData1 = [
     {
         ProfileName: "Card Campaign",
         TransactionDate: "2014-01-11 22:27:44",
@@ -17,7 +17,7 @@ var fileData1 = [
         ProfileName: "Card Campaign",
         TransactionDate: "2014-01-11 22:39:11",
         TransactionAmount: "-10000",
-        TransactionNarrative: "*MOGODITSHANE2            MOGODITHSANE  BW",
+        TransactionNarrative: "*MAUN BRANCH           MOGODITSHANE  BW",
         TransactionDescription: "DEDUCT",
         TransactionID: "0584011815513406",
         TransactionType: 1,
@@ -56,5 +56,5 @@ test('first transaction matching', () => {
 });
 
 test('second transaction matching', () => {
-    expect(fileMatch[1][0]).toEqual([ '2014-01-11 22:39:11','-10000','DEDUCT','0004012321856252',1,'P_NzIzMjA1MjZFMTM4ODczMTI3Mi4MMjY5']);
+    expect(fileMatch[1][0]).toEqual(['2014-01-11 22:39:11','-10000', '*MOGODITSHANE2 MOGODITSHANE BW','DEDUCT','0004012321856252',1,'P_NzIzMjA1MjZFMTM4ODczMTI3Mi4MMjY5']);
 });

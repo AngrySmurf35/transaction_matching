@@ -3,7 +3,7 @@ define([
     'backbone',
     '../templates/mainFileCompareTemplate.html',
     './fileCompareView.js',
-    '../lib/fileMatch.js',
+    '../lib/fileMatch/fileMatch.js',
     '../lib/bootstrap.css'
 ], function (_, Backbone, MainTemplate, FileCompareView) {
 
