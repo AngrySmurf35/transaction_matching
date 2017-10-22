@@ -16,8 +16,7 @@ First, we need to install node:
 ```
 sudo apt-get install node
 ```
- - OR
-download the node.js package needed for your operating system and follow the steps. For windows I recommend to use a linux like CLI, ether git bash or a CLI integrated in common js editors like Visual Studio Code.
+ - or download the node.js package needed for your operating system and follow the steps. For windows I recommend to use a linux like CLI, ether git bash or a CLI integrated in common js editors like Visual Studio Code.
 
 
 Clone the project on your hard drive
@@ -76,7 +75,7 @@ app/views/mainUnmatchedReportView.js - Fetches the data from the files and sends
 Child views
 app/views/fileUploadView.js - this is responsible for rendering and triggering event related to these fields such as to get the data from the selected file or validation. Here we parse the CSV files as they get picked.
 app/views/fileCompareView.js - used only to render the report received from mainFileCompareView.js 
-app/views/unmatchedReportView.js - Fetches the data from the parent and renders it in the table
+app/views/unmatchedReportView.js - Fetches the data from the parent and renders it in the table. Each mistake is showed in the table on yellow background, transactions that are very different will be shown in red. Suggestions will be shown in the first column called "Suggestions".
 
 ### Matching component
 
