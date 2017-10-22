@@ -19,7 +19,7 @@ module.exports = FileMatch = function(fileData1, fileData2) {
 function _cleanObject(obj) {
     return _.map(obj, function(value, index) {
         delete value["__parsed_extra"];
-        return Object.values(value);
+        if (value) { return Object.keys(value).map(function(key){return value[key]});}
     });
 }
 
