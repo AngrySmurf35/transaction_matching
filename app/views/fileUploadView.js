@@ -9,15 +9,15 @@ define([
     className: "col-md-6 form-group",
     template: _.template(fileUploadTemplate),
     events: {
-      'change .file': function() {
+      'change .file': function(event) {
         if (this.isValidFile()) {
-          this.parseData();
+          this.parseData(event);
           this.error = "";
         } else {
           this.error = "Not a CSV file!";
         }
         this.render();
-        this.displayFileName();
+        this.displayFileName(event);
       }
     },
 
@@ -69,7 +69,7 @@ define([
       Backbone.trigger("thisTriggerSelect", items, e.target);
     },
 
-    displayFileName: function() {
+    displayFileName: function(event) {
       this.$(".showFileName").val(event.target.files[0].name);
     }
     
