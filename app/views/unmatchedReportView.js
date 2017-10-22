@@ -61,7 +61,7 @@ define([
                             }
                         });
                     }
-                }).columns.adjust().responsive.recalc();;
+                });
             }
             return this;
         }

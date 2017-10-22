@@ -36,12 +36,6 @@ return Backbone.View.extend({
     
     triggerCompare: function(fileObj) {
 
-        this.commonData1 = [];
-        this.commonData2 = [];
-
-        this.differentData1 = [];
-        this.differentData2 = [];
-
         var fileData1 = fileObj.fileUploadView1.data;
         var fileData2 = fileObj.fileUploadView2.data;
 
