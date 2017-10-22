@@ -36,6 +36,7 @@ var MainView = Backbone.View.extend({
         this.mainFileCompareView = new MainFileCompareView({model: Model});
 
       this.$("#fileCompareView").html(this.mainFileCompareView.render().$el);
+      this.mainFileCompareView.delegateEvents();
       Backbone.trigger('triggerCompareView', fileObj);
     },
 
